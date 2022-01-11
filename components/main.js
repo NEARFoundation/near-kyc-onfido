@@ -16,7 +16,9 @@ export default function Layout({ children }) {
           crossOrigin="anonymous"
         ></link>
       </Head>
-      <h1>NEAR KYC</h1>
+      <h1>
+        <a href="/">NEAR KYC</a>
+      </h1>
 
       <main>{children} </main>
     </div>
