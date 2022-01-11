@@ -10,6 +10,7 @@ type ApplicantTokenPair = {
 const onfido = getOnfido();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApplicantTokenPair>) {
+  console.log({ req });
   const applicantProperties = {
     firstName: 'John',
     lastName: 'Smith',
