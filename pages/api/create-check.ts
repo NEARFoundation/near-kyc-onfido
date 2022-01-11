@@ -30,7 +30,6 @@ const endpointName = 'create-check';
 const onfido = getOnfido();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApplicantTokenPair>) {
-  console.log(endpointName, { req });
   const { applicantId } = req.body;
   console.log(endpointName, { applicantId });
   try {
