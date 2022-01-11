@@ -95,10 +95,10 @@ const StartPage: NextPage = () => {
       <></>
     ) : (
       <form className="applicant-form" onSubmit={onSubmit}>
-        <input type="text" name="firstName" placeholder="First Name" defaultValue="Sally" required />
-        <input type="text" name="lastName" placeholder="Last Name" defaultValue="Smith" required />
-        <input type="email" name="email" placeholder="Email Address" defaultValue="sally@example.com" required />
-        <input type="date" name="dob" placeholder="Date of Birth (YYYY-MM-DD)" defaultValue="1990-01-22" required />
+        <input type="text" name="firstName" placeholder="First Name" defaultValue="Steve" required />
+        <input type="text" name="lastName" placeholder="Last Name" defaultValue="Jones" required />
+        <input type="email" name="email" placeholder="Email Address" defaultValue="steve@example.com" required />
+        <input type="date" name="dob" placeholder="Date of Birth (YYYY-MM-DD)" defaultValue="1980-02-02" required />
         <button type="submit" className="btn btn-success">
           Submit
         </button>
@@ -116,7 +116,7 @@ const StartPage: NextPage = () => {
   return (
     <Layout>
       <div id="onfido-mount"></div>
-      {onfidoInstance ? <div>Loading...</div> : <ApplicantForm />}
+      {onfidoInstance ? <></> : <ApplicantForm />}
     </Layout>
   );
 };
