@@ -14,7 +14,12 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <h1 className={styles.title}>NEAR KYC</h1>
 
-        <div className={styles.grid}>TODO</div>
+        <div>
+          <p>TODO: Describe how to demo the flow here and check the dashboard.</p>
+          <p>
+            <a href="/start">Start</a>
+          </p>
+        </div>
       </main>
     </div>
   );
