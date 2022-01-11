@@ -18,7 +18,7 @@ const reportNames = [
   // 'proof_of_address',
   // 'right_to_work'
 ];
-const tags = ['edu', 'fellowship']; // TODO: What will provide these?
+const tags = ['edu', 'fellowship']; // What will provide these?
 
 type ApplicantTokenPair = {
   applicantId: string;
@@ -28,7 +28,8 @@ type ApplicantTokenPair = {
 const onfido = getOnfido();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApplicantTokenPair>) {
-  const applicantId = '05b2947a-57d8-47f2-bd99-d31389d7b0ce'; // TODO get from request
+  console.log({ req });
+  const applicantId = ''; // TODO get from request
   try {
     const check = await onfido.check.create({
       // https://documentation.onfido.com/#check-object

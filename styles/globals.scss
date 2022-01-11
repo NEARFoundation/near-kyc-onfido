@@ -13,3 +13,10 @@ body {
 * {
   box-sizing: border-box;
 }
+
+.applicant-form {
+  input,
+  button {
+    display: block;
+  }
+}
