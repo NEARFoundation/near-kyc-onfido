@@ -12,6 +12,11 @@ const Home: NextPage = () => {
         .
       </p>
       <p>To verify their identity, people will submit photos, documents, etc through a process like the one shown here.</p>
+      <p className="ps-3">
+        <a href="https://documentation.onfido.com/#sample-document-photo" target="_blank">
+          sample UK driver license and photo
+        </a>
+      </p>
       <p>
         We then receive email notifications about the identity checks and can peruse the details in the{' '}
         <a href="https://dashboard.onfido.com/library?_sandbox_[0]=true" target="_blank">
