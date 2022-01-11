@@ -25,11 +25,14 @@ type ApplicantTokenPair = {
   sdkToken: string;
 };
 
+const endpointName = 'create-check';
+
 const onfido = getOnfido();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApplicantTokenPair>) {
-  console.log({ req });
+  console.log(endpointName, { req });
   const { applicantId } = req.body;
+  console.log(endpointName, { applicantId });
   try {
     const check = await onfido.check.create({
       // https://documentation.onfido.com/#check-object
@@ -38,7 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       tags,
     });
 
-    console.log({ check });
+    console.log(endpointName, { check });
     res.status(200).json(check);
   } catch (error: any) {
     if (error instanceof OnfidoApiError) {

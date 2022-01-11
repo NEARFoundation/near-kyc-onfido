@@ -18,23 +18,19 @@ function initCheck(data: any) {
 
   fetch(createCheckUrl, options)
     .then((res) => res.json())
-    .then((res) => console.log({ res }));
+    .then((res) => console.log('initCheck', { res }));
 }
 
 const options: Onfido.SdkOptions = {
   // What / where should define these?
   useModal: false,
-  token: '', // This empty string gets overridden by the result of getToken inside initOnfido.
-  onComplete: (data: any) => {
-    // callback for when everything is complete
-    console.log('Everything is complete', data);
-    initCheck(data);
-  },
+  token: '', // This empty string gets overridden inside onSubmit.
+  onComplete: () => {}, // This empty function gets overridden inside onSubmit.
   steps: [
     {
       type: 'welcome',
       options: {
-        title: 'Open your new bank account',
+        title: 'Verify your identity',
       },
     },
     'document',
@@ -55,44 +51,58 @@ function getToken(applicantProperties: any): Promise<Response> {
   return fetch(tokenFactoryUrl, options);
 }
 
+function getApplicantProperties(formFields: HTMLFormElement) {
+  const applicantProperties = {
+    firstName: formFields.firstName.value,
+    lastName: formFields.lastName.value,
+    email: formFields.email.value,
+    dob: formFields.dob.value,
+  };
+  console.log({ applicantProperties });
+  return applicantProperties;
+}
+
 const StartPage: NextPage = () => {
   const [onfidoInstance, setOnfidoInstance] = useState<Onfido.SdkHandle | null>(null);
 
   async function onSubmit(event: React.SyntheticEvent) {
     const target: any = event.target;
-    console.log({ target });
     event.preventDefault();
-    const applicantProperties = {
-      firstName: target.firstName.value,
-      lastName: target.lastName.value,
-      email: target.email.value,
-      dob: target.dob.value,
-    };
-    console.log({ applicantProperties });
+    const applicantProperties = getApplicantProperties(target);
     const tokenResponse = await getToken(applicantProperties);
-    const { sdkToken } = await tokenResponse.json();
+    const { applicantId, sdkToken } = await tokenResponse.json();
+    const completeOptions = {
+      ...options,
+      token: sdkToken,
+      onComplete: (data: any) => {
+        // callback for when everything is complete
+        console.log('Everything is complete', { data, applicantId });
+        initCheck({ applicantId });
+      },
+    };
 
     try {
-      // const instance = Onfido.init({ ...options, token: sdkToken }); // TODO: Solve `ReferenceError: window is not defined`
-      // setOnfidoInstance(instance);
+      const OnfidoAsync = await import('onfido-sdk-ui'); // https://github.com/onfido/onfido-sdk-ui/issues/668
+      const instance = OnfidoAsync.init(completeOptions);
+      setOnfidoInstance(instance);
     } catch (err: any) {
       console.error({ err });
     }
   }
 
   function ApplicantForm(): JSX.Element {
-    return (
-      <Layout>
-        <form className="applicant-form" onSubmit={onSubmit}>
-          <input type="text" name="firstName" placeholder="First Name" required />
-          <input type="text" name="lastName" placeholder="Last Name" required />
-          <input type="email" name="email" placeholder="Email Address" required />
-          <input type="date" name="dob" placeholder="Date of Birth (YYYY-MM-DD)" required />
-          <button type="submit" className="btn btn-success">
-            Submit
-          </button>
-        </form>
-      </Layout>
+    return onfidoInstance ? (
+      <></>
+    ) : (
+      <form className="applicant-form" onSubmit={onSubmit}>
+        <input type="text" name="firstName" placeholder="First Name" defaultValue="Sally" required />
+        <input type="text" name="lastName" placeholder="Last Name" defaultValue="Smith" required />
+        <input type="email" name="email" placeholder="Email Address" defaultValue="sally@example.com" required />
+        <input type="date" name="dob" placeholder="Date of Birth (YYYY-MM-DD)" defaultValue="1990-01-22" required />
+        <button type="submit" className="btn btn-success">
+          Submit
+        </button>
+      </form>
     );
   }
 
@@ -103,7 +113,12 @@ const StartPage: NextPage = () => {
     };
   }, []);
 
-  return onfidoInstance ? <div id="onfido-mount">Loading...</div> : <ApplicantForm />;
+  return (
+    <Layout>
+      <div id="onfido-mount"></div>
+      {onfidoInstance ? <div>Loading...</div> : <ApplicantForm />}
+    </Layout>
+  );
 };
 
 export default StartPage;
