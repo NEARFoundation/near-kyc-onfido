@@ -44,7 +44,6 @@ const options: Onfido.SdkOptions = {
 };
 
 function getToken(applicantProperties: any): Promise<Response> {
-  // TODO Call this from onSubmit
   const options = {
     method: 'POST',
     body: JSON.stringify(applicantProperties),
@@ -56,40 +55,48 @@ function getToken(applicantProperties: any): Promise<Response> {
   return fetch(tokenFactoryUrl, options);
 }
 
-function ApplicantForm(): JSX.Element {
-  return (
-    <Layout>
-      <form className="applicant-form">
-        <input type="text" name="firstName" placeholder="First Name" />
-        <input type="text" name="lastName" placeholder="Last Name" />
-        <input type="email" name="email" placeholder="Email Address" />
-        <input type="text" name="dob" placeholder="Date of Birth (YYYY-MM-DD)" />
-        <button type="submit" className="btn btn-success">
-          Submit
-        </button>
-      </form>
-    </Layout>
-  );
-}
-
 const StartPage: NextPage = () => {
   const [onfidoInstance, setOnfidoInstance] = useState<Onfido.SdkHandle | null>(null);
 
-  /*
-  async function initOnfido() {
+  async function onSubmit(event: React.SyntheticEvent) {
+    const target: any = event.target;
+    console.log({ target });
+    event.preventDefault();
+    const applicantProperties = {
+      firstName: target.firstName.value,
+      lastName: target.lastName.value,
+      email: target.email.value,
+      dob: target.dob.value,
+    };
+    console.log({ applicantProperties });
+    const tokenResponse = await getToken(applicantProperties);
+    const { sdkToken } = await tokenResponse.json();
+
     try {
-      const applicantProperties = null; // TODO get from form
-      const tokenResponse = await getToken(applicantProperties);
-      const { sdkToken } = await tokenResponse.json();
-      const instance = Onfido.init({ ...options, token: sdkToken });
-      setOnfidoInstance(instance);
+      // const instance = Onfido.init({ ...options, token: sdkToken }); // TODO: Solve `ReferenceError: window is not defined`
+      // setOnfidoInstance(instance);
     } catch (err: any) {
-      console.error('err:', err.message, err.request);
+      console.error({ err });
     }
-  }*/
+  }
+
+  function ApplicantForm(): JSX.Element {
+    return (
+      <Layout>
+        <form className="applicant-form" onSubmit={onSubmit}>
+          <input type="text" name="firstName" placeholder="First Name" required />
+          <input type="text" name="lastName" placeholder="Last Name" required />
+          <input type="email" name="email" placeholder="Email Address" required />
+          <input type="date" name="dob" placeholder="Date of Birth (YYYY-MM-DD)" required />
+          <button type="submit" className="btn btn-success">
+            Submit
+          </button>
+        </form>
+      </Layout>
+    );
+  }
 
   useEffect(() => {
-    // initOnfido();
     return () => {
       console.log('tear down', onfidoInstance);
       onfidoInstance && onfidoInstance.tearDown();

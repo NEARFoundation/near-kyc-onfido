@@ -11,12 +11,7 @@ const onfido = getOnfido();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApplicantTokenPair>) {
   console.log({ req });
-  const applicantProperties = {
-    firstName: 'John',
-    lastName: 'Smith',
-    email: 'john@example.com',
-    dob: '1990-01-22',
-  }; // https://documentation.onfido.com/#applicant-object // TODO Get from request payload
+  const applicantProperties = req.body; // https://documentation.onfido.com/#applicant-object
   const applicant = await onfido.applicant.create(applicantProperties);
 
   console.log({ applicant });

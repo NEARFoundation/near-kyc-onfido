@@ -29,7 +29,7 @@ const onfido = getOnfido();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApplicantTokenPair>) {
   console.log({ req });
-  const applicantId = ''; // TODO get from request
+  const { applicantId } = req.body;
   try {
     const check = await onfido.check.create({
       // https://documentation.onfido.com/#check-object
