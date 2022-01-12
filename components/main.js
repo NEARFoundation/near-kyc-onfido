@@ -26,6 +26,12 @@ export default function Layout({ children }) {
       </header>
 
       <main>{children} </main>
+      <footer>
+        © 2022{' '}
+        <a href="https://near.foundation/" target="_blank">
+          NEAR Foundation
+        </a>
+      </footer>
     </div>
   );
 }

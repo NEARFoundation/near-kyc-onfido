@@ -36,3 +36,12 @@ h1 {
     }
   }
 }
+
+footer {
+  padding: 5rem $pad $pad $pad;
+  font-size: 0.8rem;
+
+  a {
+    color: inherit;
+  }
+}
