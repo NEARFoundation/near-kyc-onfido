@@ -1,3 +1,9 @@
+/* Currently this site has only one page (this one, at the base URL). So it's acceptable 
+to capture all slugs after the "/" and use them as tags. (See comment about catch-all-routes 
+below.) However, if we end up wanting to have more pages for this site (rather than just 
+this index page), it might make sense to rename this file (and therefore its URL path).
+*/
+
 import { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
