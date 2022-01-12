@@ -6,7 +6,7 @@ export default function Layout({ children }) {
   return (
     <div>
       <Head>
-        <title>NEAR KYC</title>
+        <title>NEAR Identity Verification</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
         <link
@@ -16,8 +16,10 @@ export default function Layout({ children }) {
           crossOrigin="anonymous"
         ></link>
       </Head>
-      <h1>
-        <a href="/">NEAR KYC</a>
+      <h1 className="mb-5">
+        <a href="/">
+          <img alt="NEAR logo" src="/img/logo_nm.svg" className="logo" />
+        </a>
       </h1>
 
       <main>{children} </main>
