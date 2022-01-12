@@ -4,7 +4,7 @@
 
 export default function ApplicantForm({ onSubmit }: { onSubmit: (event: React.SyntheticEvent) => {} }): JSX.Element {
   return (
-    <form className="applicant-form mt-4" onSubmit={onSubmit}>
+    <form className="applicant-form mt-5" onSubmit={onSubmit}>
       <div className="row">
         <div className="col-md-6 pb-2">
           <div className="form-floating">
@@ -35,7 +35,7 @@ export default function ApplicantForm({ onSubmit }: { onSubmit: (event: React.Sy
       </div>
 
       <div className="d-flex justify-content-end">
-        <button name="submit" type="submit" className="btn btn-primary">
+        <button name="submit" type="submit" className="btn btn-lg btn-primary">
           Start <i className="fa fa-chevron-right" aria-hidden="true"></i>
         </button>
       </div>
