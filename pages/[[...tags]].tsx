@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Layout from '../components/main';
+import ApplicantForm from '../components/ApplicantForm';
 import * as Onfido from 'onfido-sdk-ui';
 
 const tokenFactoryUrl = process.env.NEXT_PUBLIC_TOKEN_FACTORY_URL || '';
@@ -102,22 +103,15 @@ const StartPage: NextPage = () => {
     }
   }
 
-  function ApplicantForm(): JSX.Element {
+  function FirstStep(): JSX.Element {
     return onfidoInstance ? (
       <></>
     ) : (
       <div>
-        <p>We want to get to know you!</p>
-
-        <form className="applicant-form" onSubmit={onSubmit}>
-          <input type="text" name="firstName" placeholder="First Name" defaultValue="Steve" required />
-          <input type="text" name="lastName" placeholder="Last Name" defaultValue="Jones" required />
-          <input type="email" name="email" placeholder="Email Address" defaultValue="steve@example.com" required />
-          <input type="date" name="dob" placeholder="Date of Birth (YYYY-MM-DD)" defaultValue="1980-02-02" required />
-          <button type="submit" className="btn btn-success">
-            Submit
-          </button>
-        </form>
+        <h3 className="mb-4">We want to get to know you!</h3>
+        <p>Start by introducing yourself here.</p>
+        <p>On the next page, we'll ask you to provide other information (documents or photos) that will help verify your identity.</p>
+        <ApplicantForm onSubmit={onSubmit} />
       </div>
     );
   }
@@ -132,7 +126,7 @@ const StartPage: NextPage = () => {
   return (
     <Layout>
       <div id="onfido-mount"></div>
-      {onfidoInstance ? <></> : <ApplicantForm />}
+      {onfidoInstance ? <></> : <FirstStep />}
     </Layout>
   );
 };
