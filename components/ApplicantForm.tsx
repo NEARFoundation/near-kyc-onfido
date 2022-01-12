@@ -1,5 +1,4 @@
 export default function ApplicantForm({ onSubmit }: { onSubmit: (event: React.SyntheticEvent) => {} }): JSX.Element {
-  // TODO Remove each field's defaultValue
   return (
     <form className="applicant-form mt-4" onSubmit={onSubmit}>
       <div className="form-group row">
@@ -13,7 +12,7 @@ export default function ApplicantForm({ onSubmit }: { onSubmit: (event: React.Sy
                 <i className="fa fa-id-card-o"></i>
               </div>
             </div>
-            <input name="firstName" placeholder="Steve" defaultValue="Steve" type="text" className="form-control" required />
+            <input name="firstName" placeholder="Sandra" type="text" className="form-control" required />
           </div>
         </div>
       </div>
@@ -28,7 +27,7 @@ export default function ApplicantForm({ onSubmit }: { onSubmit: (event: React.Sy
                 <i className="fa fa-id-card-o"></i>
               </div>
             </div>
-            <input name="lastName" placeholder="Jones" defaultValue="Jones" type="text" className="form-control" required />
+            <input name="lastName" placeholder="Jones" type="text" className="form-control" required />
           </div>
         </div>
       </div>
@@ -43,7 +42,7 @@ export default function ApplicantForm({ onSubmit }: { onSubmit: (event: React.Sy
                 <i className="fa fa-envelope-o"></i>
               </div>
             </div>
-            <input name="email" placeholder="sandra@example.com" defaultValue="steve@example.com" type="email" className="form-control" required />
+            <input name="email" placeholder="sandra@example.com" type="email" className="form-control" required />
           </div>
         </div>
       </div>
@@ -58,7 +57,7 @@ export default function ApplicantForm({ onSubmit }: { onSubmit: (event: React.Sy
                 <i className="fa fa-calendar"></i>
               </div>
             </div>
-            <input name="dob" placeholder="1980-01-29" defaultValue="1980-02-02" type="date" className="form-control" required />
+            <input name="dob" placeholder="1980-01-29" type="date" className="form-control" required />
           </div>
         </div>
       </div>
