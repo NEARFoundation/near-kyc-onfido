@@ -1,72 +1,43 @@
+// https://getbootstrap.com/docs/5.0/forms/floating-labels/
+// https://getbootstrap.com/docs/5.0/forms/layout/
+// https://getbootstrap.com/docs/5.0/layout/gutters/
+
 export default function ApplicantForm({ onSubmit }: { onSubmit: (event: React.SyntheticEvent) => {} }): JSX.Element {
   return (
     <form className="applicant-form mt-4" onSubmit={onSubmit}>
-      <div className="form-group row">
-        <label htmlFor="firstName" className="col-4 col-form-label">
-          First Name
-        </label>
-        <div className="col-8">
-          <div className="input-group">
-            <div className="input-group-prepend">
-              <div className="input-group-text">
-                <i className="fa fa-id-card-o"></i>
-              </div>
-            </div>
-            <input name="firstName" placeholder="Sandra" type="text" className="form-control" required />
+      <div className="row">
+        <div className="col-md-6 pb-2">
+          <div className="form-floating">
+            <input name="firstName" type="text" className="form-control" aria-label="First Name" required />
+            <label htmlFor="firstName">First Name</label>
+          </div>
+        </div>
+        <div className="col-md-6 pb-2">
+          <div className="form-floating">
+            <input name="lastName" type="text" className="form-control" aria-label="Last Name" required />
+            <label htmlFor="lastName">Last Name</label>
           </div>
         </div>
       </div>
-      <div className="form-group row">
-        <label htmlFor="lastName" className="col-4 col-form-label">
-          Last Name
-        </label>
-        <div className="col-8">
-          <div className="input-group">
-            <div className="input-group-prepend">
-              <div className="input-group-text">
-                <i className="fa fa-id-card-o"></i>
-              </div>
-            </div>
-            <input name="lastName" placeholder="Jones" type="text" className="form-control" required />
-          </div>
+
+      <div className="pb-2">
+        <div className="form-floating">
+          <input name="email" type="email" className="form-control" required />
+          <label htmlFor="email">Email Address</label>
         </div>
       </div>
-      <div className="form-group row">
-        <label htmlFor="email" className="col-4 col-form-label">
-          Email Address
-        </label>
-        <div className="col-8">
-          <div className="input-group">
-            <div className="input-group-prepend">
-              <div className="input-group-text">
-                <i className="fa fa-envelope-o"></i>
-              </div>
-            </div>
-            <input name="email" placeholder="sandra@example.com" type="email" className="form-control" required />
-          </div>
+
+      <div className="pb-2">
+        <div className="form-floating">
+          <input name="dob" type="date" className="form-control" required />
+          <label htmlFor="dob">Date of Birth</label>
         </div>
       </div>
-      <div className="form-group row">
-        <label htmlFor="dob" className="col-4 col-form-label">
-          Date of Birth
-        </label>
-        <div className="col-8">
-          <div className="input-group">
-            <div className="input-group-prepend">
-              <div className="input-group-text">
-                <i className="fa fa-calendar"></i>
-              </div>
-            </div>
-            <input name="dob" placeholder="1980-01-29" type="date" className="form-control" required />
-          </div>
-        </div>
-      </div>
-      <div className="form-group row">
-        <div className="offset-4 col-8">
-          <button name="submit" type="submit" className="btn btn-primary">
-            Start <i className="fa fa-chevron-right" aria-hidden="true"></i>
-          </button>
-        </div>
+
+      <div className="d-flex justify-content-end">
+        <button name="submit" type="submit" className="btn btn-primary">
+          Start <i className="fa fa-chevron-right" aria-hidden="true"></i>
+        </button>
       </div>
     </form>
   );
