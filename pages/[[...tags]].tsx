@@ -89,7 +89,7 @@ const StartPage: NextPage = () => {
       onComplete: (data: any) => {
         // callback for when everything is complete
         console.log('Everything is complete', { data, applicantId });
-        initCheck({ applicantId });
+        initCheck({ applicantId, tags });
       },
     };
 

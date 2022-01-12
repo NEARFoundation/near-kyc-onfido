@@ -18,7 +18,6 @@ const reportNames = [
   // 'proof_of_address',
   // 'right_to_work'
 ];
-const tags = ['edu', 'fellowship']; // What will provide these?
 
 type ApplicantTokenPair = {
   applicantId: string;
@@ -30,7 +29,7 @@ const endpointName = 'create-check';
 const onfido = getOnfido();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApplicantTokenPair>) {
-  const { applicantId } = req.body;
+  const { applicantId, tags } = req.body;
   console.log(endpointName, { applicantId });
   try {
     const check = await onfido.check.create({
