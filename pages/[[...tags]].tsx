@@ -107,10 +107,11 @@ const StartPage: NextPage = () => {
     return onfidoInstance ? (
       <></>
     ) : (
-      <div>
+      <div className="first-step">
         <h3 className="mb-4">We want to get to know you!</h3>
         <p>Start by introducing yourself here.</p>
         <p>On the next page, we'll ask you to provide other information (documents or photos) that will help verify your identity.</p>
+        <hr />
         <ApplicantForm onSubmit={onSubmit} />
       </div>
     );

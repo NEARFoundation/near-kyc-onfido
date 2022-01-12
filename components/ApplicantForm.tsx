@@ -1,7 +1,7 @@
 export default function ApplicantForm({ onSubmit }: { onSubmit: (event: React.SyntheticEvent) => {} }): JSX.Element {
   // TODO Remove each field's defaultValue
   return (
-    <form className="applicant-form" onSubmit={onSubmit}>
+    <form className="applicant-form mt-4" onSubmit={onSubmit}>
       <div className="form-group row">
         <label htmlFor="firstName" className="col-4 col-form-label">
           First Name

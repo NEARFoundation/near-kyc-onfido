@@ -1,12 +1,18 @@
 html,
 body {
-  padding: 2rem;
+  padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 .logo {
   max-width: 200px;
+}
+
+$pad: 2rem;
+
+header {
+  padding: $pad $pad 0 $pad;
 }
 
 h1 {
@@ -20,9 +26,13 @@ h1 {
   box-sizing: border-box;
 }
 
-.applicant-form {
-  input,
-  button {
-    display: block;
+.first-step {
+  padding: $pad;
+
+  .applicant-form {
+    input,
+    button {
+      display: block;
+    }
   }
 }

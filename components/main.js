@@ -17,11 +17,13 @@ export default function Layout({ children }) {
         ></link>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"></link>
       </Head>
-      <h1 className="mb-5">
-        <a href="/">
-          <img alt="NEAR logo" src="/img/logo_nm.svg" className="logo" />
-        </a>
-      </h1>
+      <header>
+        <h1 className="mb-5">
+          <a href="/">
+            <img alt="NEAR logo" src="/img/logo_nm.svg" className="logo" />
+          </a>
+        </h1>
+      </header>
 
       <main>{children} </main>
     </div>
