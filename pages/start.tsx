@@ -4,7 +4,8 @@ import Layout from '../components/main';
 import * as Onfido from 'onfido-sdk-ui';
 
 const tokenFactoryUrl = process.env.NEXT_PUBLIC_TOKEN_FACTORY_URL || '';
-const createCheckUrl = process.env.NEXT_PUBLIC_CREATE_CHECK_URL || '';
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+const createCheckUrl = `${baseUrl}/api/create-check`;
 console.log({ tokenFactoryUrl, createCheckUrl });
 
 function initCheck(data: any) {
