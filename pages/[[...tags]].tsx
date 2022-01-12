@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import Layout from '../components/main';
 import * as Onfido from 'onfido-sdk-ui';
 
@@ -65,6 +66,10 @@ function getApplicantProperties(formFields: HTMLFormElement) {
 
 const StartPage: NextPage = () => {
   const [onfidoInstance, setOnfidoInstance] = useState<Onfido.SdkHandle | null>(null);
+  const router = useRouter();
+  const { tags } = router.query; // https://nextjs.org/docs/routing/dynamic-routes#catch-all-routes
+
+  console.log({ tags });
 
   async function onSubmit(event: React.SyntheticEvent) {
     const target: any = event.target;
