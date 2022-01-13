@@ -9,6 +9,7 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Layout from '../components/main';
 import ApplicantForm from '../components/ApplicantForm';
+import Header from '../components/Header';
 import * as Onfido from 'onfido-sdk-ui';
 
 const tokenFactoryUrl = process.env.NEXT_PUBLIC_TOKEN_FACTORY_URL || '';
@@ -107,13 +108,16 @@ const StartPage: NextPage = () => {
     return onfidoInstance ? (
       <></>
     ) : (
-      <div className="first-step" style={{ maxWidth: '500px' }}>
-        <h3 className="mb-4">We want to get to know you!</h3>
-        <p>Start by introducing yourself here.</p>
-        <p>On the next page, we'll ask you to provide other information (documents or photos) that will help verify your identity.</p>
+      <>
+        <Header />
+        <div className="first-step" style={{ maxWidth: '500px' }}>
+          <h3 className="mb-4">We want to get to know you!</h3>
+          <p>Start by introducing yourself here.</p>
+          <p>On the next page, we'll ask you to provide other information (documents or photos) that will help verify your identity.</p>
 
-        <ApplicantForm onSubmit={onSubmit} />
-      </div>
+          <ApplicantForm onSubmit={onSubmit} />
+        </div>
+      </>
     );
   }
 
