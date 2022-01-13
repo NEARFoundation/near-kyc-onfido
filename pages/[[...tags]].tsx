@@ -7,7 +7,7 @@ this index page), it might make sense to rename this file (and therefore its URL
 import { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import Layout from '../components/main';
+import MainLayout from '../components/MainLayout';
 import ApplicantForm from '../components/ApplicantForm';
 import Header from '../components/Header';
 import * as Onfido from 'onfido-sdk-ui';
@@ -129,10 +129,10 @@ const StartPage: NextPage = () => {
   }, []);
 
   return (
-    <Layout>
+    <MainLayout>
       <div id="onfido-mount"></div>
       {onfidoInstance ? <></> : <FirstStep />}
-    </Layout>
+    </MainLayout>
   );
 };
 

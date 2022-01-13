@@ -2,7 +2,7 @@
 
 import Head from 'next/head';
 
-export default function Layout({ children }) {
+export default function MainLayout({ children }) {
   return (
     <div>
       <Head>
