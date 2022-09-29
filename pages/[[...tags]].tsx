@@ -43,8 +43,13 @@ const options: Onfido.SdkOptions = {
         title: 'Verify your identity',
       },
     },
-    'document',
-    'face',
+    {
+      type: 'document',
+      options: {
+        forceCrossDevice: true,
+      },
+    },
+    { type: 'face' },
     'complete',
   ],
 };
