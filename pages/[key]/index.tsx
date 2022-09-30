@@ -72,7 +72,7 @@ function getApplicantProperties(formFields: HTMLFormElement) {
     email: formFields.email.value,
     dob: formFields.dob.value,
   };
-  console.log({ applicantProperties });
+  console.log('Returning applicant properties');
   return applicantProperties;
 }
 
@@ -90,7 +90,7 @@ const StartPage: NextPage = () => {
       token: sdkToken,
       onComplete: (data: any) => {
         // callback for when everything is complete
-        console.log('Everything is complete', { data, applicantId });
+        console.log('Everything is complete');
         initCheck({ applicantId });
       },
     };
@@ -123,7 +123,7 @@ const StartPage: NextPage = () => {
 
   useEffect(() => {
     return () => {
-      console.log('tear down', onfidoInstance);
+      console.log('Tearing down onfido');
       onfidoInstance && onfidoInstance.tearDown();
     };
   }, []);
