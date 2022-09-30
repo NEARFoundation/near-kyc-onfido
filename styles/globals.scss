@@ -45,3 +45,9 @@ footer {
     color: inherit;
   }
 }
+
+#onfido-mount {
+  @media (min-width: 478px) {
+    margin-top: $pad;
+  }
+}

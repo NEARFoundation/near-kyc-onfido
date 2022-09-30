@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 import { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
-import Layout from '../../components/main';
+import MainLayout from '../../components/MainLayout';
 import ApplicantForm from '../../components/ApplicantForm';
 import Header from '../../components/Header';
 import * as Onfido from 'onfido-sdk-ui';
@@ -42,8 +42,13 @@ const options: Onfido.SdkOptions = {
         title: 'Verify your identity',
       },
     },
-    'document',
-    'face',
+    {
+      type: 'document',
+      options: {
+        forceCrossDevice: true,
+      },
+    },
+    { type: 'face' },
     'complete',
   ],
 };
@@ -124,10 +129,10 @@ const StartPage: NextPage = () => {
   }, []);
 
   return (
-    <Layout>
+    <MainLayout>
       <div id="onfido-mount"></div>
       {onfidoInstance ? <></> : <FirstStep />}
-    </Layout>
+    </MainLayout>
   );
 };
 
