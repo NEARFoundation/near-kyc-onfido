@@ -1,16 +1,15 @@
-/* Currently this site has only one page (this one, at the base URL). So it's acceptable 
-to capture all slugs after the "/" and use them as tags. (See comment about catch-all-routes 
-below.) However, if we end up wanting to have more pages for this site (rather than just 
-this index page), it might make sense to rename this file (and therefore its URL path).
-*/
-
+import { GetServerSideProps } from 'next';
 import { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import Layout from '../../components/main';
 import ApplicantForm from '../../components/ApplicantForm';
 import Header from '../../components/Header';
 import * as Onfido from 'onfido-sdk-ui';
+import { ParsedUrlQuery } from 'querystring';
+
+interface IParams extends ParsedUrlQuery {
+  key: string;
+}
 
 const tokenFactoryUrl = process.env.NEXT_PUBLIC_TOKEN_FACTORY_URL || '';
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
@@ -74,10 +73,6 @@ function getApplicantProperties(formFields: HTMLFormElement) {
 
 const StartPage: NextPage = () => {
   const [onfidoInstance, setOnfidoInstance] = useState<Onfido.SdkHandle | null>(null);
-  const router = useRouter();
-  const { tags } = router.query; // https://nextjs.org/docs/routing/dynamic-routes#catch-all-routes
-
-  console.log({ tags });
 
   async function onSubmit(event: React.SyntheticEvent) {
     const target: any = event.target;
@@ -91,7 +86,7 @@ const StartPage: NextPage = () => {
       onComplete: (data: any) => {
         // callback for when everything is complete
         console.log('Everything is complete', { data, applicantId });
-        initCheck({ applicantId, tags });
+        initCheck({ applicantId });
       },
     };
 
@@ -134,6 +129,20 @@ const StartPage: NextPage = () => {
       {onfidoInstance ? <></> : <FirstStep />}
     </Layout>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { key } = context.params as IParams;
+
+  if (key !== process.env.NEXT_PUBLIC_KYC_ENDPOINT_KEY) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {},
+  };
 };
 
 export default StartPage;
