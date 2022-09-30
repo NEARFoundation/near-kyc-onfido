@@ -30,7 +30,7 @@ const onfido = getOnfido();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApplicantTokenPair>) {
   const { applicantId, tags } = req.body;
-  console.log(endpointName, { applicantId });
+  console.log('Starting', endpointName);
   try {
     const check = await onfido.check.create({
       // https://documentation.onfido.com/#check-object
@@ -39,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       tags,
     });
 
-    console.log(endpointName, { check });
+    console.log('Returning result', endpointName);
     res.status(200).json(check);
   } catch (error: any) {
     if (error instanceof OnfidoApiError) {
