@@ -1,6 +1,7 @@
 // https://nextjs.org/docs/basic-features/layouts
 
 import Head from 'next/head';
+import Link from 'next/link';
 
 export default function MainLayout({ children }) {
   return (
@@ -20,7 +21,10 @@ export default function MainLayout({ children }) {
 
       <main>{children} </main>
       <footer>
-        © 2022{' '}
+        <Link href="/privacy-policy">
+          <a>Privacy Policy</a>
+        </Link>{' '}
+        | © 2022{' '}
         <a href="https://near.foundation/" target="_blank">
           NEAR Foundation
         </a>
