@@ -35,7 +35,7 @@ const options: Onfido.SdkOptions = {
   // What / where should define these?
   useModal: false,
   token: '', // This empty string gets overridden inside onSubmit.
-  onComplete: () => {}, // This empty function gets overridden inside onSubmit.
+  onComplete: () => false, // This function gets overridden inside onSubmit.
   steps: [
     {
       type: 'welcome',
@@ -55,7 +55,7 @@ const options: Onfido.SdkOptions = {
 };
 
 function getToken(applicantProperties: any): Promise<Response> {
-  const options = {
+  const tokenOptions = {
     method: 'POST',
     body: JSON.stringify(applicantProperties),
     headers: {
@@ -63,7 +63,7 @@ function getToken(applicantProperties: any): Promise<Response> {
     },
   };
 
-  return fetch(tokenFactoryUrl, options);
+  return fetch(tokenFactoryUrl, tokenOptions);
 }
 
 function getApplicantProperties(formFields: HTMLFormElement) {
@@ -89,7 +89,7 @@ const StartPage: NextPage = () => {
     const completeOptions = {
       ...options,
       token: sdkToken,
-      onComplete: (data: any) => {
+      onComplete: () => {
         // callback for when everything is complete
         console.log('Everything is complete');
         initCheck({ applicantId });

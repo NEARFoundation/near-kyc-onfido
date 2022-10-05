@@ -1,9 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { OnfidoApiError } from '@onfido/api';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { getOnfido } from '../../helpers/onfido';
-
-const { OnfidoApiError } = require('@onfido/api');
 
 const reportNames = [
   'document',
@@ -30,7 +29,7 @@ const endpointName = 'create-check';
 
 const onfido = getOnfido();
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<ApplicantTokenPair>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<ApplicantTokenPair | unknown>) {
   const { applicantId, tags } = req.body;
   console.log('Starting', endpointName);
   try {
@@ -43,7 +42,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     console.log('Returning result', endpointName);
     res.status(200).json(check);
-  } catch (error: any) {
+  } catch (error: unknown | OnfidoApiError) {
     if (error instanceof OnfidoApiError) {
       // An error response was received from the Onfido API, extra info is available.
       console.error(error.message);

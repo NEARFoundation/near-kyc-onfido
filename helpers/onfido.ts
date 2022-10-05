@@ -1,9 +1,9 @@
-const { Onfido, Region } = require('@onfido/api');
+import { Onfido, Region } from '@onfido/api';
 
-const apiToken = process.env.SDK_TOKEN_FACTORY_SECRET;
+const apiToken = process.env.SDK_TOKEN_FACTORY_SECRET || '';
 const region = Region.EU; // Supports Region.EU, Region.US and Region.CA
 
-export function getOnfido() {
+export default function getOnfido() {
   const onfido = new Onfido({
     apiToken,
     region,
