@@ -83,7 +83,8 @@ const StartPage: NextPage = () => {
   async function onSubmit(event: React.SyntheticEvent) {
     const { target } = event;
     event.preventDefault();
-    const applicantProperties = getApplicantProperties(target);
+    const htmlElements = target as unknown as HTMLFormElement;
+    const applicantProperties = getApplicantProperties(htmlElements);
     const tokenResponse = await getToken(applicantProperties);
     const { applicantId, sdkToken } = await tokenResponse.json();
     const completeOptions = {
@@ -107,7 +108,7 @@ const StartPage: NextPage = () => {
 
   function FirstStep(): JSX.Element {
     return onfidoInstance ? (
-      <></>
+      <div />
     ) : (
       <>
         <Header />
@@ -125,14 +126,14 @@ const StartPage: NextPage = () => {
   useEffect(() => {
     return () => {
       console.log('Tearing down onfido');
-      onfidoInstance && onfidoInstance.tearDown();
+      onfidoInstance?.tearDown();
     };
   }, []);
 
   return (
     <MainLayout>
       <div id="onfido-mount" />
-      {onfidoInstance ? <></> : <FirstStep />}
+      {!onfidoInstance && <FirstStep />}
     </MainLayout>
   );
 };

@@ -7,6 +7,7 @@ export default function Header(): JSX.Element {
     <header>
       <h1 className="mb-5">
         <Link href="/">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img alt="NEAR logo" src="/img/logo_nm.svg" className="logo" />
         </Link>
       </h1>
