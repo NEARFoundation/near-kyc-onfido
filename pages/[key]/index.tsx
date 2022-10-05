@@ -6,6 +6,7 @@ import { ParsedUrlQuery } from 'querystring';
 
 import FirstStep from '../../components/FirstStep';
 import MainLayout from '../../components/MainLayout';
+import type ApplicantProperties from '../../types/ApplicantProperties';
 
 interface IParams extends ParsedUrlQuery {
   key: string;
@@ -53,7 +54,7 @@ const options: Onfido.SdkOptions = {
   ],
 };
 
-function getToken(applicantProperties: any): Promise<Response> {
+function getToken(applicantProperties: ApplicantProperties): Promise<Response> {
   const tokenOptions = {
     method: 'POST',
     body: JSON.stringify(applicantProperties),
@@ -65,8 +66,8 @@ function getToken(applicantProperties: any): Promise<Response> {
   return fetch(tokenFactoryUrl, tokenOptions);
 }
 
-function getApplicantProperties(formFields: HTMLFormElement) {
-  const applicantProperties = {
+function getApplicantProperties(formFields: HTMLFormElement): ApplicantProperties {
+  const applicantProperties: ApplicantProperties = {
     firstName: formFields.firstName.value,
     lastName: formFields.lastName.value,
     email: formFields.email.value,
@@ -100,7 +101,7 @@ const StartPage: NextPage = () => {
       const OnfidoAsync = await import('onfido-sdk-ui'); // https://github.com/onfido/onfido-sdk-ui/issues/668
       const instance = OnfidoAsync.init(completeOptions);
       setOnfidoInstance(instance);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error({ err });
     }
   }
