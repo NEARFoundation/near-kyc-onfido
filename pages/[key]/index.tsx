@@ -17,7 +17,7 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
 const createCheckUrl = `${baseUrl}/api/create-check`;
 console.log({ tokenFactoryUrl, createCheckUrl });
 
-function initCheck(data: any) {
+function initCheck(data: { applicantId: string }) {
   const options = {
     method: 'POST',
     body: JSON.stringify(data),

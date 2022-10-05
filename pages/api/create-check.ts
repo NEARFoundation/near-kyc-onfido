@@ -2,7 +2,7 @@
 import { OnfidoApiError } from '@onfido/api';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { getOnfido } from '../../helpers/onfido';
+import getOnfido from '../../helpers/onfido';
 
 const reportNames = [
   'document',
@@ -30,14 +30,13 @@ const endpointName = 'create-check';
 const onfido = getOnfido();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApplicantTokenPair | unknown>) {
-  const { applicantId, tags } = req.body;
+  const { applicantId } = req.body;
   console.log('Starting', endpointName);
   try {
     const check = await onfido.check.create({
       // https://documentation.onfido.com/#check-object
       applicantId,
       reportNames,
-      tags,
     });
 
     console.log('Returning result', endpointName);
