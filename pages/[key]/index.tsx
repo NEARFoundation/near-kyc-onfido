@@ -4,8 +4,7 @@ import { GetServerSideProps } from 'next';
 import * as Onfido from 'onfido-sdk-ui';
 import { ParsedUrlQuery } from 'querystring';
 
-import ApplicantForm from '../../components/ApplicantForm';
-import Header from '../../components/Header';
+import FirstStep from '../../components/FirstStep';
 import MainLayout from '../../components/MainLayout';
 
 interface IParams extends ParsedUrlQuery {
@@ -106,34 +105,17 @@ const StartPage: NextPage = () => {
     }
   }
 
-  function FirstStep(): JSX.Element {
-    return onfidoInstance ? (
-      <div />
-    ) : (
-      <>
-        <Header />
-        <div className="first-step" style={{ maxWidth: '500px' }}>
-          <h3 className="mb-4">We want to get to know you!</h3>
-          <p>Start by introducing yourself here.</p>
-          <p>On the next page, we'll ask you to provide other information (documents or photos) that will help verify your identity.</p>
-
-          <ApplicantForm onSubmit={onSubmit} />
-        </div>
-      </>
-    );
-  }
-
   useEffect(() => {
     return () => {
       console.log('Tearing down onfido');
       onfidoInstance?.tearDown();
     };
-  }, []);
+  }, [onfidoInstance]);
 
   return (
     <MainLayout>
       <div id="onfido-mount" />
-      {!onfidoInstance && <FirstStep />}
+      {!onfidoInstance && <FirstStep onfidoInstance={onfidoInstance} onSubmit={(e) => onSubmit(e)} />}
     </MainLayout>
   );
 };
