@@ -1,11 +1,12 @@
-import { GetServerSideProps } from 'next';
 import { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
-import MainLayout from '../../components/MainLayout';
-import ApplicantForm from '../../components/ApplicantForm';
-import Header from '../../components/Header';
+import { GetServerSideProps } from 'next';
 import * as Onfido from 'onfido-sdk-ui';
 import { ParsedUrlQuery } from 'querystring';
+
+import ApplicantForm from '../../components/ApplicantForm';
+import Header from '../../components/Header';
+import MainLayout from '../../components/MainLayout';
 
 interface IParams extends ParsedUrlQuery {
   key: string;
@@ -80,7 +81,7 @@ const StartPage: NextPage = () => {
   const [onfidoInstance, setOnfidoInstance] = useState<Onfido.SdkHandle | null>(null);
 
   async function onSubmit(event: React.SyntheticEvent) {
-    const target: any = event.target;
+    const { target } = event;
     event.preventDefault();
     const applicantProperties = getApplicantProperties(target);
     const tokenResponse = await getToken(applicantProperties);
@@ -130,7 +131,7 @@ const StartPage: NextPage = () => {
 
   return (
     <MainLayout>
-      <div id="onfido-mount"></div>
+      <div id="onfido-mount" />
       {onfidoInstance ? <></> : <FirstStep />}
     </MainLayout>
   );

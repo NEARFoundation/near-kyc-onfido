@@ -1,5 +1,5 @@
 /* Do not include this header when showing the Onfido screen (since it would cause the Onfido buttons 
- to be "below the fold", and visitors may not realize that they need to scroll down the page).*/
+ to be "below the fold", and visitors may not realize that they need to scroll down the page). */
 
 export default function Header(): JSX.Element {
   return (
