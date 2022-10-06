@@ -2,7 +2,7 @@
 import { OnfidoApiError } from '@onfido/api';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { COOKIE_NAME, COOKIES_EXPIRATION_TIME } from '../../constants';
+import { COOKIE_CHECK_ID_NAME, COOKIES_EXPIRATION_TIME } from '../../constants';
 import getOnfido from '../../helpers/onfido';
 
 const reportNames = [
@@ -41,7 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     });
 
     console.log('Storing check id in cookies');
-    res.setHeader('Set-Cookie', `${COOKIE_NAME}=${check.id}; Max-Age=${COOKIES_EXPIRATION_TIME}; Path=/`);
+    res.setHeader('Set-Cookie', `${COOKIE_CHECK_ID_NAME}=${check.id}; Max-Age=${COOKIES_EXPIRATION_TIME}; Path=/`);
 
     console.log('Returning result', endpointName);
     res.status(200).json(check);

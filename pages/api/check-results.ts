@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { COOKIE_NAME } from '../../constants';
+import { COOKIE_CHECK_ID_NAME } from '../../constants';
 import getOnfido from '../../helpers/onfido';
 import type { CheckResults } from '../../types/CheckResults';
 import { CheckResultsStatus } from '../../types/CheckResults';
@@ -13,7 +13,7 @@ const onfido = getOnfido();
 export default async function handler(req: NextApiRequest, res: NextApiResponse<CheckResults>) {
   console.log(`[${endpointName}] Request received`);
 
-  const checkId = req.cookies[COOKIE_NAME];
+  const checkId = req.cookies[COOKIE_CHECK_ID_NAME];
   const check = await onfido.check.find(checkId);
 
   if (!checkId || !check) {
