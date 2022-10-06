@@ -1,6 +1,7 @@
-import MainLayout from '../components/MainLayout';
 import Header from '../components/Header';
+import MainLayout from '../components/MainLayout';
 
+// eslint-disable-next-line max-lines-per-function
 function PrivacyPolicy() {
   return (
     <MainLayout>

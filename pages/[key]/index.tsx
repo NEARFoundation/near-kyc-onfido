@@ -1,22 +1,23 @@
-import { GetServerSideProps } from 'next';
 import { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
-import MainLayout from '../../components/MainLayout';
-import ApplicantForm from '../../components/ApplicantForm';
-import Header from '../../components/Header';
+import { GetServerSideProps } from 'next';
 import * as Onfido from 'onfido-sdk-ui';
 import { ParsedUrlQuery } from 'querystring';
+
+import FirstStep from '../../components/FirstStep';
+import MainLayout from '../../components/MainLayout';
+import type ApplicantProperties from '../../types/ApplicantProperties';
 
 interface IParams extends ParsedUrlQuery {
   key: string;
 }
 
-const tokenFactoryUrl = process.env.NEXT_PUBLIC_TOKEN_FACTORY_URL || '';
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+const tokenFactoryUrl = process.env.NEXT_PUBLIC_TOKEN_FACTORY_URL ?? '';
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? '';
 const createCheckUrl = `${baseUrl}/api/create-check`;
 console.log({ tokenFactoryUrl, createCheckUrl });
 
-function initCheck(data: any) {
+function initCheck(data: { applicantId: string }) {
   const options = {
     method: 'POST',
     body: JSON.stringify(data),
@@ -34,7 +35,7 @@ const options: Onfido.SdkOptions = {
   // What / where should define these?
   useModal: false,
   token: '', // This empty string gets overridden inside onSubmit.
-  onComplete: () => {}, // This empty function gets overridden inside onSubmit.
+  onComplete: () => false, // This function gets overridden inside onSubmit.
   steps: [
     {
       type: 'welcome',
@@ -53,8 +54,8 @@ const options: Onfido.SdkOptions = {
   ],
 };
 
-function getToken(applicantProperties: any): Promise<Response> {
-  const options = {
+function getToken(applicantProperties: ApplicantProperties): Promise<Response> {
+  const tokenOptions = {
     method: 'POST',
     body: JSON.stringify(applicantProperties),
     headers: {
@@ -62,11 +63,11 @@ function getToken(applicantProperties: any): Promise<Response> {
     },
   };
 
-  return fetch(tokenFactoryUrl, options);
+  return fetch(tokenFactoryUrl, tokenOptions);
 }
 
-function getApplicantProperties(formFields: HTMLFormElement) {
-  const applicantProperties = {
+function getApplicantProperties(formFields: HTMLFormElement): ApplicantProperties {
+  const applicantProperties: ApplicantProperties = {
     firstName: formFields.firstName.value,
     lastName: formFields.lastName.value,
     email: formFields.email.value,
@@ -80,15 +81,16 @@ const StartPage: NextPage = () => {
   const [onfidoInstance, setOnfidoInstance] = useState<Onfido.SdkHandle | null>(null);
 
   async function onSubmit(event: React.SyntheticEvent) {
-    const target: any = event.target;
+    const { target } = event;
     event.preventDefault();
-    const applicantProperties = getApplicantProperties(target);
+    const htmlElements = target as unknown as HTMLFormElement;
+    const applicantProperties = getApplicantProperties(htmlElements);
     const tokenResponse = await getToken(applicantProperties);
     const { applicantId, sdkToken } = await tokenResponse.json();
     const completeOptions = {
       ...options,
       token: sdkToken,
-      onComplete: (data: any) => {
+      onComplete: () => {
         // callback for when everything is complete
         console.log('Everything is complete');
         initCheck({ applicantId });
@@ -99,39 +101,22 @@ const StartPage: NextPage = () => {
       const OnfidoAsync = await import('onfido-sdk-ui'); // https://github.com/onfido/onfido-sdk-ui/issues/668
       const instance = OnfidoAsync.init(completeOptions);
       setOnfidoInstance(instance);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error({ err });
     }
-  }
-
-  function FirstStep(): JSX.Element {
-    return onfidoInstance ? (
-      <></>
-    ) : (
-      <>
-        <Header />
-        <div className="first-step" style={{ maxWidth: '500px' }}>
-          <h3 className="mb-4">We want to get to know you!</h3>
-          <p>Start by introducing yourself here.</p>
-          <p>On the next page, we'll ask you to provide other information (documents or photos) that will help verify your identity.</p>
-
-          <ApplicantForm onSubmit={onSubmit} />
-        </div>
-      </>
-    );
   }
 
   useEffect(() => {
     return () => {
       console.log('Tearing down onfido');
-      onfidoInstance && onfidoInstance.tearDown();
+      onfidoInstance?.tearDown();
     };
-  }, []);
+  }, [onfidoInstance]);
 
   return (
     <MainLayout>
-      <div id="onfido-mount"></div>
-      {onfidoInstance ? <></> : <FirstStep />}
+      <div id="onfido-mount" />
+      {!onfidoInstance && <FirstStep onfidoInstance={onfidoInstance} onSubmit={(e) => onSubmit(e)} />}
     </MainLayout>
   );
 };
