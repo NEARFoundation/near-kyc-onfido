@@ -8,7 +8,7 @@ import { POLLING_INTERVAL } from '../../constants';
 import type { CheckResults } from '../../types/CheckResults';
 import { CheckResultsStatus } from '../../types/CheckResults';
 
-const ResultPage: NextPage = () => {
+const ResultsPage: NextPage = () => {
   const [refetchInterval, setRefetchInterval] = useState(POLLING_INTERVAL);
   const stopPolling = () => setRefetchInterval(0);
 
@@ -39,4 +39,4 @@ const ResultPage: NextPage = () => {
   );
 };
 
-export default ResultPage;
+export default ResultsPage;

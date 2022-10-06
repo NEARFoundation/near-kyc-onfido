@@ -1,10 +1,11 @@
 export interface CheckResults {
-  isClear: boolean | null;
+  isClear: boolean | null; // !isClear means the check failed
   status: CheckResultsStatus;
 }
 
 export enum CheckResultsStatus {
   loading = 'loading',
-  manual = 'manual',
-  complete = 'complete',
+  willTakeLonger = 'will-take-longer',
+  finished = 'finished',
+  notFound = 'not-found',
 }

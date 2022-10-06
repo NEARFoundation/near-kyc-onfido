@@ -40,8 +40,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       reportNames,
     });
 
-    console.log('Storing applicantId in cookies');
-    res.setHeader('Set-Cookie', `${COOKIE_NAME}=${applicantId}; Max-Age=${COOKIES_EXPIRATION_TIME}; Path=/`);
+    console.log('Storing check id in cookies');
+    res.setHeader('Set-Cookie', `${COOKIE_NAME}=${check.id}; Max-Age=${COOKIES_EXPIRATION_TIME}; Path=/`);
 
     console.log('Returning result', endpointName);
     res.status(200).json(check);

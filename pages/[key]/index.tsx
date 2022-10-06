@@ -31,7 +31,7 @@ function initCheck(data: { applicantId: string }) {
     .then((res) => res.json())
     .then(() => {
       console.log('Redirecting to result');
-      window.location.href = `${baseStartUrl}/result`;
+      window.location.href = `${baseStartUrl}/results`;
     });
 }
 
