@@ -1,5 +1,10 @@
-interface CheckResults {
+export interface CheckResults {
   isClear: boolean;
+  status: CheckResultsStatus;
 }
 
-export default CheckResults;
+export enum CheckResultsStatus {
+  loading = 'loading',
+  manual = 'manual',
+  complete = 'complete',
+}

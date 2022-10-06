@@ -1,7 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import type CheckResults from '../../types/CheckResults';
+import type { CheckResults } from '../../types/CheckResults';
+import { CheckResultsStatus } from '../../types/CheckResults';
 
 // import getOnfido from '../../helpers/onfido';
 
@@ -11,6 +12,7 @@ import type CheckResults from '../../types/CheckResults';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<CheckResults>) {
   res.status(200).json({
-    isClear: true,
+    isClear: false,
+    status: CheckResultsStatus.loading,
   });
 }
