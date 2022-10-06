@@ -10,12 +10,13 @@ import { CheckResultsStatus } from '../../types/CheckResults';
 
 const ResultPage: NextPage = () => {
   const [refetchInterval, setRefetchInterval] = useState(POLLING_INTERVAL);
+  const stopPolling = () => setRefetchInterval(0);
+
   const { isLoading, error, data } = useQuery(['checkResults'], (): Promise<CheckResults> => fetch('/api/check-results').then((res) => res.json()), {
     refetchInterval,
     onSuccess: () => {
       if (data?.status === CheckResultsStatus.complete || data?.status === CheckResultsStatus.manual) {
-        // this stops the polling
-        setRefetchInterval(0);
+        stopPolling();
       }
     },
   });
