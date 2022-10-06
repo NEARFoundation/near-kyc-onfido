@@ -20,8 +20,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     res.status(404).json({ isClear: null, status: CheckResultsStatus.notFound });
   }
 
-  // console.log(check);
-
   // List of status: https://documentation.onfido.com/#report-status
   // List of results: https://documentation.onfido.com/#report-results
   const simplifiedStatus = new Map([

@@ -36,7 +36,7 @@ const ResultsPage: NextPage = () => {
   return (
     <MainLayout>
       <div className="result-box">
-        {showLoading && <ResultsLoading />}
+        {showLoading && <ResultsLoading willTakeLonger={data?.status === CheckResultsStatus.willTakeLonger} />}
         {showSuccess && <ResultsSuccess />}
         {showFailure && <ResultsFailure />}
         {showError && <ResultsError />}
