@@ -1,5 +1,5 @@
 export interface CheckResults {
-  isClear: boolean;
+  isClear: boolean | null;
   status: CheckResultsStatus;
 }
 
