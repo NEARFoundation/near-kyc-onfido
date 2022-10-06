@@ -18,6 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   if (!checkId || !check) {
     res.status(404).json({ isClear: null, status: CheckResultsStatus.notFound });
+    return;
   }
 
   // List of status: https://documentation.onfido.com/#report-status
