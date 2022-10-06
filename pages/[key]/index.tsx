@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import * as Onfido from 'onfido-sdk-ui';
 import { ParsedUrlQuery } from 'querystring';
 
@@ -85,14 +86,11 @@ function getApplicantProperties(formFields: HTMLFormElement): ApplicantPropertie
 const StartPage: NextPage = () => {
   const [onfidoInstance, setOnfidoInstance] = useState<Onfido.SdkHandle | null>(null);
 
-  async function onSubmit(event: React.SyntheticEvent) {
-    const { target } = event;
-    event.preventDefault();
-    const htmlElements = target as unknown as HTMLFormElement;
-    const applicantProperties = getApplicantProperties(htmlElements);
-    const tokenResponse = await getToken(applicantProperties);
-    localStorage.setItem(LOCALSTORAGE_USER_DATA_NAME, JSON.stringify(applicantProperties));
+  const router = useRouter();
+  const { retry } = router.query;
 
+  const submitAndInitOnfido = async (applicantProperties: ApplicantProperties) => {
+    const tokenResponse = await getToken(applicantProperties);
     const { applicantId, sdkToken } = await tokenResponse.json();
     const completeOptions = {
       ...options,
@@ -111,6 +109,28 @@ const StartPage: NextPage = () => {
     } catch (err: unknown) {
       console.error({ err });
     }
+  };
+
+  useEffect(() => {
+    if (retry === '1') {
+      const localStorageUserData = localStorage.getItem(LOCALSTORAGE_USER_DATA_NAME);
+      if (!localStorageUserData) {
+        return;
+      }
+
+      const applicantProperties = JSON.parse(localStorageUserData) as ApplicantProperties;
+      submitAndInitOnfido(applicantProperties);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  async function onSubmit(event: React.SyntheticEvent) {
+    const { target } = event;
+    event.preventDefault();
+    const htmlElements = target as unknown as HTMLFormElement;
+    const applicantProperties = getApplicantProperties(htmlElements);
+    localStorage.setItem(LOCALSTORAGE_USER_DATA_NAME, JSON.stringify(applicantProperties));
+    await submitAndInitOnfido(applicantProperties);
   }
 
   useEffect(() => {
