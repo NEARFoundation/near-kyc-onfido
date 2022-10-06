@@ -6,6 +6,7 @@ import { ParsedUrlQuery } from 'querystring';
 
 import FirstStep from '../../components/FirstStep';
 import MainLayout from '../../components/MainLayout';
+import { LOCALSTORAGE_USER_DATA_NAME } from '../../constants';
 import type ApplicantProperties from '../../types/ApplicantProperties';
 
 interface IParams extends ParsedUrlQuery {
@@ -90,6 +91,8 @@ const StartPage: NextPage = () => {
     const htmlElements = target as unknown as HTMLFormElement;
     const applicantProperties = getApplicantProperties(htmlElements);
     const tokenResponse = await getToken(applicantProperties);
+    localStorage.setItem(LOCALSTORAGE_USER_DATA_NAME, JSON.stringify(applicantProperties));
+
     const { applicantId, sdkToken } = await tokenResponse.json();
     const completeOptions = {
       ...options,

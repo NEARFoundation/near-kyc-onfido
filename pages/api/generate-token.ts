@@ -1,7 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { COOKIE_USER_DATA_NAME, COOKIES_EXPIRATION_TIME } from '../../constants';
 import getOnfido from '../../helpers/onfido';
 
 type ApplicantTokenPair = {
@@ -26,9 +25,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // crossDeviceUrl: "https://example.com"
   });
   const result = { applicantId: applicant.id, sdkToken };
-
-  console.log('Storing user data in cookies');
-  res.setHeader('Set-Cookie', `${COOKIE_USER_DATA_NAME}=${JSON.stringify(applicantProperties)}; Max-Age=${COOKIES_EXPIRATION_TIME}; Path=/`);
 
   console.log('Returning result', endpointName);
   res.status(200).json(result);
