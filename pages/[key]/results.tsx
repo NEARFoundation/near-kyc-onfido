@@ -2,38 +2,44 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { NextPage } from 'next';
 
-import LoadingSpinner from '../../components/LoadingSpinner';
 import MainLayout from '../../components/MainLayout';
-import { POLLING_INTERVAL } from '../../constants';
+import ResultsError from '../../components/ResultsError';
+import ResultsFailure from '../../components/ResultsFailure';
+import ResultsLoading from '../../components/ResultsLoading';
+import ResultsSuccess from '../../components/ResultsSuccess';
+import { LONG_POLLING_INTERVAL, SHORT_POLLING_INTERVAL } from '../../constants';
 import type { CheckResults } from '../../types/CheckResults';
 import { CheckResultsStatus } from '../../types/CheckResults';
 
 const ResultsPage: NextPage = () => {
-  const [refetchInterval, setRefetchInterval] = useState(POLLING_INTERVAL);
+  const [refetchInterval, setRefetchInterval] = useState(SHORT_POLLING_INTERVAL);
+  const setLongPolling = () => setRefetchInterval(LONG_POLLING_INTERVAL);
   const stopPolling = () => setRefetchInterval(0);
 
   const { isLoading, error, data } = useQuery(['checkResults'], (): Promise<CheckResults> => fetch('/api/check-results').then((res) => res.json()), {
     refetchInterval,
     onSuccess: () => {
-      if (data?.status === CheckResultsStatus.complete || data?.status === CheckResultsStatus.manual) {
+      if (data?.status === CheckResultsStatus.finished) {
         stopPolling();
+      }
+      if (data?.status === CheckResultsStatus.willTakeLonger) {
+        setLongPolling();
       }
     },
   });
 
-  console.log(data);
-  console.log(error);
-  const showLoading = isLoading || data?.status === CheckResultsStatus.loading;
+  const showLoading = isLoading || data?.status === CheckResultsStatus.willTakeLonger;
+  const showSuccess = data?.status === CheckResultsStatus.finished && data.isClear === true;
+  const showFailure = data?.status === CheckResultsStatus.finished && data.isClear === false;
+  const showError = error || data?.status === CheckResultsStatus.notFound;
 
   return (
     <MainLayout>
       <div className="result-box">
-        {showLoading && (
-          <div className="loading-centered">
-            <LoadingSpinner />
-            <p className="mt-2">Please wait...</p>
-          </div>
-        )}
+        {showLoading && <ResultsLoading />}
+        {showSuccess && <ResultsSuccess />}
+        {showFailure && <ResultsFailure />}
+        {showError && <ResultsError />}
       </div>
     </MainLayout>
   );
