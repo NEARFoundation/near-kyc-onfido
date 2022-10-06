@@ -15,6 +15,7 @@ interface IParams extends ParsedUrlQuery {
 const tokenFactoryUrl = process.env.NEXT_PUBLIC_TOKEN_FACTORY_URL ?? '';
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? '';
 const createCheckUrl = `${baseUrl}/api/create-check`;
+const baseStartUrl = process.env.NEXT_PUBLIC_KYC_ENDPOINT_KEY ?? '';
 console.log({ tokenFactoryUrl, createCheckUrl });
 
 function initCheck(data: { applicantId: string }) {
@@ -28,7 +29,10 @@ function initCheck(data: { applicantId: string }) {
 
   fetch(createCheckUrl, options)
     .then((res) => res.json())
-    .then((res) => console.log('initCheck', { res }));
+    .then(() => {
+      console.log('Redirecting to result');
+      window.location.href = `${baseStartUrl}/result`;
+    });
 }
 
 const options: Onfido.SdkOptions = {
