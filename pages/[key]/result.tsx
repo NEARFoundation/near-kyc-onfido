@@ -5,7 +5,7 @@ import MainLayout from '../../components/MainLayout';
 const ResultPage: NextPage = () => {
   return (
     <MainLayout>
-      <div>
+      <div className="result-box">
         <h1>Result</h1>
       </div>
     </MainLayout>
