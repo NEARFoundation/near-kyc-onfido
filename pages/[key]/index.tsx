@@ -12,8 +12,8 @@ interface IParams extends ParsedUrlQuery {
   key: string;
 }
 
-const tokenFactoryUrl = process.env.NEXT_PUBLIC_TOKEN_FACTORY_URL || '';
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+const tokenFactoryUrl = process.env.NEXT_PUBLIC_TOKEN_FACTORY_URL ?? '';
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? '';
 const createCheckUrl = `${baseUrl}/api/create-check`;
 console.log({ tokenFactoryUrl, createCheckUrl });
 

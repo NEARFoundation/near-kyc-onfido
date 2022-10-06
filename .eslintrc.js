@@ -34,6 +34,7 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
+    '@typescript-eslint/prefer-nullish-coalescing': 'warn',
   },
   reportUnusedDisableDirectives: true, // https://eslint.org/docs/user-guide/configuring#report-unused-eslint-disable-comments
   settings: {
@@ -72,5 +73,6 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: 'latest',
+    project: './tsconfig.eslint.json',
   },
 };
