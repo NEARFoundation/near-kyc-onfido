@@ -22,6 +22,12 @@ h1 {
   }
 }
 
+p {
+  a {
+    color: inherit;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
