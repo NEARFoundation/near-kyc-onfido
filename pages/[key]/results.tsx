@@ -26,6 +26,9 @@ const ResultsPage: NextPage = () => {
         setLongPolling();
       }
     },
+    onError: () => {
+      stopPolling();
+    },
   });
 
   const showLoading = isLoading || data?.status === CheckResultsStatus.willTakeLonger;
