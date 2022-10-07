@@ -5,8 +5,8 @@ import MainLayout from '../components/layout/MainLayout';
 function PrivacyPolicy() {
   return (
     <MainLayout>
-      <Header />
-      <div className="first-step" style={{ maxWidth: '750px' }}>
+      <div className="first-step" style={{ maxWidth: '750px', margin: 'auto' }}>
+        <Header />
         <h1>Privacy Policy</h1>
 
         <p>
