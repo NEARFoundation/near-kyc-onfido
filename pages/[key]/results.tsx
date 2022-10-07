@@ -9,7 +9,7 @@ import ResultsFailure from '../../components/results/ResultsFailure';
 import ResultsLoading from '../../components/results/ResultsLoading';
 import ResultsSuccess from '../../components/results/ResultsSuccess';
 import { LONG_POLLING_INTERVAL, SHORT_POLLING_INTERVAL } from '../../constants';
-import type { CheckResults } from '../../types/CheckResults';
+import { fetchCheckResults } from '../../services/apiService';
 import { CheckResultsStatus } from '../../types/CheckResults';
 
 const ResultsPage: NextPage = () => {
@@ -17,7 +17,7 @@ const ResultsPage: NextPage = () => {
   const setLongPolling = () => setRefetchInterval(LONG_POLLING_INTERVAL);
   const stopPolling = () => setRefetchInterval(0);
 
-  const { isLoading, error, data } = useQuery(['checkResults'], (): Promise<CheckResults> => fetch('/api/check-results').then((res) => res.json()), {
+  const { isLoading, error, data } = useQuery(['checkResults'], fetchCheckResults, {
     refetchInterval,
     refetchOnWindowFocus: false,
     onSuccess: () => {
