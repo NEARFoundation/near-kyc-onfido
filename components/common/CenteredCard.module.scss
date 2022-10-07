@@ -11,4 +11,9 @@
   text-align: center;
   min-height: 37.5em;
   background-color: #fcfcfd;
+
+  @media (max-width: 478px) {
+    border: none;
+    background-color: #fff;
+  }
 }
