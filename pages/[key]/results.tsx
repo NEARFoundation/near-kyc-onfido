@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import type { NextPage } from 'next';
 
 import MainLayout from '../../components/layout/MainLayout';
+import CenteredCard from '../../components/common/CenteredCard';
 import ResultsError from '../../components/results/ResultsError';
 import ResultsFailure from '../../components/results/ResultsFailure';
 import ResultsLoading from '../../components/results/ResultsLoading';
@@ -39,12 +40,12 @@ const ResultsPage: NextPage = () => {
 
   return (
     <MainLayout>
-      <div className="result-box">
+      <CenteredCard>
         {showLoading && <ResultsLoading willTakeLonger={data?.status === CheckResultsStatus.willTakeLonger} />}
         {showSuccess && <ResultsSuccess />}
         {showFailure && <ResultsFailure />}
         {showError && <ResultsError />}
-      </div>
+      </CenteredCard>
     </MainLayout>
   );
 };

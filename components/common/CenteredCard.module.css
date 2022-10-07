@@ -1,0 +1,14 @@
+.card {
+  width: 94vw;
+  max-width: 32em;
+  border-color: rgb(130, 136, 147);
+  border-width: 1px;
+  border-style: solid;
+  padding: 32px;
+  border-radius: 8px;
+  margin: auto;
+  margin-top: 32px;
+  text-align: center;
+  min-height: 37.5em;
+  background-color: #fcfcfd;
+}
