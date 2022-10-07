@@ -53,11 +53,13 @@ function getApplicantProperties(formFields: HTMLFormElement): ApplicantPropertie
 
 const StartPage: NextPage = () => {
   const [onfidoInstance, setOnfidoInstance] = useState<Onfido.SdkHandle | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
   const { retry } = router.query;
 
   const submitAndInitOnfido = async (applicantProperties: ApplicantProperties) => {
+    setLoading(true);
     const { applicantId, sdkToken } = await getToken(applicantProperties);
     const completeOptions = {
       ...options,
@@ -117,7 +119,7 @@ const StartPage: NextPage = () => {
   return (
     <MainLayout>
       <div id="onfido-mount" />
-      {!onfidoInstance && <FirstStep onfidoInstance={onfidoInstance} onSubmit={(e) => onSubmit(e)} />}
+      {!onfidoInstance && <FirstStep onfidoInstance={onfidoInstance} onSubmit={(e) => onSubmit(e)} loading={loading} />}
     </MainLayout>
   );
 };
