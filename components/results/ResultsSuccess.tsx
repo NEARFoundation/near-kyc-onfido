@@ -1,13 +1,11 @@
-const styles = {
-  fontSize: '98px',
-};
+import CenteredCardContent from '../common/CenteredCardContent';
 
 export default function ResultsSuccess(): JSX.Element {
   return (
-    <div className="block-centered">
-      <i className="fa fa-check-circle text-success mb-4" style={styles} aria-hidden="true" />
-      <h1 className="fs-2 mb-2">Verification validated</h1>
-      <p className="text-secondary">You can now close this window. The NEAR Foundation will contact you for the next steps.</p>
-    </div>
+    <CenteredCardContent
+      title="Verification validated"
+      description="You can now close this window. The NEAR Foundation will contact you for the next steps."
+      iconClasses="fa fa-check-circle text-success mb-4"
+    />
   );
 }
