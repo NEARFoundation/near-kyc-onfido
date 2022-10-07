@@ -119,6 +119,11 @@ const StartPage: NextPage = () => {
       }
 
       const applicantProperties = JSON.parse(localStorageUserData) as ApplicantProperties;
+
+      if (!applicantProperties.dob || !applicantProperties.email || !applicantProperties.firstName || !applicantProperties.lastName) {
+        return;
+      }
+
       submitAndInitOnfido(applicantProperties);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
