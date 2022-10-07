@@ -3,10 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import type { NextPage } from 'next';
 
 import MainLayout from '../../components/layout/MainLayout';
-import ResultsError from '../../components/ResultsError';
-import ResultsFailure from '../../components/ResultsFailure';
-import ResultsLoading from '../../components/ResultsLoading';
-import ResultsSuccess from '../../components/ResultsSuccess';
+import ResultsError from '../../components/results/ResultsError';
+import ResultsFailure from '../../components/results/ResultsFailure';
+import ResultsLoading from '../../components/results/ResultsLoading';
+import ResultsSuccess from '../../components/results/ResultsSuccess';
 import { LONG_POLLING_INTERVAL, SHORT_POLLING_INTERVAL } from '../../constants';
 import type { CheckResults } from '../../types/CheckResults';
 import { CheckResultsStatus } from '../../types/CheckResults';
