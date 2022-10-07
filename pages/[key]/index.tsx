@@ -8,34 +8,14 @@ import { ParsedUrlQuery } from 'querystring';
 import FirstStep from '../../components/form/FirstStep';
 import MainLayout from '../../components/layout/MainLayout';
 import { LOCALSTORAGE_USER_DATA_NAME } from '../../constants';
+import { getToken, initCheck } from '../../services/apiService';
 import type ApplicantProperties from '../../types/ApplicantProperties';
 
 interface IParams extends ParsedUrlQuery {
   key: string;
 }
 
-const tokenFactoryUrl = process.env.NEXT_PUBLIC_TOKEN_FACTORY_URL ?? '';
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? '';
-const createCheckUrl = `${baseUrl}/api/create-check`;
 const baseStartUrl = process.env.NEXT_PUBLIC_KYC_ENDPOINT_KEY ?? '';
-console.log({ tokenFactoryUrl, createCheckUrl });
-
-function initCheck(data: { applicantId: string }) {
-  const options = {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  fetch(createCheckUrl, options)
-    .then((res) => res.json())
-    .then(() => {
-      console.log('Redirecting to result');
-      window.location.href = `${baseStartUrl}/results`;
-    });
-}
 
 const options: Onfido.SdkOptions = {
   // What / where should define these?
@@ -60,18 +40,6 @@ const options: Onfido.SdkOptions = {
   ],
 };
 
-function getToken(applicantProperties: ApplicantProperties): Promise<Response> {
-  const tokenOptions = {
-    method: 'POST',
-    body: JSON.stringify(applicantProperties),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  return fetch(tokenFactoryUrl, tokenOptions);
-}
-
 function getApplicantProperties(formFields: HTMLFormElement): ApplicantProperties {
   const applicantProperties: ApplicantProperties = {
     firstName: formFields.firstName.value,
@@ -90,15 +58,16 @@ const StartPage: NextPage = () => {
   const { retry } = router.query;
 
   const submitAndInitOnfido = async (applicantProperties: ApplicantProperties) => {
-    const tokenResponse = await getToken(applicantProperties);
-    const { applicantId, sdkToken } = await tokenResponse.json();
+    const { applicantId, sdkToken } = await getToken(applicantProperties);
     const completeOptions = {
       ...options,
       token: sdkToken,
-      onComplete: () => {
+      onComplete: async () => {
         // callback for when everything is complete
         console.log('Everything is complete');
-        initCheck({ applicantId });
+        await initCheck({ applicantId });
+        console.log('Redirecting to result');
+        window.location.href = `${baseStartUrl}/results`;
       },
     };
 

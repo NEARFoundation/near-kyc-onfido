@@ -2,11 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import getOnfido from '../../helpers/onfido';
-
-type ApplicantTokenPair = {
-  applicantId: string;
-  sdkToken: string;
-};
+import type ApplicantTokenPair from '../../types/ApplicantTokenPair';
 
 const endpointName = 'generate-token';
 

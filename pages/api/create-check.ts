@@ -4,6 +4,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { COOKIE_CHECK_ID_NAME, COOKIES_EXPIRATION_TIME } from '../../constants';
 import getOnfido from '../../helpers/onfido';
+import type ApplicantTokenPair from '../../types/ApplicantTokenPair';
 
 const reportNames = [
   'document',
@@ -20,11 +21,6 @@ const reportNames = [
   // 'proof_of_address',
   // 'right_to_work'
 ];
-
-type ApplicantTokenPair = {
-  applicantId: string;
-  sdkToken: string;
-};
 
 const endpointName = 'create-check';
 
