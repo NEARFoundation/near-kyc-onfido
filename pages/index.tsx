@@ -1,5 +1,5 @@
-import Header from '../components/Header';
 import MainLayout from '../components/MainLayout';
+import Header from '../components/shared/Header';
 
 function Index() {
   return (

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { NextPage } from 'next';
 
-import MainLayout from '../../components/MainLayout';
+import MainLayout from '../../components/layout/MainLayout';
 import ResultsError from '../../components/ResultsError';
 import ResultsFailure from '../../components/ResultsFailure';
 import ResultsLoading from '../../components/ResultsLoading';

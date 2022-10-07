@@ -1,7 +1,8 @@
 import type { SdkHandle } from 'onfido-sdk-ui';
 
+import Header from '../layout/Header';
+
 import ApplicantForm from './ApplicantForm';
-import Header from './Header';
 
 function FirstStep({ onfidoInstance, onSubmit }: { onfidoInstance: SdkHandle | null; onSubmit: (event: React.SyntheticEvent) => void }): JSX.Element {
   return onfidoInstance ? (

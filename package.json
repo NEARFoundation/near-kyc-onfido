@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "lint:fix": "next lint --dir . --fix"
+    "lint": "next lint"
   },
   "dependencies": {
     "@onfido/api": "^2.1.1",

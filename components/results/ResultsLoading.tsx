@@ -1,4 +1,4 @@
-import LoadingSpinner from './LoadingSpinner';
+import LoadingSpinner from '../common/LoadingSpinner';
 
 export default function ResultsLoading({ willTakeLonger }: { willTakeLonger: boolean }): JSX.Element {
   return (

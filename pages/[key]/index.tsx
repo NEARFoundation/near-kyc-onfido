@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 import * as Onfido from 'onfido-sdk-ui';
 import { ParsedUrlQuery } from 'querystring';
 
-import FirstStep from '../../components/FirstStep';
-import MainLayout from '../../components/MainLayout';
+import FirstStep from '../../components/form/FirstStep';
+import MainLayout from '../../components/layout/MainLayout';
 import { LOCALSTORAGE_USER_DATA_NAME } from '../../constants';
 import type ApplicantProperties from '../../types/ApplicantProperties';
 
