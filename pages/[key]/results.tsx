@@ -18,6 +18,7 @@ const ResultsPage: NextPage = () => {
 
   const { isLoading, error, data } = useQuery(['checkResults'], (): Promise<CheckResults> => fetch('/api/check-results').then((res) => res.json()), {
     refetchInterval,
+    refetchOnWindowFocus: false,
     onSuccess: () => {
       if (data?.status === CheckResultsStatus.finished) {
         stopPolling();
