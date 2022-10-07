@@ -1,16 +1,11 @@
-import ResultsRetryButton from './ResultsRetryButton';
+import CenteredCardContent from '../common/CenteredCardContent';
 
-const styles = {
-  fontSize: '98px',
-};
+import ResultsRetryButton from './ResultsRetryButton';
 
 export default function ResultsFailure(): JSX.Element {
   return (
-    <div className="block-centered">
-      <i className="fa  fa-times-circle text-danger mb-4" style={styles} aria-hidden="true" />
-      <h1 className="fs-2 mb-2">Verification failed</h1>
-      <p className="text-secondary mb-4">Sorry, we invite you to try again the verification.</p>
+    <CenteredCardContent title="Verification failed" description="Sorry, we invite you to try again the verification." iconClasses="fa fa-times-circle text-danger mb-4">
       <ResultsRetryButton />
-    </div>
+    </CenteredCardContent>
   );
 }
