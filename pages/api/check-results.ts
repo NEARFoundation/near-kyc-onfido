@@ -32,6 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     ['paused', CheckResultsStatus.willTakeLonger],
   ]);
 
+  // This need to be updated / improved depending on the answer from the support
   res.status(200).json({
     isClear: check.result === null ? null : check.result === 'clear',
     status: simplifiedStatus.get(check.status) ?? CheckResultsStatus.finished,
