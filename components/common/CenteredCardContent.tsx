@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import LoadingSpinner from './LoadingSpinner';
 
 import styles from './CenteredCardContent.module.css';
@@ -7,14 +8,13 @@ export default function CenteredCardContent({
   description,
   iconClasses,
   isLoading = false,
-  children,
+  children = null,
 }: {
   title: string;
-  description: string;
+  description: string | JSX.Element;
   iconClasses: string;
-  // eslint-disable-next-line react/require-default-props
   isLoading?: boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }): JSX.Element {
   return (
     <div className={styles.contentCentered}>

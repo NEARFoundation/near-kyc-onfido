@@ -1,11 +1,13 @@
-import LoadingSpinner from '../common/LoadingSpinner';
+import CenteredCardContent from '../common/CenteredCardContent';
 
 export default function ResultsLoading({ willTakeLonger }: { willTakeLonger: boolean }): JSX.Element {
   return (
-    <div className="block-centered">
-      <LoadingSpinner />
-      <p className="text-secondary mt-4">
-        {willTakeLonger ? (
+    <CenteredCardContent
+      title=""
+      iconClasses=""
+      isLoading
+      description={
+        willTakeLonger ? (
           <p>
             <strong>This verification takes more time than usual.</strong>
             <br />
@@ -13,8 +15,8 @@ export default function ResultsLoading({ willTakeLonger }: { willTakeLonger: boo
           </p>
         ) : (
           'Please wait...'
-        )}
-      </p>
-    </div>
+        )
+      }
+    />
   );
 }
