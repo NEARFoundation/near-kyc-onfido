@@ -35,7 +35,7 @@ const ResultsPage: NextPage = () => {
     },
   });
 
-  const showLoading = isLoading || data?.status === CheckResultsStatus.willTakeLonger;
+  const showLoading = isLoading || data?.status === CheckResultsStatus.willTakeLonger || data?.status === CheckResultsStatus.loading;
   const showSuccess = data?.status === CheckResultsStatus.finished && data.isClear === true;
   const showFailure = data?.status === CheckResultsStatus.finished && data.isClear === false;
   const showError = error || data?.status === CheckResultsStatus.notFound;

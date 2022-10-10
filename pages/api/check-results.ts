@@ -22,15 +22,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return;
   }
 
-  // List of status: https://documentation.onfido.com/#report-status
-  // List of results: https://documentation.onfido.com/#report-results
+  // List of status: https://documentation.onfido.com/#check-status
+  // List of results: https://documentation.onfido.com/#check-results
   const simplifiedStatus = new Map([
-    ['awaiting_data', CheckResultsStatus.willTakeLonger],
-    ['awaiting_approval', CheckResultsStatus.willTakeLonger],
+    ['in_progress', CheckResultsStatus.loading],
+    ['awaiting_applicant', CheckResultsStatus.finished],
     ['complete', CheckResultsStatus.finished],
-    ['cancelled', CheckResultsStatus.finished],
     ['withdrawn', CheckResultsStatus.finished],
     ['paused', CheckResultsStatus.willTakeLonger],
+    ['reopened', CheckResultsStatus.willTakeLonger],
   ]);
 
   // This need to be updated / improved depending on the answer from the support
