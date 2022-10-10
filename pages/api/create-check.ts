@@ -5,6 +5,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { COOKIE_CHECK_ID_NAME, COOKIES_EXPIRATION_TIME } from '../../constants';
 import getOnfido from '../../helpers/onfido';
 import type ApplicantTokenPair from '../../types/ApplicantTokenPair';
+import { SERVER_ERROR, SUCCESS } from '../../utils/statusCodes';
 
 const reportNames = [
   'document',
@@ -40,7 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     res.setHeader('Set-Cookie', `${COOKIE_CHECK_ID_NAME}=${check.id}; Max-Age=${COOKIES_EXPIRATION_TIME}; Path=/`);
 
     console.log('Returning result', endpointName);
-    res.status(200).json(check);
+    res.status(SUCCESS).json(check);
   } catch (error: unknown | OnfidoApiError) {
     if (error instanceof OnfidoApiError) {
       // An error response was received from the Onfido API, extra info is available.
@@ -51,6 +52,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       // No response was received for some reason e.g. a network error.
       console.error({ error });
     }
-    res.status(500).json(error);
+    res.status(SERVER_ERROR).json(error);
   }
 }

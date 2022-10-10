@@ -13,9 +13,11 @@ import { fetchCheckResults } from '../../services/apiService';
 import { CheckResultsStatus } from '../../types/CheckResults';
 
 const ResultsPage: NextPage = () => {
+  const NO_POLLING = 0;
+
   const [refetchInterval, setRefetchInterval] = useState(SHORT_POLLING_INTERVAL);
   const setLongPolling = () => setRefetchInterval(LONG_POLLING_INTERVAL);
-  const stopPolling = () => setRefetchInterval(0);
+  const stopPolling = () => setRefetchInterval(NO_POLLING);
 
   const { isLoading, error, data } = useQuery(['checkResults'], fetchCheckResults, {
     refetchInterval,

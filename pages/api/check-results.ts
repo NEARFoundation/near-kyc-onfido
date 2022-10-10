@@ -5,6 +5,7 @@ import { COOKIE_CHECK_ID_NAME } from '../../constants';
 import getOnfido from '../../helpers/onfido';
 import type { CheckResults } from '../../types/CheckResults';
 import { CheckResultsStatus } from '../../types/CheckResults';
+import { NOT_FOUND, SUCCESS } from '../../utils/statusCodes';
 
 const endpointName = 'check-results';
 
@@ -17,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const check = await onfido.check.find(checkId);
 
   if (!checkId || !check) {
-    res.status(404).json({ isClear: null, status: CheckResultsStatus.notFound });
+    res.status(NOT_FOUND).json({ isClear: null, status: CheckResultsStatus.notFound });
     return;
   }
 
@@ -33,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   ]);
 
   // This need to be updated / improved depending on the answer from the support
-  res.status(200).json({
+  res.status(SUCCESS).json({
     isClear: check.result === null ? null : check.result === 'clear',
     status: simplifiedStatus.get(check.status) ?? CheckResultsStatus.finished,
   });
