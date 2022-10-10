@@ -9,7 +9,7 @@ export default function ResultsLoading({ willTakeLonger }: { willTakeLonger: boo
       description={
         willTakeLonger ? (
           <p>
-            <strong>This verification takes more time than usual.</strong>
+            <strong>This identity verification is taking more time than usual.</strong>
             <br />
             Feel free to close this page and come back later to {window.location.href}
           </p>
