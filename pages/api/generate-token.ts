@@ -1,6 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getOnfido } from '../../helpers/onfido';
+
+import getOnfido from '../../helpers/onfido';
 
 type ApplicantTokenPair = {
   applicantId: string;
@@ -13,10 +14,10 @@ const onfido = getOnfido();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApplicantTokenPair>) {
   const applicantProperties = req.body; // https://documentation.onfido.com/#applicant-object
-  console.log(endpointName, { applicantProperties });
+  console.log('Starting', endpointName);
   const applicant = await onfido.applicant.create(applicantProperties);
 
-  console.log(endpointName, { applicant });
+  console.log('Applicant created', endpointName);
 
   const sdkToken = await onfido.sdkToken.generate({
     applicantId: applicant.id,
@@ -24,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // crossDeviceUrl: "https://example.com"
   });
   const result = { applicantId: applicant.id, sdkToken };
-  console.log(endpointName, { result });
+  console.log('Returning result', endpointName);
 
   res.status(200).json(result);
 }
