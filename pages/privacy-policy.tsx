@@ -1,12 +1,12 @@
-import Header from '../components/Header';
-import MainLayout from '../components/MainLayout';
+import Header from '../components/layout/Header';
+import MainLayout from '../components/layout/MainLayout';
 
 // eslint-disable-next-line max-lines-per-function
 function PrivacyPolicy() {
   return (
     <MainLayout>
-      <Header />
-      <div className="first-step" style={{ maxWidth: '750px' }}>
+      <div className="first-step" style={{ maxWidth: '750px', margin: 'auto' }}>
+        <Header />
         <h1>Privacy Policy</h1>
 
         <p>

@@ -11,14 +11,16 @@ body {
 
 $pad: 2rem;
 
-header {
-  padding: $pad $pad 0 $pad;
-}
-
 h1 {
   a {
     color: inherit;
     text-decoration: none;
+  }
+}
+
+p {
+  a {
+    color: inherit;
   }
 }
 

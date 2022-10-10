@@ -1,35 +1,21 @@
 import { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import * as Onfido from 'onfido-sdk-ui';
 import { ParsedUrlQuery } from 'querystring';
 
-import FirstStep from '../../components/FirstStep';
-import MainLayout from '../../components/MainLayout';
+import FirstStep from '../../components/form/FirstStep';
+import MainLayout from '../../components/layout/MainLayout';
+import { LOCALSTORAGE_USER_DATA_NAME } from '../../constants';
+import { getToken, initCheck } from '../../services/apiService';
 import type ApplicantProperties from '../../types/ApplicantProperties';
 
 interface IParams extends ParsedUrlQuery {
   key: string;
 }
 
-const tokenFactoryUrl = process.env.NEXT_PUBLIC_TOKEN_FACTORY_URL ?? '';
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? '';
-const createCheckUrl = `${baseUrl}/api/create-check`;
-console.log({ tokenFactoryUrl, createCheckUrl });
-
-function initCheck(data: { applicantId: string }) {
-  const options = {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  fetch(createCheckUrl, options)
-    .then((res) => res.json())
-    .then((res) => console.log('initCheck', { res }));
-}
+const baseStartUrl = process.env.NEXT_PUBLIC_KYC_ENDPOINT_KEY ?? '';
 
 const options: Onfido.SdkOptions = {
   // What / where should define these?
@@ -54,18 +40,6 @@ const options: Onfido.SdkOptions = {
   ],
 };
 
-function getToken(applicantProperties: ApplicantProperties): Promise<Response> {
-  const tokenOptions = {
-    method: 'POST',
-    body: JSON.stringify(applicantProperties),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  return fetch(tokenFactoryUrl, tokenOptions);
-}
-
 function getApplicantProperties(formFields: HTMLFormElement): ApplicantProperties {
   const applicantProperties: ApplicantProperties = {
     firstName: formFields.firstName.value,
@@ -79,21 +53,23 @@ function getApplicantProperties(formFields: HTMLFormElement): ApplicantPropertie
 
 const StartPage: NextPage = () => {
   const [onfidoInstance, setOnfidoInstance] = useState<Onfido.SdkHandle | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  async function onSubmit(event: React.SyntheticEvent) {
-    const { target } = event;
-    event.preventDefault();
-    const htmlElements = target as unknown as HTMLFormElement;
-    const applicantProperties = getApplicantProperties(htmlElements);
-    const tokenResponse = await getToken(applicantProperties);
-    const { applicantId, sdkToken } = await tokenResponse.json();
+  const router = useRouter();
+  const { retry } = router.query;
+
+  const submitAndInitOnfido = async (applicantProperties: ApplicantProperties) => {
+    setLoading(true);
+    const { applicantId, sdkToken } = await getToken(applicantProperties);
     const completeOptions = {
       ...options,
       token: sdkToken,
-      onComplete: () => {
+      onComplete: async () => {
         // callback for when everything is complete
         console.log('Everything is complete');
-        initCheck({ applicantId });
+        await initCheck({ applicantId });
+        console.log('Redirecting to result');
+        window.location.href = `${baseStartUrl}/results`;
       },
     };
 
@@ -104,6 +80,33 @@ const StartPage: NextPage = () => {
     } catch (err: unknown) {
       console.error({ err });
     }
+  };
+
+  useEffect(() => {
+    if (retry === '1') {
+      const localStorageUserData = localStorage.getItem(LOCALSTORAGE_USER_DATA_NAME);
+      if (!localStorageUserData) {
+        return;
+      }
+
+      const applicantProperties = JSON.parse(localStorageUserData) as ApplicantProperties;
+
+      if (!applicantProperties.dob || !applicantProperties.email || !applicantProperties.firstName || !applicantProperties.lastName) {
+        return;
+      }
+
+      submitAndInitOnfido(applicantProperties);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  async function onSubmit(event: React.SyntheticEvent) {
+    const { target } = event;
+    event.preventDefault();
+    const htmlElements = target as unknown as HTMLFormElement;
+    const applicantProperties = getApplicantProperties(htmlElements);
+    localStorage.setItem(LOCALSTORAGE_USER_DATA_NAME, JSON.stringify(applicantProperties));
+    await submitAndInitOnfido(applicantProperties);
   }
 
   useEffect(() => {
@@ -116,7 +119,7 @@ const StartPage: NextPage = () => {
   return (
     <MainLayout>
       <div id="onfido-mount" />
-      {!onfidoInstance && <FirstStep onfidoInstance={onfidoInstance} onSubmit={(e) => onSubmit(e)} />}
+      {!onfidoInstance && <FirstStep onfidoInstance={onfidoInstance} onSubmit={(event) => onSubmit(event)} loading={loading} />}
     </MainLayout>
   );
 };

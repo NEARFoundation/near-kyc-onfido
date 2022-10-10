@@ -6,11 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "lint:fix": "next lint --dir . --fix"
+    "lint": "next lint"
   },
   "dependencies": {
     "@onfido/api": "^2.1.1",
+    "@tanstack/react-query": "^4.10.1",
     "next": "12.1.6",
     "onfido-sdk-ui": "^6.16.0",
     "react": "18.1.0",
