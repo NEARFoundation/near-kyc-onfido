@@ -56,7 +56,6 @@ function getApplicantProperties(formFields: HTMLFormElement): ApplicantPropertie
   return applicantProperties;
 }
 
-// eslint-disable-next-line max-lines-per-function
 const StartPage: NextPage<Props> = ({ csrfToken }) => {
   const [onfidoInstance, setOnfidoInstance] = useState<Onfido.SdkHandle | null>(null);
   const [loading, setLoading] = useState(false);
@@ -88,7 +87,6 @@ const StartPage: NextPage<Props> = ({ csrfToken }) => {
           throw new Error('Forbidden user');
         }
 
-        console.log('Redirecting to result');
         window.location.href = `${baseStartUrl}/results`;
       },
     };
