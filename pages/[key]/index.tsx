@@ -82,7 +82,7 @@ const StartPage: NextPage<Props> = ({ csrfToken }) => {
       onComplete: async () => {
         // callback for when everything is complete
         console.log('Everything is complete');
-        const result = await initCheck({ applicantId });
+        const result = await initCheck({ applicantId, csrf_token: csrfToken });
         const { code } = result as { code: number };
         if (code === FORBIDDEN) {
           throw new Error('Forbidden user');

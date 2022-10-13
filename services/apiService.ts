@@ -8,7 +8,7 @@ export const fetchCheckResults = async (): Promise<CheckResults> => {
   return fetch('/api/check-results').then((res) => res.json());
 };
 
-export const initCheck = async (data: { applicantId: string }): Promise<unknown> => {
+export const initCheck = async (data: { applicantId: string; csrf_token: string }): Promise<unknown> => {
   const options = {
     method: 'POST',
     body: JSON.stringify(data),
