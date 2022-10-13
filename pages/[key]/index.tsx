@@ -10,6 +10,7 @@ import MainLayout from '../../components/layout/MainLayout';
 import { LOCALSTORAGE_USER_DATA_NAME } from '../../constants';
 import { getToken, initCheck } from '../../services/apiService';
 import type ApplicantProperties from '../../types/ApplicantProperties';
+import { FORBIDDEN } from '../../utils/statusCodes';
 
 interface IParams extends ParsedUrlQuery {
   key: string;
@@ -55,6 +56,7 @@ function getApplicantProperties(formFields: HTMLFormElement): ApplicantPropertie
   return applicantProperties;
 }
 
+// eslint-disable-next-line max-lines-per-function
 const StartPage: NextPage<Props> = ({ csrfToken }) => {
   const [onfidoInstance, setOnfidoInstance] = useState<Onfido.SdkHandle | null>(null);
   const [loading, setLoading] = useState(false);
@@ -71,7 +73,7 @@ const StartPage: NextPage<Props> = ({ csrfToken }) => {
 
     if (!applicantId || !sdkToken) {
       setLoading(false);
-      throw new Error('Invalid applicantId or sdkToken');
+      throw new Error('Forbidden user');
     }
 
     const completeOptions = {
@@ -80,7 +82,12 @@ const StartPage: NextPage<Props> = ({ csrfToken }) => {
       onComplete: async () => {
         // callback for when everything is complete
         console.log('Everything is complete');
-        await initCheck({ applicantId });
+        const result = await initCheck({ applicantId });
+        const { code } = result as { code: number };
+        if (code === FORBIDDEN) {
+          throw new Error('Forbidden user');
+        }
+
         console.log('Redirecting to result');
         window.location.href = `${baseStartUrl}/results`;
       },
