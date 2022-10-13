@@ -15,9 +15,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   console.log(`[${endpointName}] Request received`);
 
   const checkId = req.cookies[COOKIE_CHECK_ID_NAME];
+
+  if (!checkId) {
+    res.status(NOT_FOUND).json({ isClear: null, status: CheckResultsStatus.notFound });
+    return;
+  }
+
   const check = await onfido.check.find(checkId);
 
-  if (!checkId || !check) {
+  if (!check) {
     res.status(NOT_FOUND).json({ isClear: null, status: CheckResultsStatus.notFound });
     return;
   }
