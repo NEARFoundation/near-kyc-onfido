@@ -15,6 +15,10 @@ interface IParams extends ParsedUrlQuery {
   key: string;
 }
 
+type Props = {
+  csrfToken: string;
+};
+
 const baseStartUrl = process.env.NEXT_PUBLIC_KYC_ENDPOINT_KEY ?? '';
 
 const options: Onfido.SdkOptions = {
@@ -46,12 +50,13 @@ function getApplicantProperties(formFields: HTMLFormElement): ApplicantPropertie
     lastName: formFields.lastName.value,
     email: formFields.email.value,
     dob: formFields.dob.value,
+    csrf_token: formFields.csrf_token.value,
   };
   console.log('Returning applicant properties');
   return applicantProperties;
 }
 
-const StartPage: NextPage = () => {
+const StartPage: NextPage<Props> = ({ csrfToken }) => {
   const [onfidoInstance, setOnfidoInstance] = useState<Onfido.SdkHandle | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -61,6 +66,12 @@ const StartPage: NextPage = () => {
   const submitAndInitOnfido = async (applicantProperties: ApplicantProperties) => {
     setLoading(true);
     const { applicantId, sdkToken } = await getToken(applicantProperties);
+
+    if (!applicantId || !sdkToken) {
+      setLoading(false);
+      throw new Error('Invalid applicantId or sdkToken');
+    }
+
     const completeOptions = {
       ...options,
       token: sdkToken,
@@ -119,13 +130,14 @@ const StartPage: NextPage = () => {
   return (
     <MainLayout>
       <div id="onfido-mount" />
-      {!onfidoInstance && <FirstStep onfidoInstance={onfidoInstance} onSubmit={(event) => onSubmit(event)} loading={loading} />}
+      {!onfidoInstance && <FirstStep onfidoInstance={onfidoInstance} onSubmit={(event) => onSubmit(event)} loading={loading} csrfToken={csrfToken} />}
     </MainLayout>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { key } = context.params as IParams;
+export const getServerSideProps: GetServerSideProps = async ({ res, params }) => {
+  const { key } = params as IParams;
+  const csrfToken = res.getHeader('x-csrf-token');
 
   if (key !== process.env.NEXT_PUBLIC_KYC_ENDPOINT_KEY) {
     return {
@@ -134,7 +146,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   return {
-    props: {},
+    props: { csrfToken },
   };
 };
 
