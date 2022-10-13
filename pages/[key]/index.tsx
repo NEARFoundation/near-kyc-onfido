@@ -50,7 +50,6 @@ function getApplicantProperties(formFields: HTMLFormElement): ApplicantPropertie
     lastName: formFields.lastName.value,
     email: formFields.email.value,
     dob: formFields.dob.value,
-    csrf_token: formFields.csrf_token.value,
   };
   console.log('Returning applicant properties');
   return applicantProperties;
@@ -65,7 +64,10 @@ const StartPage: NextPage<Props> = ({ csrfToken }) => {
 
   const submitAndInitOnfido = async (applicantProperties: ApplicantProperties) => {
     setLoading(true);
-    const { applicantId, sdkToken } = await getToken(applicantProperties);
+    const { applicantId, sdkToken } = await getToken({
+      ...applicantProperties,
+      csrf_token: csrfToken,
+    });
 
     if (!applicantId || !sdkToken) {
       setLoading(false);
@@ -130,7 +132,7 @@ const StartPage: NextPage<Props> = ({ csrfToken }) => {
   return (
     <MainLayout>
       <div id="onfido-mount" />
-      {!onfidoInstance && <FirstStep onfidoInstance={onfidoInstance} onSubmit={(event) => onSubmit(event)} loading={loading} csrfToken={csrfToken} />}
+      {!onfidoInstance && <FirstStep onfidoInstance={onfidoInstance} onSubmit={(event) => onSubmit(event)} loading={loading} />}
     </MainLayout>
   );
 };

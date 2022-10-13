@@ -2,7 +2,7 @@
 // https://getbootstrap.com/docs/5.0/forms/layout/
 // https://getbootstrap.com/docs/5.0/layout/gutters/
 
-export default function ApplicantForm({ onSubmit, loading, csrfToken }: { onSubmit: (event: React.SyntheticEvent) => void; loading: boolean; csrfToken: string }): JSX.Element {
+export default function ApplicantForm({ onSubmit, loading }: { onSubmit: (event: React.SyntheticEvent) => void; loading: boolean }): JSX.Element {
   return (
     <form className="applicant-form mt-5" onSubmit={onSubmit}>
       <div className="row">
@@ -43,8 +43,6 @@ export default function ApplicantForm({ onSubmit, loading, csrfToken }: { onSubm
           Start {loading ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" /> : <i className="fa fa-chevron-right" aria-hidden="true" />}
         </button>
       </div>
-
-      <input name="csrf_token" type="hidden" value={csrfToken} />
     </form>
   );
 }

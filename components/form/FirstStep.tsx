@@ -5,17 +5,7 @@ import Header from '../layout/Header';
 
 import ApplicantForm from './ApplicantForm';
 
-function FirstStep({
-  onfidoInstance,
-  onSubmit,
-  loading,
-  csrfToken,
-}: {
-  onfidoInstance: SdkHandle | null;
-  onSubmit: (event: React.SyntheticEvent) => void;
-  loading: boolean;
-  csrfToken: string;
-}): JSX.Element {
+function FirstStep({ onfidoInstance, onSubmit, loading }: { onfidoInstance: SdkHandle | null; onSubmit: (event: React.SyntheticEvent) => void; loading: boolean }): JSX.Element {
   return onfidoInstance ? (
     <div />
   ) : (
@@ -25,7 +15,7 @@ function FirstStep({
       <p>Start by introducing yourself here.</p>
       <p>On the next page, we&apos;ll ask you to provide other information (documents or photos) that will help verify your identity.</p>
 
-      <ApplicantForm onSubmit={onSubmit} loading={loading} csrfToken={csrfToken} />
+      <ApplicantForm onSubmit={onSubmit} loading={loading} />
     </CenteredCard>
   );
 }
