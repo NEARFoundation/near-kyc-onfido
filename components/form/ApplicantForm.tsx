@@ -51,7 +51,7 @@ export default function ApplicantForm({ onSubmit, loading }: { onSubmit: (event:
         </div>
       </div>
 
-      <div className="d-flex justify-content-end">
+      <div className="d-grid mt-2">
         <button name="submit" type="submit" className="btn btn-lg btn-primary" disabled={loading}>
           Start {loading ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" /> : <i className="fa fa-chevron-right" aria-hidden="true" />}
         </button>
