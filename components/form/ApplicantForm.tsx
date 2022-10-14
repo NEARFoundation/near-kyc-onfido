@@ -38,6 +38,18 @@ export default function ApplicantForm({ onSubmit, loading }: { onSubmit: (event:
         </div>
       </div>
 
+      <div className="pb-2 mt-2">
+        <div className="form-floating text-start">
+          <div className="form-check">
+            <input id="consent" name="consent" type="checkbox" className="form-check-input" disabled={loading} required />
+            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+            <label htmlFor="consent" className="form-check-label">
+              I agree read and agree to the privacy policy
+            </label>
+          </div>
+        </div>
+      </div>
+
       <div className="d-flex justify-content-end">
         <button name="submit" type="submit" className="btn btn-lg btn-primary" disabled={loading}>
           Start {loading ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" /> : <i className="fa fa-chevron-right" aria-hidden="true" />}
