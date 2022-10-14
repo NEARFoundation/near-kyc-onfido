@@ -2,8 +2,6 @@
 function PrivacyPolicy() {
   return (
     <div>
-      <h1>Privacy Policy</h1>
-
       <p>
         At NEAR Foundation KYC, accessible from https://kyc-onfido.near.foundation, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains
         types of information that is collected and recorded by NEAR Foundation KYC and how we use it.

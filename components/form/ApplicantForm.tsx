@@ -1,3 +1,4 @@
+import PrivacyPolicyButtonModal from '../privacy-policy/PrivacyPolicyButtonModal';
 // https://getbootstrap.com/docs/5.0/forms/floating-labels/
 // https://getbootstrap.com/docs/5.0/forms/layout/
 // https://getbootstrap.com/docs/5.0/layout/gutters/
@@ -44,7 +45,7 @@ export default function ApplicantForm({ onSubmit, loading }: { onSubmit: (event:
             <input id="consent" name="consent" type="checkbox" className="form-check-input" disabled={loading} required />
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label htmlFor="consent" className="form-check-label">
-              I agree read and agree to the privacy policy
+              I agree read and agree to the <PrivacyPolicyButtonModal>privacy policy</PrivacyPolicyButtonModal>
             </label>
           </div>
         </div>
