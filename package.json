@@ -14,12 +14,13 @@
     "edge-csrf": "^0.2.1",
     "next": "^12.2.0",
     "onfido-sdk-ui": "^6.16.0",
-    "react": "18.1.0",
-    "react-dom": "18.1.0"
+    "react": "^18.1.0",
+    "react-bootstrap": "^2.5.0",
+    "react-dom": "^18.1.0"
   },
   "devDependencies": {
     "@types/node": "^18.8.2",
-    "@types/react": "17.0.30",
+    "@types/react": "^18.1.0",
     "eslint": "^8.24.0",
     "eslint-config-airbnb-typescript-prettier": "^5.0.0",
     "eslint-config-next": "^12.3.1",
