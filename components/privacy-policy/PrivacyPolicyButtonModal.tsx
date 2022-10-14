@@ -24,7 +24,9 @@ function PrivacyPolicyButtonModal({ children }: { children: React.ReactNode }) {
           <Modal.Title>Privacy Policy</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <PrivacyPolicy />
+          <div className={styles.scrollable}>
+            <PrivacyPolicy />
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
