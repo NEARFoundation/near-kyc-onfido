@@ -45,7 +45,7 @@ export default function ApplicantForm({ onSubmit, loading }: { onSubmit: (event:
             <input id="consent" name="consent" type="checkbox" className="form-check-input" disabled={loading} required />
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label htmlFor="consent" className="form-check-label">
-              I agree read and agree to the <PrivacyPolicyButtonModal>privacy policy</PrivacyPolicyButtonModal>
+              I have read and agree to the <PrivacyPolicyButtonModal>privacy policy</PrivacyPolicyButtonModal>
             </label>
           </div>
         </div>
