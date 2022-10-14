@@ -43,10 +43,12 @@ const ResultsPage: NextPage = () => {
   return (
     <MainLayout>
       <CenteredCard>
-        {showLoading && <ResultsLoading willTakeLonger={data?.status === CheckResultsStatus.willTakeLonger} />}
-        {showSuccess && <ResultsSuccess />}
-        {showFailure && <ResultsFailure />}
-        {showError && <ResultsError />}
+        <>
+          {showLoading && <ResultsLoading willTakeLonger={data?.status === CheckResultsStatus.willTakeLonger} />}
+          {showSuccess && <ResultsSuccess />}
+          {showFailure && <ResultsFailure />}
+          {showError && <ResultsError />}
+        </>
       </CenteredCard>
     </MainLayout>
   );
