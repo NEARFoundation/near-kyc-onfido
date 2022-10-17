@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, FileChooser, test } from '@playwright/test';
 
 test('test', async ({ browser }) => {
   const desktop = await browser.newContext({
@@ -63,16 +63,18 @@ test('test', async ({ browser }) => {
   const mobilePage = await mobile.newPage();
   await mobilePage.goto(url);
 
+  mobilePage.on('filechooser', (fileChooser: FileChooser) => {
+    fileChooser.setFiles(['tests/assets/id-card.jpg']);
+  });
+
   await mobilePage.getByRole('button', { name: 'Continue' }).click();
   await mobilePage.waitForURL(url);
   await mobilePage.getByText('Submit identity card (front)').click();
-  await mobilePage.getByRole('button', { name: 'Take photo' }).click();
-  await mobilePage.getByRole('button', { name: 'Take photo' }).setInputFiles('tests/assets/id-card.jpg');
+  mobilePage.getByRole('button', { name: 'Take photo' }).click();
   await mobilePage.waitForURL(url);
   await mobilePage.getByRole('button', { name: 'Upload' }).click();
   await mobilePage.waitForURL(url);
-  await mobilePage.getByRole('button', { name: 'Take photo' }).click();
-  await mobilePage.getByRole('button', { name: 'Take photo' }).setInputFiles('tests/assets/id-card.jpg');
+  mobilePage.getByRole('button', { name: 'Take photo' }).click();
   await mobilePage.waitForURL(url);
   await mobilePage.getByRole('button', { name: 'Upload' }).click();
   await mobilePage.waitForURL(url);
