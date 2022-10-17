@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "playwright test",
+    "test:debug": "playwright test --debug",
     "test:headed": "playwright test --headed",
     "test:report": "playwright show-report"
   },
