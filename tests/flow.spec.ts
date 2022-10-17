@@ -1,8 +1,16 @@
 import { expect, test } from '@playwright/test';
 
-test('test', async ({ page, browser }) => {
-  const mobile = await browser.newContext({ userAgent: 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.5249.126 Mobile Safari/537.36' });
-  const mobilePage = await mobile.newPage();
+test('test', async ({ browser }) => {
+  const desktop = await browser.newContext({
+    permissions: ['clipboard-write', 'clipboard-read'],
+  });
+
+  const mobile = await browser.newContext({
+    userAgent: 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.5249.126 Mobile Safari/537.36',
+    permissions: ['camera'],
+  });
+
+  const page = await desktop.newPage();
 
   await page.goto('http://localhost:3000/start');
 
@@ -52,19 +60,19 @@ test('test', async ({ page, browser }) => {
   const url = await page.evaluate(async () => navigator.clipboard.readText());
   expect(url).toContain('https://id.onfido.com');
 
+  const mobilePage = await mobile.newPage();
   await mobilePage.goto(url);
-  await mobilePage.pause();
 
   await mobilePage.getByRole('button', { name: 'Continue' }).click();
   await mobilePage.waitForURL(url);
   await mobilePage.getByText('Submit identity card (front)').click();
   await mobilePage.getByRole('button', { name: 'Take photo' }).click();
-  await mobilePage.getByRole('button', { name: 'Take photo' }).setInputFiles('carte-identite.jpg');
+  await mobilePage.getByRole('button', { name: 'Take photo' }).setInputFiles('tests/assets/id-card.jpg');
   await mobilePage.waitForURL(url);
   await mobilePage.getByRole('button', { name: 'Upload' }).click();
   await mobilePage.waitForURL(url);
   await mobilePage.getByRole('button', { name: 'Take photo' }).click();
-  await mobilePage.getByRole('button', { name: 'Take photo' }).setInputFiles('carte-identite.jpg');
+  await mobilePage.getByRole('button', { name: 'Take photo' }).setInputFiles('tests/assets/id-card.jpg');
   await mobilePage.waitForURL(url);
   await mobilePage.getByRole('button', { name: 'Upload' }).click();
   await mobilePage.waitForURL(url);
@@ -75,4 +83,5 @@ test('test', async ({ page, browser }) => {
   await mobilePage.waitForURL(url);
   await mobilePage.getByRole('button', { name: 'Upload' }).click();
   await mobilePage.waitForURL(url);
+  await mobilePage.pause();
 });
