@@ -85,8 +85,10 @@ test('test', async ({ browser }) => {
   await mobilePage.waitForURL(url);
   await mobilePage.getByRole('button', { name: 'Upload' }).click();
   await mobilePage.waitForURL(url);
+  await mobilePage.close();
 
   await page.waitForURL('http://localhost:3000/start');
   await page.getByRole('button', { name: 'Submit verification' }).click();
-  await page.pause();
+
+  expect(await page.getByRole('heading').innerText()).toContain('Verification validated');
 });
