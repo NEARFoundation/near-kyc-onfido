@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:report": "playwright show-report"
   },
   "dependencies": {
     "@onfido/api": "^2.1.1",
@@ -19,6 +22,7 @@
     "react-dom": "^18.1.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.27.1",
     "@types/node": "^18.8.2",
     "@types/react": "18.0.21",
     "eslint": "^8.24.0",
