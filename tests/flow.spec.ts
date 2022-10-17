@@ -80,10 +80,13 @@ test('test', async ({ browser }) => {
   await mobilePage.waitForURL(url);
   await mobilePage.getByRole('button', { name: 'Continue' }).click();
   await mobilePage.waitForURL(url);
-  await mobilePage.getByRole('button', { name: 'Enable camera' }).click();
+  mobilePage.getByRole('button', { name: 'Enable camera' }).click();
   await mobilePage.getByRole('button', { name: 'Take a photo' }).click();
   await mobilePage.waitForURL(url);
   await mobilePage.getByRole('button', { name: 'Upload' }).click();
   await mobilePage.waitForURL(url);
-  await mobilePage.pause();
+
+  await page.waitForURL('http://localhost:3000/start');
+  await page.getByRole('button', { name: 'Submit verification' }).click();
+  await page.pause();
 });
