@@ -80,15 +80,15 @@ test('test', async ({ browser }) => {
   await mobilePage.waitForURL(url);
   await mobilePage.getByRole('button', { name: 'Continue' }).click();
   await mobilePage.waitForURL(url);
-  mobilePage.getByRole('button', { name: 'Enable camera' }).click();
   await mobilePage.getByRole('button', { name: 'Take a photo' }).click();
   await mobilePage.waitForURL(url);
   await mobilePage.getByRole('button', { name: 'Upload' }).click();
   await mobilePage.waitForURL(url);
-  await mobilePage.close();
 
   await page.waitForURL('http://localhost:3000/start');
   await page.getByRole('button', { name: 'Submit verification' }).click();
 
-  expect(await page.getByRole('heading').innerText()).toContain('Verification validated');
+  await page.waitForURL('http://localhost:3000/start');
+  // expect(await page.getByRole('heading').innerText()).toContain('Verification validated');
+  await page.pause();
 });
