@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 import { chromium, expect, FileChooser, test } from '@playwright/test';
 import path from 'path';
 
@@ -22,15 +23,22 @@ test('test', async ({ browser }) => {
   const desktopPage = await desktop.newPage();
   await desktopPage.goto(FLOW_URL);
 
+  const userInfo = {
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    email: faker.internet.email(),
+    dateOfBirth: faker.date.birthdate({ min: 18, max: 65, mode: 'age' }).toISOString().split('T')[0],
+  };
+
   // Filling start form
   await desktopPage.getByRole('textbox', { name: /First Name/i }).click();
-  await desktopPage.getByRole('textbox', { name: /First Name/i }).fill('San');
+  await desktopPage.getByRole('textbox', { name: /First Name/i }).fill(userInfo.firstName);
   await desktopPage.getByRole('textbox', { name: /Last Name/i }).click();
-  await desktopPage.getByRole('textbox', { name: /Last Name/i }).fill('Holo');
+  await desktopPage.getByRole('textbox', { name: /Last Name/i }).fill(userInfo.lastName);
   await desktopPage.getByRole('textbox', { name: /Email/i }).click();
-  await desktopPage.getByRole('textbox', { name: /Email/i }).fill('san@holo.cx');
+  await desktopPage.getByRole('textbox', { name: /Email/i }).fill(userInfo.email);
   await desktopPage.getByRole('textbox', { name: /Date of birth/i }).click();
-  await desktopPage.getByRole('textbox', { name: /Date of birth/i }).fill('2000-01-01');
+  await desktopPage.getByRole('textbox', { name: /Date of birth/i }).fill(userInfo.dateOfBirth);
   await desktopPage.getByLabel(/I have read and agree to the privacy policy/i).check();
   await desktopPage.getByRole('button', { name: /Start/i }).click();
 
