@@ -5,7 +5,7 @@ test('test', async ({ browser }) => {
   const mockedVideoPath = path.join(__dirname, '/assets/camera.mjpeg');
 
   const browserWithMockedWebcam = await chromium.launch({
-    args: ['--use-fake-device-for-media-stream', `--use-file-for-fake-video-capture=${mockedVideoPath}`],
+    args: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream', `--use-file-for-fake-video-capture=${mockedVideoPath}`],
   });
 
   const desktop = await browser.newContext({
