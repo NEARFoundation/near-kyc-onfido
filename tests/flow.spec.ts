@@ -3,8 +3,8 @@ import { Browser, BrowserContext, chromium, expect, test } from '@playwright/tes
 
 import type ApplicantProperties from '../types/ApplicantProperties';
 
-import { FLOW_URL, MOCK_VIDEO_PATH } from './utils/constants';
-import { continueOnfidoFlowThenGetAndTestLink, fillStartForm, openKycLinkAndTestDocumentAndPhotoScan } from './utils/helpers';
+import { MOCK_VIDEO_PATH } from './utils/constants';
+import { continueOnfidoFlowThenGetAndTestLink, fillStartForm, openKycLinkAndTestDocumentAndPhotoScan, submittingDocuments } from './utils/helpers';
 
 let browserWithMockedWebcam: Browser;
 let desktop: BrowserContext;
@@ -42,10 +42,6 @@ test('test', async () => {
   const mobilePage = await mobile.newPage();
   await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
 
-  // End of the flow on the desktop
-  await desktopPage.waitForURL(FLOW_URL);
-  await desktopPage.getByRole('button', { name: /Submit verification/i }).click();
-  await desktopPage.waitForURL(FLOW_URL);
-  await desktopPage.waitForURL(FLOW_URL);
+  await submittingDocuments(desktopPage);
   await expect(desktopPage.getByRole('heading', { name: /Verification validated/i })).toHaveText('Verification validated');
 });

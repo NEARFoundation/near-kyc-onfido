@@ -62,3 +62,10 @@ export const openKycLinkAndTestDocumentAndPhotoScan = async (url: string, page: 
   await page.waitForURL(url);
   await expect(page.getByText(/Uploads successful/i)).toHaveText(['Uploads successful']);
 };
+
+export const submittingDocuments = async (page: Page): Promise<void> => {
+  await page.waitForURL(FLOW_URL);
+  await page.getByRole('button', { name: /Submit verification/i }).click();
+  await page.waitForURL(FLOW_URL);
+  await page.waitForURL(FLOW_URL);
+};
