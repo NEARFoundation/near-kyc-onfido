@@ -22,20 +22,15 @@ test('test', async ({ browser }) => {
   await page.locator('input[name="dob"]').click();
   await page.locator('input[name="dob"]').fill('2000-01-01');
   await page.getByLabel('I have read and agree to the privacy policy').check();
-
   await page.getByRole('button', { name: 'Start' }).click();
-  await expect(page).toHaveURL('http://localhost:3000/start');
+
   await page.getByRole('button', { name: 'Choose document' }).click();
-  await expect(page).toHaveURL('http://localhost:3000/start');
   await page.getByRole('button', { name: 'Identity card Front and back' }).click();
-  await expect(page).toHaveURL('http://localhost:3000/start');
   await page.getByPlaceholder('e.g. United States').click();
   await page.getByPlaceholder('e.g. United States').fill('fra');
   await page.getByRole('option', { name: 'France' }).click();
   await page.getByRole('button', { name: 'Submit document' }).click();
-  await expect(page).toHaveURL('http://localhost:3000/start');
   await page.getByRole('button', { name: 'Get secure link' }).click();
-  await expect(page).toHaveURL('http://localhost:3000/start');
   await page.getByRole('link', { name: 'Copy link' }).click();
   await page.getByRole('button', { name: 'Copy' }).click();
 
