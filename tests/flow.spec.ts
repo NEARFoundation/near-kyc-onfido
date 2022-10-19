@@ -4,6 +4,7 @@ import { Browser, BrowserContext, chromium, expect, FileChooser, test } from '@p
 import type ApplicantProperties from '../types/ApplicantProperties';
 
 import { FLOW_URL, MOCK_IMAGE, MOCK_VIDEO_PATH } from './utils/constants';
+import { fillStartForm } from './utils/helpers';
 
 let browserWithMockedWebcam: Browser;
 let desktop: BrowserContext;
@@ -34,19 +35,9 @@ test.beforeEach(async ({ browser }) => {
 
 test('test', async () => {
   const desktopPage = await desktop.newPage();
-  await desktopPage.goto(FLOW_URL);
 
   // Filling start form
-  await desktopPage.getByRole('textbox', { name: /First Name/i }).click();
-  await desktopPage.getByRole('textbox', { name: /First Name/i }).fill(applicant.firstName);
-  await desktopPage.getByRole('textbox', { name: /Last Name/i }).click();
-  await desktopPage.getByRole('textbox', { name: /Last Name/i }).fill(applicant.lastName);
-  await desktopPage.getByRole('textbox', { name: /Email/i }).click();
-  await desktopPage.getByRole('textbox', { name: /Email/i }).fill(applicant.email);
-  await desktopPage.getByRole('textbox', { name: /Date of birth/i }).click();
-  await desktopPage.getByRole('textbox', { name: /Date of birth/i }).fill(applicant.dob);
-  await desktopPage.getByLabel(/I have read and agree to the privacy policy/i).check();
-  await desktopPage.getByRole('button', { name: /Start/i }).click();
+  await fillStartForm(desktopPage, applicant);
 
   // Continuing flow in the KYC Onfido module
   await desktopPage.getByRole('button', { name: /Choose document/i }).click();
