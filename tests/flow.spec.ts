@@ -43,5 +43,18 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
 
   await submittingDocuments(desktopPage);
-  await expect(desktopPage.getByRole('heading', { name: /Verification validated/i })).toHaveText('Verification validated');
+  await expect(desktopPage.getByRole('heading', { name: /Verification/i })).toHaveText('Verification validated');
+});
+
+test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see a Verification failed message and be able to retry', async () => {
+  const desktopPage = await desktop.newPage();
+
+  await fillStartForm(desktopPage, { ...applicant, lastName: 'consider' });
+  const url = await continueOnfidoFlowThenGetAndTestLink(desktopPage, expect);
+
+  const mobilePage = await mobile.newPage();
+  await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
+
+  await submittingDocuments(desktopPage);
+  await expect(desktopPage.getByRole('heading', { name: /Verification/i })).toHaveText('Verification failed');
 });
