@@ -33,7 +33,7 @@ test.beforeEach(async ({ browser }) => {
   };
 });
 
-test('test', async () => {
+test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see a Verification validated message', async () => {
   const desktopPage = await desktop.newPage();
 
   await fillStartForm(desktopPage, applicant);
