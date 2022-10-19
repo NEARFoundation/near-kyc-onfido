@@ -1,41 +1,50 @@
 import { faker } from '@faker-js/faker';
-import { chromium, expect, FileChooser, test } from '@playwright/test';
+import { Browser, BrowserContext, chromium, expect, FileChooser, test } from '@playwright/test';
+
+import type ApplicantProperties from '../types/ApplicantProperties';
 
 import { FLOW_URL, MOCK_IMAGE, MOCK_VIDEO_PATH } from './utils/constants';
 
-test('test', async ({ browser }) => {
-  const browserWithMockedWebcam = await chromium.launch({
+let browserWithMockedWebcam: Browser;
+let desktop: BrowserContext;
+let mobile: BrowserContext;
+let applicant: ApplicantProperties;
+
+test.beforeEach(async ({ browser }) => {
+  browserWithMockedWebcam = await chromium.launch({
     args: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream', `--use-file-for-fake-video-capture=${MOCK_VIDEO_PATH}`],
   });
 
-  const desktop = await browser.newContext({
+  desktop = await browser.newContext({
     permissions: ['clipboard-write', 'clipboard-read'],
   });
 
-  const mobile = await browserWithMockedWebcam.newContext({
+  mobile = await browserWithMockedWebcam.newContext({
     userAgent: 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.5249.126 Mobile Safari/537.36',
     permissions: ['camera'],
   });
 
-  const desktopPage = await desktop.newPage();
-  await desktopPage.goto(FLOW_URL);
-
-  const userInfo = {
+  applicant = {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
     email: faker.internet.email(),
-    dateOfBirth: faker.date.birthdate({ min: 18, max: 65, mode: 'age' }).toISOString().split('T')[0],
+    dob: faker.date.birthdate({ min: 18, max: 65, mode: 'age' }).toISOString().split('T')[0],
   };
+});
+
+test('test', async () => {
+  const desktopPage = await desktop.newPage();
+  await desktopPage.goto(FLOW_URL);
 
   // Filling start form
   await desktopPage.getByRole('textbox', { name: /First Name/i }).click();
-  await desktopPage.getByRole('textbox', { name: /First Name/i }).fill(userInfo.firstName);
+  await desktopPage.getByRole('textbox', { name: /First Name/i }).fill(applicant.firstName);
   await desktopPage.getByRole('textbox', { name: /Last Name/i }).click();
-  await desktopPage.getByRole('textbox', { name: /Last Name/i }).fill(userInfo.lastName);
+  await desktopPage.getByRole('textbox', { name: /Last Name/i }).fill(applicant.lastName);
   await desktopPage.getByRole('textbox', { name: /Email/i }).click();
-  await desktopPage.getByRole('textbox', { name: /Email/i }).fill(userInfo.email);
+  await desktopPage.getByRole('textbox', { name: /Email/i }).fill(applicant.email);
   await desktopPage.getByRole('textbox', { name: /Date of birth/i }).click();
-  await desktopPage.getByRole('textbox', { name: /Date of birth/i }).fill(userInfo.dateOfBirth);
+  await desktopPage.getByRole('textbox', { name: /Date of birth/i }).fill(applicant.dob);
   await desktopPage.getByLabel(/I have read and agree to the privacy policy/i).check();
   await desktopPage.getByRole('button', { name: /Start/i }).click();
 
