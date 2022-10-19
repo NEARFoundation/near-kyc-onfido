@@ -13,48 +13,30 @@ test('test', async ({ browser }) => {
   const page = await desktop.newPage();
 
   await page.goto('http://localhost:3000/start');
-
   await page.getByRole('textbox', { name: 'First Name' }).click();
-
   await page.getByRole('textbox', { name: 'First Name' }).fill('San');
-
   await page.getByRole('textbox', { name: 'Last Name' }).click();
-
   await page.getByRole('textbox', { name: 'Last Name' }).fill('Holo');
-
   await page.locator('input[name="email"]').click();
-
   await page.locator('input[name="email"]').fill('san@holo.cx');
-
   await page.locator('input[name="dob"]').click();
-
   await page.locator('input[name="dob"]').fill('2000-01-01');
-
   await page.getByLabel('I have read and agree to the privacy policy').check();
 
   await page.getByRole('button', { name: 'Start' }).click();
   await expect(page).toHaveURL('http://localhost:3000/start');
-
   await page.getByRole('button', { name: 'Choose document' }).click();
   await expect(page).toHaveURL('http://localhost:3000/start');
-
   await page.getByRole('button', { name: 'Identity card Front and back' }).click();
   await expect(page).toHaveURL('http://localhost:3000/start');
-
   await page.getByPlaceholder('e.g. United States').click();
-
   await page.getByPlaceholder('e.g. United States').fill('fra');
-
   await page.getByRole('option', { name: 'France' }).click();
-
   await page.getByRole('button', { name: 'Submit document' }).click();
   await expect(page).toHaveURL('http://localhost:3000/start');
-
   await page.getByRole('button', { name: 'Get secure link' }).click();
   await expect(page).toHaveURL('http://localhost:3000/start');
-
   await page.getByRole('link', { name: 'Copy link' }).click();
-
   await page.getByRole('button', { name: 'Copy' }).click();
 
   const url = await page.evaluate(async () => navigator.clipboard.readText());
@@ -84,12 +66,11 @@ test('test', async ({ browser }) => {
   await mobilePage.waitForURL(url);
   await mobilePage.getByRole('button', { name: 'Upload' }).click();
   await mobilePage.waitForURL(url);
-  // expect(page.getByText('Uploads successful').innerText()).toContain('Uploads successful');
+  await expect(mobilePage.getByText('Uploads successful')).toHaveText(['Uploads successful']);
 
   await page.waitForURL('http://localhost:3000/start');
   await page.getByRole('button', { name: 'Submit verification' }).click();
-
   await page.waitForURL('http://localhost:3000/start');
   await page.waitForURL('http://localhost:3000/start');
-  // expect(page.getByRole('heading', { name: 'Verification validated' }).innerText()).toContain('Verification validated');
+  await expect(page.getByRole('heading', { name: 'Verification validated' })).toHaveText('Verification validated');
 });
