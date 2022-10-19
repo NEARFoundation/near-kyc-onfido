@@ -19,34 +19,34 @@ test('test', async ({ browser }) => {
     permissions: ['camera'],
   });
 
-  const page = await desktop.newPage();
-  await page.goto(FLOW_URL);
+  const desktopPage = await desktop.newPage();
+  await desktopPage.goto(FLOW_URL);
 
   // Filling start form
-  await page.getByRole('textbox', { name: /First Name/i }).click();
-  await page.getByRole('textbox', { name: /First Name/i }).fill('San');
-  await page.getByRole('textbox', { name: /Last Name/i }).click();
-  await page.getByRole('textbox', { name: /Last Name/i }).fill('Holo');
-  await page.getByRole('textbox', { name: /Email/i }).click();
-  await page.getByRole('textbox', { name: /Email/i }).fill('san@holo.cx');
-  await page.getByRole('textbox', { name: /Date of birth/i }).click();
-  await page.getByRole('textbox', { name: /Date of birth/i }).fill('2000-01-01');
-  await page.getByLabel(/I have read and agree to the privacy policy/i).check();
-  await page.getByRole('button', { name: /Start/i }).click();
+  await desktopPage.getByRole('textbox', { name: /First Name/i }).click();
+  await desktopPage.getByRole('textbox', { name: /First Name/i }).fill('San');
+  await desktopPage.getByRole('textbox', { name: /Last Name/i }).click();
+  await desktopPage.getByRole('textbox', { name: /Last Name/i }).fill('Holo');
+  await desktopPage.getByRole('textbox', { name: /Email/i }).click();
+  await desktopPage.getByRole('textbox', { name: /Email/i }).fill('san@holo.cx');
+  await desktopPage.getByRole('textbox', { name: /Date of birth/i }).click();
+  await desktopPage.getByRole('textbox', { name: /Date of birth/i }).fill('2000-01-01');
+  await desktopPage.getByLabel(/I have read and agree to the privacy policy/i).check();
+  await desktopPage.getByRole('button', { name: /Start/i }).click();
 
   // Continuing flow in the KYC Onfido module
-  await page.getByRole('button', { name: /Choose document/i }).click();
-  await page.getByRole('button', { name: /Identity card Front and back/i }).click();
-  await page.getByPlaceholder(/e.g. United States/i).click();
-  await page.getByPlaceholder(/e.g. United States/i).fill('fra');
-  await page.getByRole('option', { name: /France/i }).click();
-  await page.getByRole('button', { name: /Submit document/i }).click();
-  await page.getByRole('button', { name: /Get secure link/i }).click();
-  await page.getByRole('link', { name: /Copy link/i }).click();
-  await page.getByRole('button', { name: /Copy/i }).click();
+  await desktopPage.getByRole('button', { name: /Choose document/i }).click();
+  await desktopPage.getByRole('button', { name: /Identity card Front and back/i }).click();
+  await desktopPage.getByPlaceholder(/e.g. United States/i).click();
+  await desktopPage.getByPlaceholder(/e.g. United States/i).fill('fra');
+  await desktopPage.getByRole('option', { name: /France/i }).click();
+  await desktopPage.getByRole('button', { name: /Submit document/i }).click();
+  await desktopPage.getByRole('button', { name: /Get secure link/i }).click();
+  await desktopPage.getByRole('link', { name: /Copy link/i }).click();
+  await desktopPage.getByRole('button', { name: /Copy/i }).click();
 
   // Getting link from clipboard
-  const url = await page.evaluate(async () => navigator.clipboard.readText());
+  const url = await desktopPage.evaluate(async () => navigator.clipboard.readText());
   expect(url).toContain('https://id.onfido.com');
 
   // Opening the link in the mobile context
@@ -79,9 +79,9 @@ test('test', async ({ browser }) => {
   await expect(mobilePage.getByText(/Uploads successful/i)).toHaveText(['Uploads successful']);
 
   // End of the flow on the desktop
-  await page.waitForURL(FLOW_URL);
-  await page.getByRole('button', { name: /Submit verification/i }).click();
-  await page.waitForURL(FLOW_URL);
-  await page.waitForURL(FLOW_URL);
-  await expect(page.getByRole('heading', { name: /Verification validated/i })).toHaveText('Verification validated');
+  await desktopPage.waitForURL(FLOW_URL);
+  await desktopPage.getByRole('button', { name: /Submit verification/i }).click();
+  await desktopPage.waitForURL(FLOW_URL);
+  await desktopPage.waitForURL(FLOW_URL);
+  await expect(desktopPage.getByRole('heading', { name: /Verification validated/i })).toHaveText('Verification validated');
 });
