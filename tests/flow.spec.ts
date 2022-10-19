@@ -57,4 +57,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
 
   await submittingDocuments(desktopPage);
   await expect(desktopPage.getByRole('heading', { name: /Verification/i })).toHaveText('Verification failed');
+
+  await desktopPage.getByRole('link', { name: 'Try again' }).click();
+  await expect(desktopPage.getByText(/Verify your identity/i)).toHaveText('Verify your identity');
 });
