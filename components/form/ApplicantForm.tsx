@@ -25,7 +25,7 @@ export default function ApplicantForm({ onSubmit, loading }: { onSubmit: (event:
 
       <div className="pb-2">
         <div className="form-floating">
-          <input name="email" type="email" className="form-control" disabled={loading} required />
+          <input name="email" type="email" className="form-control" aria-label="email" disabled={loading} required />
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label htmlFor="email">Email Address</label>
         </div>
@@ -33,7 +33,7 @@ export default function ApplicantForm({ onSubmit, loading }: { onSubmit: (event:
 
       <div className="pb-2">
         <div className="form-floating">
-          <input name="dob" type="date" className="form-control" disabled={loading} required />
+          <input name="dob" type="date" className="form-control" aria-label="Date of birth" disabled={loading} required />
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label htmlFor="dob">Date of Birth</label>
         </div>

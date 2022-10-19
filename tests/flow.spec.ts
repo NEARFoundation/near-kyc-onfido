@@ -2,6 +2,7 @@ import { chromium, expect, FileChooser, test } from '@playwright/test';
 import path from 'path';
 
 const MOCK_VIDEO_PATH = path.join(__dirname, '/assets/camera.mjpeg');
+const MOCK_IMAGE = 'tests/assets/id-card.jpg';
 const FLOW_URL = `${process.env.NEXT_PUBLIC_BASE_URL}/${process.env.NEXT_PUBLIC_KYC_ENDPOINT_KEY}`;
 
 test('test', async ({ browser }) => {
@@ -19,61 +20,68 @@ test('test', async ({ browser }) => {
   });
 
   const page = await desktop.newPage();
-
   await page.goto(FLOW_URL);
-  await page.getByRole('textbox', { name: 'First Name' }).click();
-  await page.getByRole('textbox', { name: 'First Name' }).fill('San');
-  await page.getByRole('textbox', { name: 'Last Name' }).click();
-  await page.getByRole('textbox', { name: 'Last Name' }).fill('Holo');
-  await page.locator('input[name="email"]').click();
-  await page.locator('input[name="email"]').fill('san@holo.cx');
-  await page.locator('input[name="dob"]').click();
-  await page.locator('input[name="dob"]').fill('2000-01-01');
-  await page.getByLabel('I have read and agree to the privacy policy').check();
-  await page.getByRole('button', { name: 'Start' }).click();
 
-  await page.getByRole('button', { name: 'Choose document' }).click();
-  await page.getByRole('button', { name: 'Identity card Front and back' }).click();
-  await page.getByPlaceholder('e.g. United States').click();
-  await page.getByPlaceholder('e.g. United States').fill('fra');
-  await page.getByRole('option', { name: 'France' }).click();
-  await page.getByRole('button', { name: 'Submit document' }).click();
-  await page.getByRole('button', { name: 'Get secure link' }).click();
-  await page.getByRole('link', { name: 'Copy link' }).click();
-  await page.getByRole('button', { name: 'Copy' }).click();
+  // Filling start form
+  await page.getByRole('textbox', { name: /First Name/i }).click();
+  await page.getByRole('textbox', { name: /First Name/i }).fill('San');
+  await page.getByRole('textbox', { name: /Last Name/i }).click();
+  await page.getByRole('textbox', { name: /Last Name/i }).fill('Holo');
+  await page.getByRole('textbox', { name: /Email/i }).click();
+  await page.getByRole('textbox', { name: /Email/i }).fill('san@holo.cx');
+  await page.getByRole('textbox', { name: /Date of birth/i }).click();
+  await page.getByRole('textbox', { name: /Date of birth/i }).fill('2000-01-01');
+  await page.getByLabel(/I have read and agree to the privacy policy/i).check();
+  await page.getByRole('button', { name: /Start/i }).click();
 
+  // Continuing flow in the KYC Onfido module
+  await page.getByRole('button', { name: /Choose document/i }).click();
+  await page.getByRole('button', { name: /Identity card Front and back/i }).click();
+  await page.getByPlaceholder(/e.g. United States/i).click();
+  await page.getByPlaceholder(/e.g. United States/i).fill('fra');
+  await page.getByRole('option', { name: /France/i }).click();
+  await page.getByRole('button', { name: /Submit document/i }).click();
+  await page.getByRole('button', { name: /Get secure link/i }).click();
+  await page.getByRole('link', { name: /Copy link/i }).click();
+  await page.getByRole('button', { name: /Copy/i }).click();
+
+  // Getting link from clipboard
   const url = await page.evaluate(async () => navigator.clipboard.readText());
   expect(url).toContain('https://id.onfido.com');
 
+  // Opening the link in the mobile context
   const mobilePage = await mobile.newPage();
   await mobilePage.goto(url);
 
+  // Mocking file upload
   mobilePage.on('filechooser', (fileChooser: FileChooser) => {
-    fileChooser.setFiles(['tests/assets/id-card.jpg']);
+    fileChooser.setFiles([MOCK_IMAGE]);
   });
 
-  await mobilePage.getByRole('button', { name: 'Continue' }).click();
+  // Flow on the mobile device
+  await mobilePage.getByRole('button', { name: /Continue/i }).click();
   await mobilePage.waitForURL(url);
-  await mobilePage.getByText('Submit identity card (front)').click();
-  mobilePage.getByRole('button', { name: 'Take photo' }).click();
+  await mobilePage.getByText(/Submit identity card \(front\)/i).click();
+  mobilePage.getByRole('button', { name: /Take photo/i }).click();
   await mobilePage.waitForURL(url);
-  await mobilePage.getByRole('button', { name: 'Upload' }).click();
+  await mobilePage.getByRole('button', { name: /Upload/i }).click();
   await mobilePage.waitForURL(url);
-  mobilePage.getByRole('button', { name: 'Take photo' }).click();
+  mobilePage.getByRole('button', { name: /Take photo/i }).click();
   await mobilePage.waitForURL(url);
-  await mobilePage.getByRole('button', { name: 'Upload' }).click();
+  await mobilePage.getByRole('button', { name: /Upload/i }).click();
   await mobilePage.waitForURL(url);
-  await mobilePage.getByRole('button', { name: 'Continue' }).click();
+  await mobilePage.getByRole('button', { name: /Continue/i }).click();
   await mobilePage.waitForURL(url);
-  await mobilePage.getByRole('button', { name: 'Take a photo' }).click();
+  await mobilePage.getByRole('button', { name: /Take a photo/i }).click();
   await mobilePage.waitForURL(url);
-  await mobilePage.getByRole('button', { name: 'Upload' }).click();
+  await mobilePage.getByRole('button', { name: /Upload/i }).click();
   await mobilePage.waitForURL(url);
-  await expect(mobilePage.getByText('Uploads successful')).toHaveText(['Uploads successful']);
+  await expect(mobilePage.getByText(/Uploads successful/i)).toHaveText(['Uploads successful']);
 
+  // End of the flow on the desktop
   await page.waitForURL(FLOW_URL);
-  await page.getByRole('button', { name: 'Submit verification' }).click();
+  await page.getByRole('button', { name: /Submit verification/i }).click();
   await page.waitForURL(FLOW_URL);
   await page.waitForURL(FLOW_URL);
-  await expect(page.getByRole('heading', { name: 'Verification validated' })).toHaveText('Verification validated');
+  await expect(page.getByRole('heading', { name: /Verification validated/i })).toHaveText('Verification validated');
 });
