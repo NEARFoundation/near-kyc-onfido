@@ -1,8 +1,8 @@
-import type { Expect, Page } from '@playwright/test';
+import { Expect, FileChooser, Page } from '@playwright/test';
 
 import type ApplicantProperties from '../../types/ApplicantProperties';
 
-import { FLOW_URL } from './constants';
+import { FLOW_URL, MOCK_IMAGE } from './constants';
 
 export const fillStartForm = async (page: Page, applicant: ApplicantProperties): Promise<void> => {
   await page.goto(FLOW_URL);
@@ -33,4 +33,32 @@ export const continueOnfidoFlowThenGetAndTestLink = async (page: Page, expect: E
   expect(url).toContain('https://id.onfido.com');
 
   return url;
+};
+
+export const openKycLinkAndTestDocumentAndPhotoScan = async (url: string, page: Page, expect: Expect): Promise<void> => {
+  await page.goto(url);
+
+  // Mocking file upload
+  page.on('filechooser', (fileChooser: FileChooser) => {
+    fileChooser.setFiles([MOCK_IMAGE]);
+  });
+
+  await page.getByRole('button', { name: /Continue/i }).click();
+  await page.waitForURL(url);
+  await page.getByText(/Submit identity card \(front\)/i).click();
+  page.getByRole('button', { name: /Take photo/i }).click();
+  await page.waitForURL(url);
+  await page.getByRole('button', { name: /Upload/i }).click();
+  await page.waitForURL(url);
+  page.getByRole('button', { name: /Take photo/i }).click();
+  await page.waitForURL(url);
+  await page.getByRole('button', { name: /Upload/i }).click();
+  await page.waitForURL(url);
+  await page.getByRole('button', { name: /Continue/i }).click();
+  await page.waitForURL(url);
+  await page.getByRole('button', { name: /Take a photo/i }).click();
+  await page.waitForURL(url);
+  await page.getByRole('button', { name: /Upload/i }).click();
+  await page.waitForURL(url);
+  await expect(page.getByText(/Uploads successful/i)).toHaveText(['Uploads successful']);
 };

@@ -1,10 +1,10 @@
 import { faker } from '@faker-js/faker';
-import { Browser, BrowserContext, chromium, expect, FileChooser, test } from '@playwright/test';
+import { Browser, BrowserContext, chromium, expect, test } from '@playwright/test';
 
 import type ApplicantProperties from '../types/ApplicantProperties';
 
-import { FLOW_URL, MOCK_IMAGE, MOCK_VIDEO_PATH } from './utils/constants';
-import { continueOnfidoFlowThenGetAndTestLink, fillStartForm } from './utils/helpers';
+import { FLOW_URL, MOCK_VIDEO_PATH } from './utils/constants';
+import { continueOnfidoFlowThenGetAndTestLink, fillStartForm, openKycLinkAndTestDocumentAndPhotoScan } from './utils/helpers';
 
 let browserWithMockedWebcam: Browser;
 let desktop: BrowserContext;
@@ -39,34 +39,8 @@ test('test', async () => {
   await fillStartForm(desktopPage, applicant);
   const url = await continueOnfidoFlowThenGetAndTestLink(desktopPage, expect);
 
-  // Opening the link in the mobile context
   const mobilePage = await mobile.newPage();
-  await mobilePage.goto(url);
-
-  // Mocking file upload
-  mobilePage.on('filechooser', (fileChooser: FileChooser) => {
-    fileChooser.setFiles([MOCK_IMAGE]);
-  });
-
-  // Flow on the mobile device
-  await mobilePage.getByRole('button', { name: /Continue/i }).click();
-  await mobilePage.waitForURL(url);
-  await mobilePage.getByText(/Submit identity card \(front\)/i).click();
-  mobilePage.getByRole('button', { name: /Take photo/i }).click();
-  await mobilePage.waitForURL(url);
-  await mobilePage.getByRole('button', { name: /Upload/i }).click();
-  await mobilePage.waitForURL(url);
-  mobilePage.getByRole('button', { name: /Take photo/i }).click();
-  await mobilePage.waitForURL(url);
-  await mobilePage.getByRole('button', { name: /Upload/i }).click();
-  await mobilePage.waitForURL(url);
-  await mobilePage.getByRole('button', { name: /Continue/i }).click();
-  await mobilePage.waitForURL(url);
-  await mobilePage.getByRole('button', { name: /Take a photo/i }).click();
-  await mobilePage.waitForURL(url);
-  await mobilePage.getByRole('button', { name: /Upload/i }).click();
-  await mobilePage.waitForURL(url);
-  await expect(mobilePage.getByText(/Uploads successful/i)).toHaveText(['Uploads successful']);
+  await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
 
   // End of the flow on the desktop
   await desktopPage.waitForURL(FLOW_URL);
