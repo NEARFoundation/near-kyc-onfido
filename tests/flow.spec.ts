@@ -3,7 +3,7 @@ import { Browser, BrowserContext, chromium, expect, test } from '@playwright/tes
 
 import type ApplicantProperties from '../types/ApplicantProperties';
 
-import { HOME_URL, MOCK_VIDEO_PATH } from './utils/constants';
+import { FLOW_URL, HOME_URL, MOCK_VIDEO_PATH } from './utils/constants';
 import { continueOnfidoFlowThenGetAndTestLink, fillStartForm, openKycLinkAndTestDocumentAndPhotoScan, submittingDocuments } from './utils/helpers';
 
 let browserWithMockedWebcam: Browser;
@@ -69,4 +69,17 @@ test('User should not be able to access the form in the homepage', async () => {
 
   const NOT_EXISTING_ELEMENT_COUNT = 0;
   await expect(desktopPage.getByRole('textbox', { name: /First Name/i })).toHaveCount(NOT_EXISTING_ELEMENT_COUNT);
+});
+
+test('Applicant should be able to read privacy policy', async () => {
+  const desktopPage = await desktop.newPage();
+
+  await desktopPage.goto(FLOW_URL);
+
+  // code needs to be updated so this works using data-
+  await desktopPage.getByRole('link', { name: 'privacy policy' }).click();
+
+  expect(await desktopPage.locator('.modal-title').first()).toHaveText('Privacy Policy');
+
+  // test closing button
 });
