@@ -3,7 +3,7 @@ import { Browser, BrowserContext, chromium, expect, test } from '@playwright/tes
 
 import type ApplicantProperties from '../types/ApplicantProperties';
 
-import { MOCK_VIDEO_PATH } from './utils/constants';
+import { HOME_URL, MOCK_VIDEO_PATH } from './utils/constants';
 import { continueOnfidoFlowThenGetAndTestLink, fillStartForm, openKycLinkAndTestDocumentAndPhotoScan, submittingDocuments } from './utils/helpers';
 
 let browserWithMockedWebcam: Browser;
@@ -60,4 +60,13 @@ test('Applicant should be able to fill the form with a browser, submit documents
 
   await desktopPage.getByRole('link', { name: 'Try again' }).click();
   await expect(desktopPage.getByText(/Verify your identity/i)).toHaveText('Verify your identity');
+});
+
+test('User should not be able to access the form in the homepage', async () => {
+  const desktopPage = await desktop.newPage();
+
+  await desktopPage.goto(HOME_URL);
+
+  const NOT_EXISTING_ELEMENT_COUNT = 0;
+  await expect(desktopPage.getByRole('textbox', { name: /First Name/i })).toHaveCount(NOT_EXISTING_ELEMENT_COUNT);
 });
