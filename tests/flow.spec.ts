@@ -1,11 +1,18 @@
-import { expect, FileChooser, test } from '@playwright/test';
+import { chromium, expect, FileChooser, test } from '@playwright/test';
+import path from 'path';
 
 test('test', async ({ browser }) => {
+  const mockedVideoPath = path.join(__dirname, '/assets/camera.mjpeg');
+
+  const browserWithMockedWebcam = await chromium.launch({
+    args: ['--use-fake-device-for-media-stream', `--use-file-for-fake-video-capture=${mockedVideoPath}`],
+  });
+
   const desktop = await browser.newContext({
     permissions: ['clipboard-write', 'clipboard-read'],
   });
 
-  const mobile = await browser.newContext({
+  const mobile = await browserWithMockedWebcam.newContext({
     userAgent: 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.5249.126 Mobile Safari/537.36',
     permissions: ['camera'],
   });
