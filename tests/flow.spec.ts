@@ -1,10 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { chromium, expect, FileChooser, test } from '@playwright/test';
-import path from 'path';
 
-const MOCK_VIDEO_PATH = path.join(__dirname, '/assets/camera.mjpeg');
-const MOCK_IMAGE = 'tests/assets/id-card.jpg';
-const FLOW_URL = `${process.env.NEXT_PUBLIC_BASE_URL}/${process.env.NEXT_PUBLIC_KYC_ENDPOINT_KEY}`;
+import { FLOW_URL, MOCK_IMAGE, MOCK_VIDEO_PATH } from './utils/constants';
 
 test('test', async ({ browser }) => {
   const browserWithMockedWebcam = await chromium.launch({
