@@ -1,11 +1,14 @@
 import type { PlaywrightTestConfig } from '@playwright/test';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { devices } from '@playwright/test';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as dotenv from 'dotenv';
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config();
+dotenv.config();
 
 /**
  * See https://playwright.dev/docs/test-configuration.

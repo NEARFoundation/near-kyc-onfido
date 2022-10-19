@@ -1,11 +1,12 @@
 import { chromium, expect, FileChooser, test } from '@playwright/test';
 import path from 'path';
 
-test('test', async ({ browser }) => {
-  const mockedVideoPath = path.join(__dirname, '/assets/camera.mjpeg');
+const MOCK_VIDEO_PATH = path.join(__dirname, '/assets/camera.mjpeg');
+const FLOW_URL = `${process.env.NEXT_PUBLIC_BASE_URL}/${process.env.NEXT_PUBLIC_KYC_ENDPOINT_KEY}`;
 
+test('test', async ({ browser }) => {
   const browserWithMockedWebcam = await chromium.launch({
-    args: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream', `--use-file-for-fake-video-capture=${mockedVideoPath}`],
+    args: ['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream', `--use-file-for-fake-video-capture=${MOCK_VIDEO_PATH}`],
   });
 
   const desktop = await browser.newContext({
@@ -19,7 +20,7 @@ test('test', async ({ browser }) => {
 
   const page = await desktop.newPage();
 
-  await page.goto('http://localhost:3000/start');
+  await page.goto(FLOW_URL);
   await page.getByRole('textbox', { name: 'First Name' }).click();
   await page.getByRole('textbox', { name: 'First Name' }).fill('San');
   await page.getByRole('textbox', { name: 'Last Name' }).click();
@@ -70,9 +71,9 @@ test('test', async ({ browser }) => {
   await mobilePage.waitForURL(url);
   await expect(mobilePage.getByText('Uploads successful')).toHaveText(['Uploads successful']);
 
-  await page.waitForURL('http://localhost:3000/start');
+  await page.waitForURL(FLOW_URL);
   await page.getByRole('button', { name: 'Submit verification' }).click();
-  await page.waitForURL('http://localhost:3000/start');
-  await page.waitForURL('http://localhost:3000/start');
+  await page.waitForURL(FLOW_URL);
+  await page.waitForURL(FLOW_URL);
   await expect(page.getByRole('heading', { name: 'Verification validated' })).toHaveText('Verification validated');
 });

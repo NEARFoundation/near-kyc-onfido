@@ -4,9 +4,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Run `yarn` to install the dependencies.
 
-`cp .env.development.local.example .env.development.local`
+`cp .env.development.local.example .env`
 
-Edit your `.env.development.local` values.
+Edit your `.env` values.
 
 Then run the development server:
 
