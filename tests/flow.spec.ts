@@ -4,7 +4,7 @@ import { Browser, BrowserContext, chromium, expect, FileChooser, test } from '@p
 import type ApplicantProperties from '../types/ApplicantProperties';
 
 import { FLOW_URL, MOCK_IMAGE, MOCK_VIDEO_PATH } from './utils/constants';
-import { fillStartForm } from './utils/helpers';
+import { continueOnfidoFlowThenGetAndTestLink, fillStartForm } from './utils/helpers';
 
 let browserWithMockedWebcam: Browser;
 let desktop: BrowserContext;
@@ -36,23 +36,8 @@ test.beforeEach(async ({ browser }) => {
 test('test', async () => {
   const desktopPage = await desktop.newPage();
 
-  // Filling start form
   await fillStartForm(desktopPage, applicant);
-
-  // Continuing flow in the KYC Onfido module
-  await desktopPage.getByRole('button', { name: /Choose document/i }).click();
-  await desktopPage.getByRole('button', { name: /Identity card Front and back/i }).click();
-  await desktopPage.getByPlaceholder(/e.g. United States/i).click();
-  await desktopPage.getByPlaceholder(/e.g. United States/i).fill('fra');
-  await desktopPage.getByRole('option', { name: /France/i }).click();
-  await desktopPage.getByRole('button', { name: /Submit document/i }).click();
-  await desktopPage.getByRole('button', { name: /Get secure link/i }).click();
-  await desktopPage.getByRole('link', { name: /Copy link/i }).click();
-  await desktopPage.getByRole('button', { name: /Copy/i }).click();
-
-  // Getting link from clipboard
-  const url = await desktopPage.evaluate(async () => navigator.clipboard.readText());
-  expect(url).toContain('https://id.onfido.com');
+  const url = await continueOnfidoFlowThenGetAndTestLink(desktopPage, expect);
 
   // Opening the link in the mobile context
   const mobilePage = await mobile.newPage();
