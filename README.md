@@ -1,6 +1,6 @@
 # NEAR Onfido KYC [![NEAR](https://img.shields.io/badge/NEAR-%E2%8B%88-111111.svg)](https://near.org/) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
-> A KYC flow integrating Onfido's API used by NEAR Foundation to verify user for legal purposes.
+> A KYC flow integrating Onfido's API used by NEAR Foundation for legal purpose
 
 ## Technology stack
 
