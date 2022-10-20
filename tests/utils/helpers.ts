@@ -44,22 +44,14 @@ export const openKycLinkAndTestDocumentAndPhotoScan = async (url: string, page: 
   });
 
   await page.getByRole('button', { name: /Continue/i }).click();
-  await page.waitForURL(url);
   await page.getByText(/Submit identity card \(front\)/i).click();
   page.getByRole('button', { name: /Take photo/i }).click();
-  await page.waitForURL(url);
   await page.getByRole('button', { name: /Upload/i }).click();
-  await page.waitForURL(url);
   page.getByRole('button', { name: /Take photo/i }).click();
-  await page.waitForURL(url);
   await page.getByRole('button', { name: /Upload/i }).click();
-  await page.waitForURL(url);
   await page.getByRole('button', { name: /Continue/i }).click();
-  await page.waitForURL(url);
   await page.getByRole('button', { name: /Take a photo/i }).click();
-  await page.waitForURL(url);
   await page.getByRole('button', { name: /Upload/i }).click();
-  await page.waitForURL(url);
   await expect(page.getByText(/Uploads successful/i)).toHaveText(['Uploads successful']);
 };
 
