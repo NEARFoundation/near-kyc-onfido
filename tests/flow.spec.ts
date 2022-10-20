@@ -76,10 +76,12 @@ test('Applicant should be able to read privacy policy', async () => {
 
   await desktopPage.goto(FLOW_URL);
 
-  // code needs to be updated so this works using data-
-  await desktopPage.getByRole('link', { name: 'privacy policy' }).click();
+  await desktopPage.locator('[data-test=privacy-modal-link]').click();
 
-  expect(await desktopPage.locator('.modal-title').first()).toHaveText('Privacy Policy');
+  await expect(desktopPage.locator('.modal-title').first()).toHaveText('Privacy Policy');
 
-  // test closing button
+  await desktopPage.getByText(/Close/).click();
+
+  const NOT_EXISTING_ELEMENT_COUNT = 0;
+  await expect(desktopPage.locator('.modal-title').first()).toHaveCount(NOT_EXISTING_ELEMENT_COUNT);
 });

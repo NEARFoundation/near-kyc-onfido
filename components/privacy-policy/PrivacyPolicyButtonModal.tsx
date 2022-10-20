@@ -15,7 +15,7 @@ function PrivacyPolicyButtonModal({ children }: { children: React.ReactNode }) {
   return (
     <>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a href="#" className={styles.link} onClick={handleShow}>
+      <a href="#" className={styles.link} onClick={handleShow} data-test="privacy-modal-link">
         {children}
       </a>
 
