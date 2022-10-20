@@ -42,7 +42,9 @@ yarn start
 
 ### Tests
 
-If `BUILD_AND_SERVE_WEBSITE_BEFORE_RUNNING_TEST=true` is set in `.env` the website will be built and served every time you run the test command. It is recommended with CI/CD tools. If you want to run the test locally many times for development purpose you may want to set `BUILD_AND_SERVE_WEBSITE_BEFORE_RUNNING_TEST=false` and run `yarn dev` or `yarn build && yarn start` in a separate terminal before running any test.
+If `BUILD_AND_SERVE_WEBSITE_BEFORE_RUNNING_TEST=true` is set in `.env` the website will be built and served every time you run the test command. It is recommended with CI/CD tools.
+
+If you want instead to run the test locally many times for development purpose you may want to set `BUILD_AND_SERVE_WEBSITE_BEFORE_RUNNING_TEST=false` and run `yarn dev` or `yarn build && yarn start` in a separate terminal before running any test. It will run the tests a lot faster by skipping the build step.
 
 ```bash
 # headless test
