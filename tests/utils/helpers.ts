@@ -64,8 +64,5 @@ export const openKycLinkAndTestDocumentAndPhotoScan = async (url: string, page: 
 };
 
 export const submittingDocuments = async (page: Page): Promise<void> => {
-  await page.waitForURL(FLOW_URL);
   await page.getByRole('button', { name: /Submit verification/i }).click();
-  await page.waitForURL(FLOW_URL);
-  await page.waitForURL(FLOW_URL);
 };
