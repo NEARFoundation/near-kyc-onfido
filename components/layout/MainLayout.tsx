@@ -11,7 +11,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       </Head>
 
       <main>{children} </main>
-      <footer>
+      <footer className="text-center">
         <Link href="/privacy-policy">Privacy Policy</Link> | © 2022{' '}
         <a href="https://near.foundation/" target="_blank" rel="noreferrer">
           NEAR Foundation
