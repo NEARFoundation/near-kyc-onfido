@@ -47,6 +47,9 @@ If `BUILD_AND_SERVE_WEBSITE_BEFORE_RUNNING_TEST=true` is set in `.env` the websi
 If you want instead to run the test locally many times for development purpose you may want to set `BUILD_AND_SERVE_WEBSITE_BEFORE_RUNNING_TEST=false` and run `yarn dev` or `yarn build && yarn start` in a separate terminal before running any test. It will run the tests a lot faster by skipping the build step.
 
 ```bash
+# install testing dependencies (once only)
+npx playwright install --with-deps
+
 # headless test
 yarn test
 
