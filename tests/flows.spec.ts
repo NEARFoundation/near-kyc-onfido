@@ -61,3 +61,17 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await desktopPage.getByRole('link', { name: 'Try again' }).click();
   await expect(desktopPage.getByText(/Verify your identity/i)).toHaveText('Verify your identity');
 });
+
+test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see an invalid document error message', async () => {
+  const desktopPage = await desktop.newPage();
+
+  await fillStartForm(desktopPage, { ...applicant, firstName: 'Image Integrity - Supported Document' });
+  const url = await continueOnfidoFlowThenGetAndTestLink(desktopPage, expect);
+
+  const mobilePage = await mobile.newPage();
+  await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
+
+  await submittingDocuments(desktopPage);
+  await expect(desktopPage.getByRole('heading', { name: /Invalid/i })).toHaveText('Invalid document');
+  await desktopPage.pause();
+});
