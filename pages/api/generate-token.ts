@@ -3,6 +3,7 @@ import { OnfidoApiError } from '@onfido/api';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import getOnfido from '../../helpers/onfido';
+import type ApplicantProperties from '../../types/ApplicantProperties';
 import type ApplicantTokenPair from '../../types/ApplicantTokenPair';
 import { SERVER_ERROR, SUCCESS } from '../../utils/statusCodes';
 
@@ -12,7 +13,22 @@ const onfido = getOnfido();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApplicantTokenPair | unknown>) {
   try {
-    const applicantProperties = req.body; // https://documentation.onfido.com/#applicant-object
+    const ipAddress = req.headers['x-real-ip'] ?? req.connection.remoteAddress;
+    console.log(ipAddress);
+
+    const applicantProperties: ApplicantProperties = {
+      ...req.body,
+      location: {
+        ipAddress,
+      },
+      consents: [
+        {
+          name: 'privacy_notices_read',
+          granted: true,
+        },
+      ],
+    }; // https://documentation.onfido.com/#applicant-object
+
     console.log('Starting', endpointName);
     const applicant = await onfido.applicant.create(applicantProperties);
 
