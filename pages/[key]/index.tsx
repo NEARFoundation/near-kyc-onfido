@@ -10,7 +10,7 @@ import MainLayout from '../../components/layout/MainLayout';
 import { LOCALSTORAGE_USER_DATA_NAME } from '../../constants';
 import { getToken, initCheck } from '../../services/apiService';
 import type ApplicantProperties from '../../types/ApplicantProperties';
-import { SUCCESS } from '../../utils/statusCodes';
+import { FORBIDDEN } from '../../utils/statusCodes';
 
 interface IParams extends ParsedUrlQuery {
   key: string;
@@ -83,7 +83,7 @@ const StartPage: NextPage<Props> = ({ csrfToken }) => {
         console.log('Everything is complete');
         const result = await initCheck({ applicantId, csrf_token: csrfToken });
         const { code } = result as { code: number };
-        if (code !== SUCCESS) {
+        if (code === FORBIDDEN) {
           throw new Error('Forbidden user');
         }
 

@@ -14,7 +14,6 @@ const onfido = getOnfido();
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApplicantTokenPair | unknown>) {
   try {
     const ipAddress = req.headers['x-real-ip'] ?? req.connection.remoteAddress;
-    console.log(ipAddress);
 
     const applicantProperties: ApplicantProperties = {
       ...req.body,
