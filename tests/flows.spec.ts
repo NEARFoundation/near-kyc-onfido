@@ -76,3 +76,98 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('The document provided is not supported');
   await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText('We could not verify your identity. We invite you to read the reasons below and try again.');
 });
+
+test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see an image quality error message', async () => {
+  const desktopPage = await desktop.newPage();
+
+  await fillStartForm(desktopPage, { ...applicant, firstName: 'Image Integrity - Image Quality' });
+  const url = await continueOnfidoFlowThenGetAndTestLink(desktopPage, expect);
+
+  const mobilePage = await mobile.newPage();
+  await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
+
+  await submittingDocuments(desktopPage);
+  await desktopPage.pause();
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('The quality of the pictures you provided are too low.');
+  await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText('We could not verify your identity. We invite you to read the reasons below and try again.');
+});
+
+test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see a readability error message', async () => {
+  const desktopPage = await desktop.newPage();
+
+  await fillStartForm(desktopPage, { ...applicant, firstName: 'Visual Authenticity - Fonts' });
+  const url = await continueOnfidoFlowThenGetAndTestLink(desktopPage, expect);
+
+  const mobilePage = await mobile.newPage();
+  await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
+
+  await submittingDocuments(desktopPage);
+  await desktopPage.pause();
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('There are issues with the pictures you provided');
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('The document provided is not readable');
+  await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText('We could not verify your identity. We invite you to read the reasons below and try again.');
+});
+
+test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see a picture related error message', async () => {
+  const desktopPage = await desktop.newPage();
+
+  await fillStartForm(desktopPage, { ...applicant, firstName: 'Visual Authenticity - Security Features' });
+  const url = await continueOnfidoFlowThenGetAndTestLink(desktopPage, expect);
+
+  const mobilePage = await mobile.newPage();
+  await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
+
+  await submittingDocuments(desktopPage);
+  await desktopPage.pause();
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('There are issues with the pictures you provided');
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('The pictures provided are not valid');
+  await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText('We could not verify your identity. We invite you to read the reasons below and try again.');
+});
+
+test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see a face detection error message', async () => {
+  const desktopPage = await desktop.newPage();
+
+  await fillStartForm(desktopPage, { ...applicant, firstName: 'Visual Authenticity - Face Detection' });
+  const url = await continueOnfidoFlowThenGetAndTestLink(desktopPage, expect);
+
+  const mobilePage = await mobile.newPage();
+  await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
+
+  await submittingDocuments(desktopPage);
+  await desktopPage.pause();
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('There are issues with the pictures you provided');
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('The face could not be detected');
+  await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText('We could not verify your identity. We invite you to read the reasons below and try again.');
+});
+
+test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see a document number invalid error message', async () => {
+  const desktopPage = await desktop.newPage();
+
+  await fillStartForm(desktopPage, { ...applicant, firstName: 'Data Validation - Document Numbers' });
+  const url = await continueOnfidoFlowThenGetAndTestLink(desktopPage, expect);
+
+  const mobilePage = await mobile.newPage();
+  await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
+
+  await submittingDocuments(desktopPage);
+  await desktopPage.pause();
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('There are issues with the pictures you provided');
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('The document numbers you provided are invalid');
+  await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText('We could not verify your identity. We invite you to read the reasons below and try again.');
+});
+
+test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see a data consistency invalid error message', async () => {
+  const desktopPage = await desktop.newPage();
+
+  await fillStartForm(desktopPage, { ...applicant, firstName: 'Data Consistency - Document Type' });
+  const url = await continueOnfidoFlowThenGetAndTestLink(desktopPage, expect);
+
+  const mobilePage = await mobile.newPage();
+  await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
+
+  await submittingDocuments(desktopPage);
+  await desktopPage.pause();
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('There are issues with the pictures you provided');
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('The document type you provided is invalid');
+  await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText('We could not verify your identity. We invite you to read the reasons below and try again.');
+});

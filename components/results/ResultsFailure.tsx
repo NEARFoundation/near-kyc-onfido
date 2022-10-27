@@ -6,14 +6,14 @@ import ResultsRetryButton from './ResultsRetryButton';
 export default function ResultsFailure({ validationFailureDetails }: { validationFailureDetails: ValidationFailure[] }): JSX.Element {
   const validationMessages = new Map([
     [ValidationFailure.InvalidImageIntegritySupportedDocument, 'The document provided is not supported'],
-    [ValidationFailure.InvalidImageIntegrityImageQuality, 'The quality of the pictures you provided is too low.'],
-    [ValidationFailure.InvalidVisualAuthenticity, 'The pictures you provided are not authentic.'],
+    [ValidationFailure.InvalidImageIntegrityImageQuality, 'The quality of the pictures you provided are too low.'],
+    [ValidationFailure.InvalidVisualAuthenticity, 'There are issues with the pictures you provided'],
     [ValidationFailure.InvalidVisualAuthenticityFaceDetection, 'The face could not be detected'],
     [ValidationFailure.InvalidVisualAuthenticityFonts, 'The document provided is not readable'],
     [ValidationFailure.InvalidVisualAuthenticitySecurityFeatures, 'The pictures provided are not valid'],
-    [ValidationFailure.InvalidDataValidation, 'The data you provided is invalid.'],
-    [ValidationFailure.InvalidDataValidationDocumentNumbers, 'The document numbers you provided are invalid.'],
-    [ValidationFailure.InvalidDataValidationDocumentType, 'The document type you provided is invalid.'],
+    [ValidationFailure.InvalidDataValidation, 'There are issues with the documents provided'],
+    [ValidationFailure.InvalidDataValidationDocumentNumbers, 'The document numbers you provided are invalid'],
+    [ValidationFailure.InvalidDataValidationDocumentType, 'The document type you provided is invalid'],
   ]);
 
   const EMPTY_ARRAY = 0;
