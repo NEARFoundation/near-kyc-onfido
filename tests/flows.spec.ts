@@ -57,15 +57,12 @@ test('Applicant should be able to fill the form with a browser, submit documents
 
   await submittingDocuments(desktopPage);
   await expect(desktopPage.getByRole('heading', { name: /Verification/i })).toHaveText('Verification failed');
-  await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText(
-    'We could not verify your identity. If you believe that you submitted any information incorrectly, you may try again.',
-  );
 
   await desktopPage.getByRole('link', { name: 'Try again' }).click();
   await expect(desktopPage.getByText(/Verify your identity/i)).toHaveText('Verify your identity');
 });
 
-test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see an invalid document error message', async () => {
+test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see a document not supported error message', async () => {
   const desktopPage = await desktop.newPage();
 
   await fillStartForm(desktopPage, { ...applicant, firstName: 'Image Integrity - Supported Document' });
