@@ -41,6 +41,14 @@ interface OnfidoReportBreakdown {
   };
   dataValidation?: {
     result: string;
+    breakdown?: {
+      mrz?: {
+        result: string;
+      };
+      documentNumbers?: {
+        result: string;
+      };
+    };
   };
 }
 
