@@ -1,12 +1,16 @@
 {
-  "name": "nextplus",
-  "version": "0.1.0",
+  "name": "near-kyc-onfido",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "playwright test",
+    "test:debug": "playwright test --debug",
+    "test:headed": "playwright test --headed",
+    "test:report": "playwright show-report"
   },
   "dependencies": {
     "@onfido/api": "^2.1.1",
@@ -19,8 +23,11 @@
     "react-dom": "^18.1.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "@playwright/test": "^1.27.1",
     "@types/node": "^18.8.2",
     "@types/react": "18.0.21",
+    "dotenv": "^16.0.3",
     "eslint": "^8.24.0",
     "eslint-config-airbnb-typescript-prettier": "^5.0.0",
     "eslint-config-next": "^12.3.1",
