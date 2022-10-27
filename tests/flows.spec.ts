@@ -57,6 +57,9 @@ test('Applicant should be able to fill the form with a browser, submit documents
 
   await submittingDocuments(desktopPage);
   await expect(desktopPage.getByRole('heading', { name: /Verification/i })).toHaveText('Verification failed');
+  await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText(
+    'We could not verify your identity. If you believe that you submitted any information incorrectly, you may try again.',
+  );
 
   await desktopPage.getByRole('link', { name: 'Try again' }).click();
   await expect(desktopPage.getByText(/Verify your identity/i)).toHaveText('Verify your identity');
@@ -72,6 +75,6 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
 
   await submittingDocuments(desktopPage);
-  await desktopPage.pause();
   await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('The document provided is not supported');
+  await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText('We could not verify your identity. We invite you to read the reasons below and try again.');
 });
