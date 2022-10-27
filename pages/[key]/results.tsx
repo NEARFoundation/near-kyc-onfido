@@ -46,7 +46,7 @@ const ResultsPage: NextPage = () => {
         <>
           {showLoading && <ResultsLoading willTakeLonger={data?.status === CheckResultsStatus.willTakeLonger} />}
           {showSuccess && <ResultsSuccess />}
-          {showFailure && <ResultsFailure />}
+          {showFailure && <ResultsFailure validationFailureDetails={data?.validationFailureDetails} />}
           {showError && <ResultsError />}
         </>
       </CenteredCard>

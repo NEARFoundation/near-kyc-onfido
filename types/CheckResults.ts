@@ -1,9 +1,9 @@
-import type VerificationFailure from './VerificationFailure';
+import type ValidationFailure from './ValidationFailure';
 
 export interface CheckResults {
   isClear: boolean | null; // !isClear means the check failed
   status: CheckResultsStatus;
-  validationFailureDetails: VerificationFailure[];
+  validationFailureDetails: ValidationFailure[];
 }
 
 export enum CheckResultsStatus {

@@ -4,7 +4,7 @@ enum ValidationFailure {
   InvalidImageIntegrityImageQuality = 'InvalidImageIntegrityImageQuality', // "Image Integrity - Image Quality"
   InvalidVisualAuthenticity = 'InvalidVisualAuthenticity', // Generic Visual authenticity because there are many sub failures
   InvalidVisualAuthenticityFonts = 'InvalidVisualAuthenticityFonts', // "Visual Authenticity - Fonts"
-  InvalidVisualAuthenticitysecurityFeatures = 'InvalidVisualAuthenticitysecurityFeatures', // "Visual Authenticity - Security Features"
+  InvalidVisualAuthenticitySecurityFeatures = 'InvalidVisualAuthenticitySecurityFeatures', // "Visual Authenticity - Security Features"
   InvalidVisualAuthenticityFaceDetection = 'InvalidVisualAuthenticityFaceDetection', // "Visual Authenticity - Face Detection"
   InvalidDataValidation = 'InvalidDataValidation', // Generic Data Validation because there are many sub failures
   InvalidDataValidationDocumentNumbers = 'InvalidDataValidationDocumentNumbers', // "Data Validation - Document Numbers"

@@ -72,6 +72,5 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
 
   await submittingDocuments(desktopPage);
-  await expect(desktopPage.getByRole('heading', { name: /Invalid/i })).toHaveText('Invalid document');
-  await desktopPage.pause();
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('Invalid document');
 });

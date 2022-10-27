@@ -1,5 +1,5 @@
 import type OnfidoReportBreakdown from '../types/OnfidoReportBreakdown';
-import ValidationFailure from '../types/VerificationFailure';
+import ValidationFailure from '../types/ValidationFailure';
 
 const isFailure = (result: string | undefined) => result === 'consider' || result === 'unidentified' || result === 'rejected' || result === 'caution';
 
@@ -32,7 +32,7 @@ const getValidationFailureDetails = (breakdown: OnfidoReportBreakdown | null): V
         failures.push(ValidationFailure.InvalidVisualAuthenticityFonts);
       }
       if (isFailure(breakdown.visualAuthenticity.breakdown?.securityFeatures?.result)) {
-        failures.push(ValidationFailure.InvalidVisualAuthenticitysecurityFeatures);
+        failures.push(ValidationFailure.InvalidVisualAuthenticitySecurityFeatures);
       }
     }
   }
