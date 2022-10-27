@@ -72,6 +72,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
 
   await submittingDocuments(desktopPage);
+  await desktopPage.pause();
   await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('The document provided is not supported');
   await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText('We could not verify your identity. We invite you to read the reasons below and try again.');
 });

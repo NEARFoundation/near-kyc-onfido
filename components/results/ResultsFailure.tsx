@@ -25,9 +25,9 @@ export default function ResultsFailure({ validationFailureDetails }: { validatio
 
   return (
     <CenteredCardContent title="Verification failed" description={description} iconClasses="fa fa-times-circle text-danger mb-4">
-      <ul aria-label="error list" className="mb-4">
+      <ul aria-label="error list" className="mb-4 text-dark fw-bold">
         {validationFailureDetails.map((validationFailureDetail) => (
-          <li className="text-danger">{validationMessages.get(validationFailureDetail)}</li>
+          <li>{validationMessages.get(validationFailureDetail)}</li>
         ))}
       </ul>
       <ResultsRetryButton />
