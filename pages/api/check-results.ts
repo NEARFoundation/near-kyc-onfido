@@ -1,6 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
-import util from 'util'; // this is temporary
 
 import { COOKIE_CHECK_ID_NAME } from '../../constants';
 import getOnfido from '../../helpers/onfido';
@@ -45,9 +44,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   const { breakdown: breakdownFacialReport } = facialReport;
   const facialReportValidationFailureDetails = getFacialValidationFailureDetails(breakdownFacialReport);
-
-  console.log('Temp to delete');
-  console.log(util.inspect(breakdownFacialReport, false, null, true /* enable colors */));
 
   // List of status: https://documentation.onfido.com/#check-status
   // List of results: https://documentation.onfido.com/#check-results
