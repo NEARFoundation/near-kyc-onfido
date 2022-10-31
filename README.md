@@ -63,6 +63,8 @@ yarn test:debug
 yarn test:report
 ```
 
+Once the tests are done you can find screenshots of the results page in [/tests/screenshots](/tests/screenshots)
+
 ## Authors
 
 - [Ryan](https://github.com/ryancwalsh)
