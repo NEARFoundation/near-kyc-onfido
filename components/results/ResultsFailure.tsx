@@ -31,7 +31,7 @@ export default function ResultsFailure({ validationFailureDetails }: { validatio
 
   return (
     <CenteredCardContent title="Verification failed" description={description} iconClasses="fa fa-times-circle text-danger mb-4">
-      <ul aria-label="error list" className="mb-4 text-dark fw-bold">
+      <ul aria-label="error list" className="mb-4 text-dark fw-bold" style={{ textAlign: 'left' }}>
         {validationFailureDetails.map((validationFailureDetail) => (
           <li>{validationMessages.get(validationFailureDetail)}</li>
         ))}
