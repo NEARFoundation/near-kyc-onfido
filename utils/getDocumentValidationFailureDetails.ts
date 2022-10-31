@@ -1,9 +1,9 @@
-import type OnfidoReportBreakdown from '../types/OnfidoReportBreakdown';
+import type OnfidoDocumentReportBreakdown from '../types/OnfidoDocumentReportBreakdown';
 import ValidationFailure from '../types/ValidationFailure';
 
 import isFailure from './isValidationFailure';
 
-const getDocumentValidationFailureDetails = (breakdown: OnfidoReportBreakdown | null): ValidationFailure[] => {
+const getDocumentValidationFailureDetails = (breakdown: OnfidoDocumentReportBreakdown | null): ValidationFailure[] => {
   const failures: ValidationFailure[] = [];
 
   if (!breakdown) {

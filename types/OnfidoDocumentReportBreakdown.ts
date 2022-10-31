@@ -1,4 +1,4 @@
-interface OnfidoReportBreakdown {
+interface OnfidoDocumentReportBreakdown {
   ageValidation?: {
     result: string;
   };
@@ -57,4 +57,4 @@ interface OnfidoReportBreakdown {
   };
 }
 
-export default OnfidoReportBreakdown;
+export default OnfidoDocumentReportBreakdown;
