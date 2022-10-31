@@ -199,7 +199,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
 
   await submittingDocuments(desktopPage);
-  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('The face provided does not match the document provided');
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('The picture does not match the document provided');
   await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText('We could not verify your identity. We invite you to read the reasons below and try again.');
   await desktopPage.screenshot({ path: 'tests/screenshots/failed_face_comparison_face_match.png', fullPage: true });
 });
