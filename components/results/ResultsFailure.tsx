@@ -4,6 +4,7 @@ import CenteredCardContent from '../common/CenteredCardContent';
 import ResultsRetryButton from './ResultsRetryButton';
 
 export default function ResultsFailure({ validationFailureDetails }: { validationFailureDetails: ValidationFailure[] }): JSX.Element {
+  // More info about validation: https://documentation.onfido.com/v3.1/#breakdowns
   const validationMessages = new Map([
     [ValidationFailure.InvalidImageIntegritySupportedDocument, 'The document provided is not supported'],
     [ValidationFailure.InvalidImageIntegrityImageQuality, 'The quality of the pictures you provided are too low'],
