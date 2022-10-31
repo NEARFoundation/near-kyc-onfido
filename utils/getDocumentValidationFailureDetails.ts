@@ -1,9 +1,9 @@
 import type OnfidoReportBreakdown from '../types/OnfidoReportBreakdown';
 import ValidationFailure from '../types/ValidationFailure';
 
-const isFailure = (result: string | undefined) => result === 'consider' || result === 'unidentified' || result === 'rejected' || result === 'caution';
+import isFailure from './isValidationFailure';
 
-const getValidationFailureDetails = (breakdown: OnfidoReportBreakdown | null): ValidationFailure[] => {
+const getDocumentValidationFailureDetails = (breakdown: OnfidoReportBreakdown | null): ValidationFailure[] => {
   const failures: ValidationFailure[] = [];
 
   if (!breakdown) {
@@ -60,4 +60,4 @@ const getValidationFailureDetails = (breakdown: OnfidoReportBreakdown | null): V
   return failures;
 };
 
-export default getValidationFailureDetails;
+export default getDocumentValidationFailureDetails;
