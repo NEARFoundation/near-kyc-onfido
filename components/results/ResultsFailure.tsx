@@ -15,9 +15,9 @@ export default function ResultsFailure({ validationFailureDetails }: { validatio
     [ValidationFailure.InvalidDataValidationDocumentNumbers, 'The document numbers you provided are invalid'],
     [ValidationFailure.InvalidDataConsistency, 'The document provided does not match the information provided'],
     [ValidationFailure.InvalidDataConsistencyDocumentType, 'The document type you provided is invalid'],
-    [ValidationFailure.InvalidVisualAuthenticitySpoofing, 'The picture provided does not seem valid'],
+    [ValidationFailure.InvalidVisualAuthenticitySpoofing, 'The picture provided does not seem authentic'],
     [ValidationFailure.InvalidFaceComparison, 'The face provided does not match the document provided'],
-    [ValidationFailure.InvalidImageIntegritySource, 'The document provided is not valid'],
+    [ValidationFailure.InvalidImageIntegritySource, 'The photo provided is not valid'],
     [ValidationFailure.InvalidImageIntegrityFaceDetected, 'Another face has been detected in the picture'],
   ]);
 

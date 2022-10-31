@@ -64,6 +64,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   res.status(SUCCESS).json({
     isClear: check.result === null ? null : check.result === 'clear',
     status: simplifiedStatus.get(check.status) ?? CheckResultsStatus.finished,
-    validationFailureDetails: [...documentReportValidationFailureDetails],
+    validationFailureDetails: [...documentReportValidationFailureDetails, ...facialReportValidationFailureDetails],
   });
 }
