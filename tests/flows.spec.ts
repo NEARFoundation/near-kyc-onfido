@@ -196,7 +196,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
 test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see an invalid photo error message', async () => {
   const desktopPage = await desktop.newPage();
 
-  await fillStartForm(desktopPage, { ...applicant, firstName: 'Face Comparison - Face Match' });
+  await fillStartForm(desktopPage, { ...applicant, firstName: 'Image Integrity - Source Integrity' });
   const url = await continueOnfidoFlowThenGetAndTestLink(desktopPage, expect);
 
   const mobilePage = await mobile.newPage();
