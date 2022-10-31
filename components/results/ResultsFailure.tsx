@@ -13,7 +13,8 @@ export default function ResultsFailure({ validationFailureDetails }: { validatio
     [ValidationFailure.InvalidVisualAuthenticitySecurityFeatures, 'The pictures provided are not valid'],
     [ValidationFailure.InvalidDataValidation, 'There are issues with the documents provided'],
     [ValidationFailure.InvalidDataValidationDocumentNumbers, 'The document numbers you provided are invalid'],
-    [ValidationFailure.InvalidDataValidationDocumentType, 'The document type you provided is invalid'],
+    [ValidationFailure.InvalidDataConsistency, 'The document provided does not match the information provided'],
+    [ValidationFailure.InvalidDataConsistencyDocumentType, 'The document type you provided is invalid'],
   ]);
 
   const EMPTY_ARRAY = 0;

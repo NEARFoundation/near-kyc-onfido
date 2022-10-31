@@ -145,7 +145,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
 
   await submittingDocuments(desktopPage);
-  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText(/There are issues with the pictures you provided/);
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText(/There are issues with the documents provided/);
   await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText(/The document numbers you provided are invalid/);
   await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText('We could not verify your identity. We invite you to read the reasons below and try again.');
 });
@@ -160,7 +160,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
 
   await submittingDocuments(desktopPage);
-  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText(/There are issues with the pictures you provided/);
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText(/The document provided does not match the information provided/);
   await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText(/The document type you provided is invalid/);
   await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText('We could not verify your identity. We invite you to read the reasons below and try again.');
 });

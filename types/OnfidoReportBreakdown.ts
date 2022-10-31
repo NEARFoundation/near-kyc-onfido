@@ -21,6 +21,11 @@ interface OnfidoReportBreakdown {
   };
   dataConsistency?: {
     result: string;
+    breakdown?: {
+      documentType?: {
+        result: string;
+      };
+    };
   };
   compromisedDocument?: {
     result: string;

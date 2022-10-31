@@ -44,9 +44,15 @@ const getValidationFailureDetails = (breakdown: OnfidoReportBreakdown | null): V
       if (isFailure(breakdown.dataValidation.breakdown?.documentNumbers?.result)) {
         failures.push(ValidationFailure.InvalidDataValidationDocumentNumbers);
       }
-      if (isFailure(breakdown.dataValidation.breakdown?.mrz?.result)) {
-        // THIS NEED TO BE TESTED
-        failures.push(ValidationFailure.InvalidDataValidationDocumentType);
+    }
+  }
+
+  if (breakdown.dataConsistency) {
+    if (isFailure(breakdown.dataConsistency.result)) {
+      failures.push(ValidationFailure.InvalidDataConsistency);
+
+      if (isFailure(breakdown.dataConsistency.breakdown?.documentType?.result)) {
+        failures.push(ValidationFailure.InvalidDataConsistencyDocumentType);
       }
     }
   }

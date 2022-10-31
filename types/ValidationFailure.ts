@@ -8,7 +8,8 @@ enum ValidationFailure {
   InvalidVisualAuthenticityFaceDetection = 'InvalidVisualAuthenticityFaceDetection', // "Visual Authenticity - Face Detection"
   InvalidDataValidation = 'InvalidDataValidation', // Generic Data Validation because there are many sub failures
   InvalidDataValidationDocumentNumbers = 'InvalidDataValidationDocumentNumbers', // "Data Validation - Document Numbers"
-  InvalidDataValidationDocumentType = 'InvalidDataValidationDocumentType', // "Data Consistency - Document Type"
+  InvalidDataConsistency = 'InvalidDataConsistency', // Generic Data Consistency because there are many sub failures
+  InvalidDataConsistencyDocumentType = 'InvalidDataConsistencyDocumentType', // "Data Consistency - Document Type"
 }
 
 export default ValidationFailure;
