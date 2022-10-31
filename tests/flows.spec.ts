@@ -86,7 +86,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
 
   await submittingDocuments(desktopPage);
-  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('The quality of the pictures you provided are too low.');
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('The quality of the pictures you provided are too low');
   await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText('We could not verify your identity. We invite you to read the reasons below and try again.');
 });
 
@@ -116,7 +116,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
 
   await submittingDocuments(desktopPage);
   await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText(/There are issues with the pictures you provided/);
-  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText(/The pictures provided are not valid/);
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText(/The documents provided are not valid/);
   await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText('We could not verify your identity. We invite you to read the reasons below and try again.');
 });
 
@@ -145,7 +145,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
 
   await submittingDocuments(desktopPage);
-  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText(/There are issues with the documents provided/);
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText(/The data from your documents contains some errors/);
   await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText(/The document numbers you provided are invalid/);
   await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText('We could not verify your identity. We invite you to read the reasons below and try again.');
 });

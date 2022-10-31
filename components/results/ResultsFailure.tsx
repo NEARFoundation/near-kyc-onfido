@@ -6,12 +6,12 @@ import ResultsRetryButton from './ResultsRetryButton';
 export default function ResultsFailure({ validationFailureDetails }: { validationFailureDetails: ValidationFailure[] }): JSX.Element {
   const validationMessages = new Map([
     [ValidationFailure.InvalidImageIntegritySupportedDocument, 'The document provided is not supported'],
-    [ValidationFailure.InvalidImageIntegrityImageQuality, 'The quality of the pictures you provided are too low.'],
+    [ValidationFailure.InvalidImageIntegrityImageQuality, 'The quality of the pictures you provided are too low'],
     [ValidationFailure.InvalidVisualAuthenticity, 'There are issues with the pictures you provided'],
-    [ValidationFailure.InvalidVisualAuthenticityFaceDetection, 'The face could not be detected'],
+    [ValidationFailure.InvalidVisualAuthenticityFaceDetection, 'The face could not be detected in your documents'],
     [ValidationFailure.InvalidVisualAuthenticityFonts, 'The document provided is not readable'],
-    [ValidationFailure.InvalidVisualAuthenticitySecurityFeatures, 'The pictures provided are not valid'],
-    [ValidationFailure.InvalidDataValidation, 'There are issues with the documents provided'],
+    [ValidationFailure.InvalidVisualAuthenticitySecurityFeatures, 'The documents provided are not valid'],
+    [ValidationFailure.InvalidDataValidation, 'The data from your documents contains some errors'],
     [ValidationFailure.InvalidDataValidationDocumentNumbers, 'The document numbers you provided are invalid'],
     [ValidationFailure.InvalidDataConsistency, 'The document provided does not match the information provided'],
     [ValidationFailure.InvalidDataConsistencyDocumentType, 'The document type you provided is invalid'],

@@ -10,13 +10,15 @@ import * as dotenv from 'dotenv';
  */
 dotenv.config();
 
+const TIMEOUT_TIME = 60_000;
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {
   testDir: './tests',
   /* Maximum time one test can run for. */
-  timeout: 30 * 1000,
+  timeout: TIMEOUT_TIME,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
@@ -31,7 +33,7 @@ const config: PlaywrightTestConfig = {
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: 1, // I defaulted workers to 1 beacause of the rate limit of Onfido
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
