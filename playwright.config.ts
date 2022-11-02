@@ -10,7 +10,8 @@ import * as dotenv from 'dotenv';
  */
 dotenv.config();
 
-const TIMEOUT_TIME = 60_000;
+const MAXIMUM_TIME_PER_TEST_IN_MILLISECONDS = 60_000;
+const MAXIMUM_TIME_TO_WAIT_FOR_CONDITION_IN_MILLISECONDS = 10_000;
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -18,13 +19,13 @@ const TIMEOUT_TIME = 60_000;
 const config: PlaywrightTestConfig = {
   testDir: './tests',
   /* Maximum time one test can run for. */
-  timeout: TIMEOUT_TIME,
+  timeout: MAXIMUM_TIME_PER_TEST_IN_MILLISECONDS,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
      * For example in `await expect(locator).toHaveText();`
      */
-    timeout: 10000,
+    timeout: MAXIMUM_TIME_TO_WAIT_FOR_CONDITION_IN_MILLISECONDS,
   },
   /* Run tests in files in parallel */
   fullyParallel: true,
