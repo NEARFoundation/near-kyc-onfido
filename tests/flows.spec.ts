@@ -64,7 +64,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await expect(desktopPage.getByText(/Verify your identity/i)).toHaveText('Verify your identity');
 });
 
-test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see a document not supported error message', async () => {
+test('Upon submitting an unsupported document, applicant should see an error message about the document not being supported', async () => {
   const desktopPage = await desktop.newPage();
 
   await fillStartForm(desktopPage, { ...applicant, firstName: 'Image Integrity - Supported Document' });
@@ -79,7 +79,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await desktopPage.screenshot({ path: 'tests/screenshots/failed_image_integrity_supported_docs.png', fullPage: true });
 });
 
-test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see an image quality error message', async () => {
+test('Upon submitting picturew with quality issues, applicant should see an error message about the pictures having quality issues', async () => {
   const desktopPage = await desktop.newPage();
 
   await fillStartForm(desktopPage, { ...applicant, firstName: 'Image Integrity - Image Quality' });
@@ -96,7 +96,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await desktopPage.screenshot({ path: 'tests/screenshots/failed_image_integrity_image_quality.png', fullPage: true });
 });
 
-test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see a readability error message', async () => {
+test('Upon submitting an non-readable document, applicant should see an error message about the document not being readable', async () => {
   const desktopPage = await desktop.newPage();
 
   await fillStartForm(desktopPage, { ...applicant, firstName: 'Visual Authenticity - Fonts' });
@@ -112,7 +112,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await desktopPage.screenshot({ path: 'tests/screenshots/failed_visual_authenticity_fonts.png', fullPage: true });
 });
 
-test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see a picture related error message', async () => {
+test('Upon submitting an non authentic document, applicant should see an error message about the document not being authentic', async () => {
   const desktopPage = await desktop.newPage();
 
   await fillStartForm(desktopPage, { ...applicant, firstName: 'Visual Authenticity - Security Features' });
@@ -128,7 +128,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await desktopPage.screenshot({ path: 'tests/screenshots/failed_visual_authenticity_security_features.png', fullPage: true });
 });
 
-test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see a face detection error message', async () => {
+test('Upon submitting an document without a clear face, applicant should see an error message about the document not having an identifiable face', async () => {
   const desktopPage = await desktop.newPage();
 
   await fillStartForm(desktopPage, { ...applicant, firstName: 'Visual Authenticity - Face Detection' });
@@ -144,7 +144,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await desktopPage.screenshot({ path: 'tests/screenshots/failed_visual_authenticity_face_detection.png', fullPage: true });
 });
 
-test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see a document number invalid error message', async () => {
+test('Upon submitting a document with wrong numbers, applicant should see an error message about the document having invalid numbers', async () => {
   const desktopPage = await desktop.newPage();
 
   await fillStartForm(desktopPage, { ...applicant, firstName: 'Data Validation - Document Numbers' });
@@ -160,7 +160,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await desktopPage.screenshot({ path: 'tests/screenshots/failed_data_validation_document_numbers.png', fullPage: true });
 });
 
-test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see a data consistency invalid error message', async () => {
+test('Upon submitting an invalid document type, applicant should see an error message about the document having an invalid type', async () => {
   const desktopPage = await desktop.newPage();
 
   await fillStartForm(desktopPage, { ...applicant, firstName: 'Data Consistency - Document Type' });
@@ -176,7 +176,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await desktopPage.screenshot({ path: 'tests/screenshots/failed_data_consistency_document_type.png', fullPage: true });
 });
 
-test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see an authenticity error message', async () => {
+test('Upon submitting a fake document, applicant should see an error message about the document not being authentic', async () => {
   const desktopPage = await desktop.newPage();
 
   await fillStartForm(desktopPage, { ...applicant, firstName: 'Visual Authenticity - Spoofing Detection' });
@@ -191,7 +191,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await desktopPage.screenshot({ path: 'tests/screenshots/failed_visual_authenticity_spoofing_detection.png', fullPage: true });
 });
 
-test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see a face matching error message', async () => {
+test('Upon submitting a photo different from the documents, applicant should see an error message about the photo not matching the document', async () => {
   const desktopPage = await desktop.newPage();
 
   await fillStartForm(desktopPage, { ...applicant, firstName: 'Face Comparison - Face Match' });
@@ -206,7 +206,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await desktopPage.screenshot({ path: 'tests/screenshots/failed_face_comparison_face_match.png', fullPage: true });
 });
 
-test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see an invalid photo error message', async () => {
+test('Upon submitting an invalid photo, applicant should see an error message about the photo being invalid', async () => {
   const desktopPage = await desktop.newPage();
 
   await fillStartForm(desktopPage, { ...applicant, firstName: 'Image Integrity - Source Integrity' });
@@ -221,7 +221,7 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await desktopPage.screenshot({ path: 'tests/screenshots/failed_image_integrity_source_integrity.png', fullPage: true });
 });
 
-test('Applicant should be able to fill the form with a browser, submit documents and photo with a phone and see a face detected error message', async () => {
+test('Upon submitting a photo with another face, applicant should see an error message about the many faces detected in the photo', async () => {
   const desktopPage = await desktop.newPage();
 
   await fillStartForm(desktopPage, { ...applicant, firstName: 'Image Integrity - Face Detected' });
