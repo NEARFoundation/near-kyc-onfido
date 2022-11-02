@@ -7,7 +7,7 @@ export default function ResultsFailure({ validationFailureDetails }: { validatio
   // More info about validation: https://documentation.onfido.com/v3.1/#breakdowns
   const validationMessages = new Map([
     [ValidationFailure.InvalidImageIntegritySupportedDocument, 'The document provided is not supported'],
-    [ValidationFailure.InvalidImageIntegrityImageQuality, 'The quality of the pictures you provided are too low'],
+    [ValidationFailure.InvalidImageIntegrityImageQuality, 'The picture(s) you provided have quality issues, which may include: blurriness, darkness, glare, obstruction, etc.'], // https://documentation.onfido.com/#image-quality-reasons
     [ValidationFailure.InvalidVisualAuthenticity, 'There are issues with the pictures you provided'],
     [ValidationFailure.InvalidVisualAuthenticityFaceDetection, 'The face could not be detected in your documents'],
     [ValidationFailure.InvalidVisualAuthenticityFonts, 'The document provided is not readable'],

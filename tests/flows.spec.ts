@@ -89,7 +89,9 @@ test('Applicant should be able to fill the form with a browser, submit documents
   await openKycLinkAndTestDocumentAndPhotoScan(url, mobilePage, expect);
 
   await submittingDocuments(desktopPage);
-  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText('The quality of the pictures you provided are too low');
+  await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText(
+    'The picture(s) you provided have quality issues, which may include: blurriness, darkness, glare, obstruction, etc.',
+  );
   await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText('We could not verify your identity. We invite you to read the reasons below and try again.');
   await desktopPage.screenshot({ path: 'tests/screenshots/failed_image_integrity_image_quality.png', fullPage: true });
 });
