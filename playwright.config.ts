@@ -10,19 +10,22 @@ import * as dotenv from 'dotenv';
  */
 dotenv.config();
 
+const MAXIMUM_TIME_PER_TEST_IN_MILLISECONDS = 60_000;
+const MAXIMUM_TIME_TO_WAIT_FOR_CONDITION_IN_MILLISECONDS = 10_000;
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {
   testDir: './tests',
   /* Maximum time one test can run for. */
-  timeout: 30 * 1000,
+  timeout: MAXIMUM_TIME_PER_TEST_IN_MILLISECONDS,
   expect: {
     /**
      * Maximum time expect() should wait for the condition to be met.
      * For example in `await expect(locator).toHaveText();`
      */
-    timeout: 5000,
+    timeout: MAXIMUM_TIME_TO_WAIT_FOR_CONDITION_IN_MILLISECONDS,
   },
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -31,9 +34,9 @@ const config: PlaywrightTestConfig = {
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: 1, // I defaulted workers to 1 beacause of the rate limit of Onfido
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [['html', { outputFolder: 'tests/reports' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */

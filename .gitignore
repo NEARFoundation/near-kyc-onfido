@@ -36,3 +36,7 @@ yarn-error.log*
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+# test reports
+tests/screenshots/*.png
+tests/reports/*.html

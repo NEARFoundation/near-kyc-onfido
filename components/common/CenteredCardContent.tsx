@@ -21,7 +21,7 @@ export default function CenteredCardContent({
       {isLoading && <LoadingSpinner />}
       <i className={iconClasses} style={{ fontSize: '98px' }} aria-hidden="true" />
       <h1 className="fs-2 mb-2">{title}</h1>
-      <p className="text-secondary mb-4">{description}</p>
+      <p className="text-secondary mb-2">{description}</p>
       {children}
     </div>
   );
