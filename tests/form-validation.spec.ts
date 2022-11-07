@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
 import { faker } from '@faker-js/faker';
 import { BrowserContext, expect, test } from '@playwright/test';
 
@@ -8,6 +10,8 @@ import { fillStartForm } from './utils/helpers';
 
 let desktop: BrowserContext;
 let applicant: ApplicantProperties;
+
+const FORBIDDEN_CHARACTERS = '^!#$%*=<>;{}"';
 
 test.beforeEach(async ({ browser }) => {
   desktop = await browser.newContext({
@@ -68,16 +72,38 @@ test('Form should not let anyone under 18 submit the form', async () => {
 
 test('Form should not let anyone with invalid firstname submit the form', async () => {
   const desktopPage = await desktop.newPage();
+  const dob = faker.date.birthdate({ min: 18, max: 60, mode: 'age' }).toISOString().split('T')[0];
+
+  for (const character of FORBIDDEN_CHARACTERS) {
+    const firstName = `${applicant.firstName}${character}`;
+    await fillStartForm(desktopPage, { ...applicant, firstName, dob });
+    await expect(desktopPage.getByText('First name cannot contain special characters such as ^!#$%*=<>;{}"')).toHaveText(
+      'First name cannot contain special characters such as ^!#$%*=<>;{}"',
+    );
+  }
 });
 
 test('Form should not let anyone with spaces as firstname', async () => {
   const desktopPage = await desktop.newPage();
+  await fillStartForm(desktopPage, { ...applicant, firstName: '     ' });
+  await expect(desktopPage.getByText(/First name is required/)).toHaveText(/First name is required/);
 });
 
 test('Form should not let anyone with invalid lastname submit the form', async () => {
   const desktopPage = await desktop.newPage();
+  const dob = faker.date.birthdate({ min: 18, max: 60, mode: 'age' }).toISOString().split('T')[0];
+
+  for (const character of FORBIDDEN_CHARACTERS) {
+    const lastName = `${applicant.lastName}${character}`;
+    await fillStartForm(desktopPage, { ...applicant, lastName, dob });
+    await expect(desktopPage.getByText('Last name cannot contain special characters such as ^!#$%*=<>;{}"')).toHaveText(
+      'Last name cannot contain special characters such as ^!#$%*=<>;{}"',
+    );
+  }
 });
 
 test('Form should not let anyone with spaces as lastname', async () => {
   const desktopPage = await desktop.newPage();
+  await fillStartForm(desktopPage, { ...applicant, lastName: '     ' });
+  await expect(desktopPage.getByText(/Last name is required/)).toHaveText(/Last name is required/);
 });
