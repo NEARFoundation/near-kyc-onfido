@@ -1,4 +1,4 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm, Validate } from 'react-hook-form';
 
 import { MIN_AGE_FOR_APPLICANT } from '../../constants';
 import type ApplicantProperties from '../../types/ApplicantProperties';
@@ -18,6 +18,13 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
 
   // eslint-disable-next-line no-magic-numbers
   const YEAR_IN_MILLISECONDS = 1000 * 60 * 60 * 24 * 365.2425;
+  const EMAIL_VALIDATION_REGEX =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  const validateMinAge: Validate<string> = (dateOfBirth: string) => {
+    const age = Math.floor((Date.now() - new Date(dateOfBirth).getTime()) / YEAR_IN_MILLISECONDS);
+    return age >= MIN_AGE_FOR_APPLICANT;
+  };
 
   return (
     <>
@@ -59,7 +66,7 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
               disabled={loading}
               {...register('email', {
                 required: true,
-                pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                pattern: EMAIL_VALIDATION_REGEX,
               })}
               required
             />
@@ -82,12 +89,7 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
               disabled={loading}
               {...register('dob', {
                 required: true,
-                validate: (dateOfBirth) => {
-                  // calculate exact age
-                  const age = Math.floor((Date.now() - new Date(dateOfBirth).getTime()) / YEAR_IN_MILLISECONDS);
-
-                  return age >= MIN_AGE_FOR_APPLICANT;
-                },
+                validate: validateMinAge,
               })}
               required
             />
@@ -95,7 +97,7 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
             <label htmlFor="dob">Date of Birth</label>
             {errors.dob && (
               <p role="alert" className="d-block invalid-feedback text-start mb-0">
-                Only users above 18 are allowed
+                Only users above 18 years old are allowed
               </p>
             )}
           </div>
