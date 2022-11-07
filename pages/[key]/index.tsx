@@ -46,17 +46,6 @@ const options: Onfido.SdkOptions = {
   ],
 };
 
-// function getApplicantProperties(formFields: HTMLFormElement): ApplicantProperties {
-//   const applicantProperties: ApplicantProperties = {
-//     firstName: formFields.firstName.value,
-//     lastName: formFields.lastName.value,
-//     email: formFields.email.value,
-//     dob: formFields.dob.value,
-//   };
-//   console.log('Returning applicant properties');
-//   return applicantProperties;
-// }
-
 const StartPage: NextPage<Props> = ({ csrfToken }) => {
   const [onfidoInstance, setOnfidoInstance] = useState<Onfido.SdkHandle | null>(null);
   const [loading, setLoading] = useState(false);
@@ -123,7 +112,6 @@ const StartPage: NextPage<Props> = ({ csrfToken }) => {
   }, []);
 
   const onSubmit: SubmitHandler<ApplicantProperties> = async (data: ApplicantProperties) => {
-    console.log(data);
     localStorage.setItem(LOCALSTORAGE_USER_DATA_NAME, JSON.stringify(data));
     await submitAndInitOnfido(data);
   };
