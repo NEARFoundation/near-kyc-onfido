@@ -7,6 +7,7 @@ import PrivacyPolicyButtonModal from '../privacy-policy/PrivacyPolicyButtonModal
 // https://getbootstrap.com/docs/5.0/forms/layout/
 // https://getbootstrap.com/docs/5.0/layout/gutters/
 
+// eslint-disable-next-line max-lines-per-function
 export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: SubmitHandler<ApplicantProperties>; loading: boolean; error: boolean }): JSX.Element {
   const {
     register,
@@ -24,7 +25,11 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
               <input type="text" className="form-control" aria-label="First Name" disabled={loading} {...register('firstName', { required: true })} required />
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label htmlFor="firstName">First Name</label>
-              {errors.firstName && <p className="d-block invalid-feedback text-start mb-0">First name is required</p>}
+              {errors.firstName && (
+                <p role="alert" className="d-block invalid-feedback text-start mb-0">
+                  First name is required
+                </p>
+              )}
             </div>
           </div>
           <div className="col-md-6 pb-2">
@@ -32,7 +37,11 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
               <input type="text" className="form-control" aria-label="Last Name" disabled={loading} {...register('lastName', { required: true })} required />
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label htmlFor="lastName">Last Name</label>
-              {errors.lastName && <p className="d-block invalid-feedback text-start mb-0">Last name is required</p>}
+              {errors.lastName && (
+                <p role="alert" className="d-block invalid-feedback text-start mb-0">
+                  Last name is required
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -42,7 +51,11 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
             <input type="email" className="form-control" aria-label="email" disabled={loading} {...register('email', { required: true })} required />
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label htmlFor="email">Email Address</label>
-            {errors.email && <p className="d-block invalid-feedback text-start mb-0">A valid email address is required</p>}
+            {errors.email && (
+              <p role="alert" className="d-block invalid-feedback text-start mb-0">
+                A valid email address is required
+              </p>
+            )}
           </div>
         </div>
 
@@ -51,7 +64,11 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
             <input type="date" className="form-control" aria-label="Date of birth" disabled={loading} {...register('dob', { required: true })} required />
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label htmlFor="dob">Date of Birth</label>
-            {errors.dob && <p className="d-block invalid-feedback text-start mb-0">Only users above 18 are allowed</p>}
+            {errors.dob && (
+              <p role="alert" className="d-block invalid-feedback text-start mb-0">
+                Only users above 18 are allowed
+              </p>
+            )}
           </div>
         </div>
 
@@ -64,7 +81,11 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
                 I have read and agree to the <PrivacyPolicyButtonModal>privacy policy</PrivacyPolicyButtonModal>
               </label>
             </div>
-            {errors.consent && <p className="d-block invalid-feedback text-start mb-0">You must agree to the privacy policy before submitting</p>}
+            {errors.consent && (
+              <p role="alert" className="d-block invalid-feedback text-start mb-0">
+                You must agree to the privacy policy before submitting
+              </p>
+            )}
           </div>
         </div>
 
