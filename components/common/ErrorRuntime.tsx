@@ -4,7 +4,7 @@ import ResultsRetryButton from '../results/ResultsRetryButton';
 import CenteredCard from './CenteredCard';
 import CenteredCardContent from './CenteredCardContent';
 
-export default function Error500(): JSX.Element {
+export default function ErrorRuntime(): JSX.Element {
   return (
     <MainLayout>
       <CenteredCard>
