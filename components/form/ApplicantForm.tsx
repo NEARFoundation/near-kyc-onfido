@@ -20,7 +20,7 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
   const YEAR_IN_MILLISECONDS = 1000 * 60 * 60 * 24 * 365.2425;
   const EMAIL_VALIDATION_REGEX =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  const SPECIAL_CHARACTERS = /[\^!#$%*=<>;{}\"]/; // https://documentation.onfido.com/#forbidden-characters
+  const SPECIAL_CHARACTERS = /[\^!#$%*=<>;{}"]/; // https://documentation.onfido.com/#forbidden-characters
 
   const validateName: Validate<string> = (name: string) => {
     return !SPECIAL_CHARACTERS.test(name);
