@@ -35,7 +35,7 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
 
   return (
     <>
-      {error && <Alert>Sorry an error occured, we invite you to review your information and try again</Alert>}
+      {error && <Alert>Sorry, an error occurred. Please review your information and try again.</Alert>}
       <form className="applicant-form mt-5" onSubmit={handleSubmit(onSubmit)}>
         <div className="row">
           <div className="col-md-6 pb-2">
