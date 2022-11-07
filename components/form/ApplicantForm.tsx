@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm, Validate } from 'react-hook-form';
 
-import { MIN_AGE_FOR_APPLICANT } from '../../constants';
+import { FORBIDDEN_CHARACTERS, MIN_AGE_FOR_APPLICANT } from '../../constants';
 import type ApplicantProperties from '../../types/ApplicantProperties';
 import Alert from '../common/Alert';
 import PrivacyPolicyButtonModal from '../privacy-policy/PrivacyPolicyButtonModal';
@@ -53,7 +53,7 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
               {errors.firstName && (
                 <p role="alert" className="d-block invalid-feedback text-start mb-0">
                   {errors.firstName.type === 'required' && 'First name is required'}
-                  {errors.firstName.type === 'validate' && 'First name cannot contain special characters such as ^!#$%*=<>;{}"'}
+                  {errors.firstName.type === 'validate' && `First name cannot contain special characters such as ${FORBIDDEN_CHARACTERS}`}
                 </p>
               )}
             </div>
@@ -73,7 +73,7 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
               {errors.lastName && (
                 <p role="alert" className="d-block invalid-feedback text-start mb-0">
                   {errors.lastName.type === 'required' && 'Last name is required'}
-                  {errors.lastName.type === 'validate' && 'Last name cannot contain special characters such as ^!#$%*=<>;{}"'}
+                  {errors.lastName.type === 'validate' && `Last name cannot contain special characters such as ${FORBIDDEN_CHARACTERS}`}
                 </p>
               )}
             </div>
