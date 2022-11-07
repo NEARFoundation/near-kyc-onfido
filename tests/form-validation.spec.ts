@@ -65,3 +65,19 @@ test('Form should not let anyone under 18 submit the form', async () => {
   await fillStartForm(desktopPage, applicant);
   await expect(desktopPage.getByText(/Only users above 18 years old are allowed/)).toHaveText(/Only users above 18 years old are allowed/);
 });
+
+test('Form should not let anyone with invalid firstname submit the form', async () => {
+  const desktopPage = await desktop.newPage();
+});
+
+test('Form should not let anyone with spaces as firstname', async () => {
+  const desktopPage = await desktop.newPage();
+});
+
+test('Form should not let anyone with invalid lastname submit the form', async () => {
+  const desktopPage = await desktop.newPage();
+});
+
+test('Form should not let anyone with spaces as lastname', async () => {
+  const desktopPage = await desktop.newPage();
+});
