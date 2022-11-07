@@ -20,6 +20,11 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
   const YEAR_IN_MILLISECONDS = 1000 * 60 * 60 * 24 * 365.2425;
   const EMAIL_VALIDATION_REGEX =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const SPECIAL_CHARACTERS = /[\^!#$%*=<>;{}\"]/; // https://documentation.onfido.com/#forbidden-characters
+
+  const validateName: Validate<string> = (name: string) => {
+    return !SPECIAL_CHARACTERS.test(name);
+  };
 
   const validateMinAge: Validate<string> = (dateOfBirth: string) => {
     const age = Math.floor((Date.now() - new Date(dateOfBirth).getTime()) / YEAR_IN_MILLISECONDS);
@@ -27,6 +32,8 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
   };
 
   const trimInput = (input: string) => input.trim();
+
+  console.log(errors);
 
   return (
     <>
@@ -40,26 +47,35 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
                 className="form-control"
                 aria-label="First Name"
                 disabled={loading}
-                {...register('firstName', { required: true, setValueAs: trimInput })}
+                {...register('firstName', { required: true, setValueAs: trimInput, validate: validateName })}
                 required
               />
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label htmlFor="firstName">First Name</label>
               {errors.firstName && (
                 <p role="alert" className="d-block invalid-feedback text-start mb-0">
-                  First name is required
+                  {errors.firstName.type === 'required' && 'First name is required'}
+                  {errors.firstName.type === 'validate' && 'First name cannot contain special characters such as ^!#$%*=<>;{}"'}
                 </p>
               )}
             </div>
           </div>
           <div className="col-md-6 pb-2">
             <div className="form-floating">
-              <input type="text" className="form-control" aria-label="Last Name" disabled={loading} {...register('lastName', { required: true, setValueAs: trimInput })} required />
+              <input
+                type="text"
+                className="form-control"
+                aria-label="Last Name"
+                disabled={loading}
+                {...register('lastName', { required: true, setValueAs: trimInput, validate: validateName })}
+                required
+              />
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label htmlFor="lastName">Last Name</label>
               {errors.lastName && (
                 <p role="alert" className="d-block invalid-feedback text-start mb-0">
-                  Last name is required
+                  {errors.lastName.type === 'required' && 'Last name is required'}
+                  {errors.lastName.type === 'validate' && 'Last name cannot contain special characters such as ^!#$%*=<>;{}"'}
                 </p>
               )}
             </div>
