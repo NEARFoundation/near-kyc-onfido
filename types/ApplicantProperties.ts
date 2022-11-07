@@ -4,6 +4,7 @@ interface ApplicantProperties {
   email: string;
   dob: string;
   csrf_token?: string;
+  consent?: boolean;
 }
 
 export default ApplicantProperties;

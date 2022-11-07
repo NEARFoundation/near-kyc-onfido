@@ -36,6 +36,7 @@ module.exports = {
     'simple-import-sort/exports': 'error',
     '@typescript-eslint/prefer-nullish-coalescing': 'error',
     'no-magic-numbers': 'error',
+    'react/require-default-props': 'off',
   },
   reportUnusedDisableDirectives: true, // https://eslint.org/docs/user-guide/configuring#report-unused-eslint-disable-comments
   settings: {
