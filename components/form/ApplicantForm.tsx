@@ -48,7 +48,17 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
 
         <div className="pb-2">
           <div className="form-floating">
-            <input type="email" className="form-control" aria-label="email" disabled={loading} {...register('email', { required: true })} required />
+            <input
+              type="email"
+              className="form-control"
+              aria-label="email"
+              disabled={loading}
+              {...register('email', {
+                required: true,
+                pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              })}
+              required
+            />
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label htmlFor="email">Email Address</label>
             {errors.email && (
