@@ -33,8 +33,6 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
 
   const trimInput = (input: string) => input.trim();
 
-  console.log(errors);
-
   return (
     <>
       {error && <Alert>Sorry an error occured, we invite you to review your information and try again</Alert>}
