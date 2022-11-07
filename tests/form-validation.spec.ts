@@ -3,6 +3,7 @@
 import { faker } from '@faker-js/faker';
 import { BrowserContext, expect, test } from '@playwright/test';
 
+import { FORBIDDEN_CHARACTERS } from '../constants';
 import type ApplicantProperties from '../types/ApplicantProperties';
 
 import { FLOW_URL } from './utils/constants';
@@ -10,8 +11,6 @@ import { fillStartForm } from './utils/helpers';
 
 let desktop: BrowserContext;
 let applicant: ApplicantProperties;
-
-const FORBIDDEN_CHARACTERS = '^!#$%*=<>;{}"';
 
 test.beforeEach(async ({ browser }) => {
   desktop = await browser.newContext({
@@ -83,8 +82,8 @@ test('Form should not let anyone with invalid firstname submit the form', async 
   for (const character of FORBIDDEN_CHARACTERS) {
     const firstName = `${applicant.firstName}${character}`;
     await fillStartForm(desktopPage, { ...applicant, firstName, dob });
-    await expect(desktopPage.getByText('First name cannot contain special characters such as ^!#$%*=<>;{}"')).toHaveText(
-      'First name cannot contain special characters such as ^!#$%*=<>;{}"',
+    await expect(desktopPage.getByText(`First name cannot contain special characters such as ${FORBIDDEN_CHARACTERS}`)).toHaveText(
+      `First name cannot contain special characters such as ${FORBIDDEN_CHARACTERS}`,
     );
   }
 });
@@ -102,8 +101,8 @@ test('Form should not let anyone with invalid lastname submit the form', async (
   for (const character of FORBIDDEN_CHARACTERS) {
     const lastName = `${applicant.lastName}${character}`;
     await fillStartForm(desktopPage, { ...applicant, lastName, dob });
-    await expect(desktopPage.getByText('Last name cannot contain special characters such as ^!#$%*=<>;{}"')).toHaveText(
-      'Last name cannot contain special characters such as ^!#$%*=<>;{}"',
+    await expect(desktopPage.getByText(`Last name cannot contain special characters such as ${FORBIDDEN_CHARACTERS}`)).toHaveText(
+      `Last name cannot contain special characters such as ${FORBIDDEN_CHARACTERS}`,
     );
   }
 });
