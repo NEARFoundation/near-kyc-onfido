@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
 import type { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
@@ -45,18 +46,17 @@ const options: Onfido.SdkOptions = {
   ],
 };
 
-function getApplicantProperties(formFields: HTMLFormElement): ApplicantProperties {
-  const applicantProperties: ApplicantProperties = {
-    firstName: formFields.firstName.value,
-    lastName: formFields.lastName.value,
-    email: formFields.email.value,
-    dob: formFields.dob.value,
-  };
-  console.log('Returning applicant properties');
-  return applicantProperties;
-}
+// function getApplicantProperties(formFields: HTMLFormElement): ApplicantProperties {
+//   const applicantProperties: ApplicantProperties = {
+//     firstName: formFields.firstName.value,
+//     lastName: formFields.lastName.value,
+//     email: formFields.email.value,
+//     dob: formFields.dob.value,
+//   };
+//   console.log('Returning applicant properties');
+//   return applicantProperties;
+// }
 
-// eslint-disable-next-line max-lines-per-function
 const StartPage: NextPage<Props> = ({ csrfToken }) => {
   const [onfidoInstance, setOnfidoInstance] = useState<Onfido.SdkHandle | null>(null);
   const [loading, setLoading] = useState(false);
@@ -122,15 +122,11 @@ const StartPage: NextPage<Props> = ({ csrfToken }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function onSubmit(event: React.SyntheticEvent) {
-    const { target } = event;
-    event.preventDefault();
-    setError(false);
-    const htmlElements = target as unknown as HTMLFormElement;
-    const applicantProperties = getApplicantProperties(htmlElements);
-    localStorage.setItem(LOCALSTORAGE_USER_DATA_NAME, JSON.stringify(applicantProperties));
-    await submitAndInitOnfido(applicantProperties);
-  }
+  const onSubmit: SubmitHandler<ApplicantProperties> = async (data: ApplicantProperties) => {
+    console.log(data);
+    localStorage.setItem(LOCALSTORAGE_USER_DATA_NAME, JSON.stringify(data));
+    await submitAndInitOnfido(data);
+  };
 
   useEffect(() => {
     return () => {
@@ -142,7 +138,7 @@ const StartPage: NextPage<Props> = ({ csrfToken }) => {
   return (
     <MainLayout>
       <div id="onfido-mount" />
-      {!onfidoInstance && <FirstStep onfidoInstance={onfidoInstance} onSubmit={(event) => onSubmit(event)} loading={loading} error={error} />}
+      {!onfidoInstance && <FirstStep onfidoInstance={onfidoInstance} onSubmit={onSubmit} loading={loading} error={error} />}
     </MainLayout>
   );
 };

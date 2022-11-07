@@ -1,5 +1,7 @@
+import { SubmitHandler } from 'react-hook-form';
 import type { SdkHandle } from 'onfido-sdk-ui';
 
+import type ApplicantProperties from '../../types/ApplicantProperties';
 import CenteredCard from '../common/CenteredCard';
 import Header from '../layout/Header';
 
@@ -12,7 +14,7 @@ function FirstStep({
   error,
 }: {
   onfidoInstance: SdkHandle | null;
-  onSubmit: (event: React.SyntheticEvent) => void;
+  onSubmit: SubmitHandler<ApplicantProperties>;
   loading: boolean;
   error: boolean;
 }): JSX.Element {
