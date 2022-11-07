@@ -26,6 +26,7 @@ function FirstStep({
       <h3 className="mb-4">We want to get to know you!</h3>
       <p>Start by introducing yourself here.</p>
       <p>On the next page, we&apos;ll ask you to provide other information (documents or photos) that will help verify your identity.</p>
+      <p>Keep in mind that applicant under 18 cannot be verified.</p>
 
       <ApplicantForm onSubmit={onSubmit} loading={loading} error={error} />
     </CenteredCard>
