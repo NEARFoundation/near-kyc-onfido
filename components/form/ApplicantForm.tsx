@@ -13,7 +13,7 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ApplicantProperties>();
+  } = useForm<ApplicantProperties>({ mode: 'onTouched' });
 
   return (
     <>
