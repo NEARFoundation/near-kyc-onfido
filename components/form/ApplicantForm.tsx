@@ -1,5 +1,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 
+import { MIN_AGE_FOR_APPLICANT } from '../../constants';
 import type ApplicantProperties from '../../types/ApplicantProperties';
 import Alert from '../common/Alert';
 import PrivacyPolicyButtonModal from '../privacy-policy/PrivacyPolicyButtonModal';
@@ -14,6 +15,9 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
     handleSubmit,
     formState: { errors },
   } = useForm<ApplicantProperties>({ mode: 'onTouched' });
+
+  // eslint-disable-next-line no-magic-numbers
+  const YEAR_IN_MILLISECONDS = 1000 * 60 * 60 * 24 * 365.2425;
 
   return (
     <>
@@ -71,7 +75,22 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
 
         <div className="pb-2">
           <div className="form-floating">
-            <input type="date" className="form-control" aria-label="Date of birth" disabled={loading} {...register('dob', { required: true })} required />
+            <input
+              type="date"
+              className="form-control"
+              aria-label="Date of birth"
+              disabled={loading}
+              {...register('dob', {
+                required: true,
+                validate: (dateOfBirth) => {
+                  // calculate exact age
+                  const age = Math.floor((Date.now() - new Date(dateOfBirth).getTime()) / YEAR_IN_MILLISECONDS);
+
+                  return age >= MIN_AGE_FOR_APPLICANT;
+                },
+              })}
+              required
+            />
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label htmlFor="dob">Date of Birth</label>
             {errors.dob && (
