@@ -21,46 +21,50 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
         <div className="row">
           <div className="col-md-6 pb-2">
             <div className="form-floating">
-              <input type="text" className="form-control" aria-label="First Name" disabled={loading} {...register('firstName', { required: true })} />
+              <input type="text" className="form-control" aria-label="First Name" disabled={loading} {...register('firstName', { required: true })} required />
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label htmlFor="firstName">First Name</label>
-              {errors.firstName && <span>This field is required</span>}
+              {errors.firstName && <p className="d-block invalid-feedback text-start mb-0">First name is required</p>}
             </div>
           </div>
           <div className="col-md-6 pb-2">
             <div className="form-floating">
-              <input type="text" className="form-control" aria-label="Last Name" disabled={loading} {...register('lastName', { required: true })} />
+              <input type="text" className="form-control" aria-label="Last Name" disabled={loading} {...register('lastName', { required: true })} required />
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label htmlFor="lastName">Last Name</label>
+              {errors.lastName && <p className="d-block invalid-feedback text-start mb-0">Last name is required</p>}
             </div>
           </div>
         </div>
 
         <div className="pb-2">
           <div className="form-floating">
-            <input type="email" className="form-control" aria-label="email" disabled={loading} {...register('email', { required: true })} />
+            <input type="email" className="form-control" aria-label="email" disabled={loading} {...register('email', { required: true })} required />
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label htmlFor="email">Email Address</label>
+            {errors.email && <p className="d-block invalid-feedback text-start mb-0">A valid email address is required</p>}
           </div>
         </div>
 
         <div className="pb-2">
           <div className="form-floating">
-            <input type="date" className="form-control" aria-label="Date of birth" disabled={loading} {...register('dob', { required: true })} />
+            <input type="date" className="form-control" aria-label="Date of birth" disabled={loading} {...register('dob', { required: true })} required />
             {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
             <label htmlFor="dob">Date of Birth</label>
+            {errors.dob && <p className="d-block invalid-feedback text-start mb-0">Only users above 18 are allowed</p>}
           </div>
         </div>
 
         <div className="pb-2 mt-2">
           <div className="form-floating text-start">
             <div className="form-check">
-              <input id="consent" type="checkbox" className="form-check-input" disabled={loading} {...register('consent', { required: true })} />
+              <input id="consent" type="checkbox" className="form-check-input" disabled={loading} {...register('consent', { required: true })} required />
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label htmlFor="consent" className="form-check-label">
                 I have read and agree to the <PrivacyPolicyButtonModal>privacy policy</PrivacyPolicyButtonModal>
               </label>
             </div>
+            {errors.consent && <p className="d-block invalid-feedback text-start mb-0">You must agree to the privacy policy before submitting</p>}
           </div>
         </div>
 
