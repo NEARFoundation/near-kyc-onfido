@@ -26,6 +26,8 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
     return age >= MIN_AGE_FOR_APPLICANT;
   };
 
+  const trimInput = (input: string) => input.trim();
+
   return (
     <>
       {error && <Alert>Sorry an error occured, we invite you to review your information and try again</Alert>}
@@ -33,7 +35,14 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
         <div className="row">
           <div className="col-md-6 pb-2">
             <div className="form-floating">
-              <input type="text" className="form-control" aria-label="First Name" disabled={loading} {...register('firstName', { required: true })} required />
+              <input
+                type="text"
+                className="form-control"
+                aria-label="First Name"
+                disabled={loading}
+                {...register('firstName', { required: true, setValueAs: trimInput })}
+                required
+              />
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label htmlFor="firstName">First Name</label>
               {errors.firstName && (
@@ -45,7 +54,7 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
           </div>
           <div className="col-md-6 pb-2">
             <div className="form-floating">
-              <input type="text" className="form-control" aria-label="Last Name" disabled={loading} {...register('lastName', { required: true })} required />
+              <input type="text" className="form-control" aria-label="Last Name" disabled={loading} {...register('lastName', { required: true, setValueAs: trimInput })} required />
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label htmlFor="lastName">Last Name</label>
               {errors.lastName && (
@@ -67,6 +76,7 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
               {...register('email', {
                 required: true,
                 pattern: EMAIL_VALIDATION_REGEX,
+                setValueAs: trimInput,
               })}
               required
             />
