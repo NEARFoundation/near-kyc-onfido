@@ -56,9 +56,11 @@ function getApplicantProperties(formFields: HTMLFormElement): ApplicantPropertie
   return applicantProperties;
 }
 
+// eslint-disable-next-line max-lines-per-function
 const StartPage: NextPage<Props> = ({ csrfToken }) => {
   const [onfidoInstance, setOnfidoInstance] = useState<Onfido.SdkHandle | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const router = useRouter();
   const { retry } = router.query;
@@ -72,7 +74,8 @@ const StartPage: NextPage<Props> = ({ csrfToken }) => {
 
     if (!applicantId || !sdkToken) {
       setLoading(false);
-      throw new Error('Forbidden user');
+      setError(true);
+      return;
     }
 
     const completeOptions = {
@@ -84,7 +87,8 @@ const StartPage: NextPage<Props> = ({ csrfToken }) => {
         const result = await initCheck({ applicantId, csrf_token: csrfToken });
         const { code } = result as { code: number };
         if (code === FORBIDDEN) {
-          throw new Error('Forbidden user');
+          setError(true);
+          return;
         }
 
         window.location.href = `${baseStartUrl}/results`;
@@ -121,6 +125,7 @@ const StartPage: NextPage<Props> = ({ csrfToken }) => {
   async function onSubmit(event: React.SyntheticEvent) {
     const { target } = event;
     event.preventDefault();
+    setError(false);
     const htmlElements = target as unknown as HTMLFormElement;
     const applicantProperties = getApplicantProperties(htmlElements);
     localStorage.setItem(LOCALSTORAGE_USER_DATA_NAME, JSON.stringify(applicantProperties));
@@ -137,7 +142,7 @@ const StartPage: NextPage<Props> = ({ csrfToken }) => {
   return (
     <MainLayout>
       <div id="onfido-mount" />
-      {!onfidoInstance && <FirstStep onfidoInstance={onfidoInstance} onSubmit={(event) => onSubmit(event)} loading={loading} />}
+      {!onfidoInstance && <FirstStep onfidoInstance={onfidoInstance} onSubmit={(event) => onSubmit(event)} loading={loading} error={error} />}
     </MainLayout>
   );
 };
