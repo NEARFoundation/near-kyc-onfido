@@ -43,7 +43,9 @@ test('Form should display error messages when fields are left empty or with inva
   await desktopPage.getByRole('textbox', { name: /Last Name/ }).click();
   await desktopPage.getByRole('textbox', { name: /Last Name/ }).fill('     ');
   await expect(desktopPage.getByText(/A valid email address is required/)).toHaveText(/A valid email address is required/);
-  await expect(desktopPage.getByText(/Only users above 18 years old are allowed/)).toHaveText(/Only users above 18 years old are allowed/);
+  await expect(desktopPage.getByText(/Sorry, we can only verify people who are at least 18 years old/)).toHaveText(
+    /Sorry, we can only verify people who are at least 18 years old/,
+  );
 
   await desktopPage.getByRole('textbox', { name: /email/ }).click();
   await desktopPage.getByRole('textbox', { name: /email/ }).fill('a@a.a');
@@ -60,14 +62,18 @@ test('Form should display error messages when fields are left empty or with inva
   await expect(desktopPage.getByText(/First name is required/)).toHaveText(/First name is required/);
   await expect(desktopPage.getByText(/Last name is required/)).toHaveText(/Last name is required/);
   await expect(desktopPage.getByText(/A valid email address is required/)).toHaveText(/A valid email address is required/);
-  await expect(desktopPage.getByText(/Only users above 18 years old are allowed/)).toHaveText(/Only users above 18 years old are allowed/);
+  await expect(desktopPage.getByText(/Sorry, we can only verify people who are at least 18 years old/)).toHaveText(
+    /Sorry, we can only verify people who are at least 18 years old/,
+  );
   await desktopPage.screenshot({ path: 'tests/screenshots/form_validation_submit_pressed.png', fullPage: true });
 });
 
 test('Form should not let anyone under 18 submit the form', async () => {
   const desktopPage = await desktop.newPage();
   await fillStartForm(desktopPage, applicant);
-  await expect(desktopPage.getByText(/Only users above 18 years old are allowed/)).toHaveText(/Only users above 18 years old are allowed/);
+  await expect(desktopPage.getByText(/Sorry, we can only verify people who are at least 18 years old/)).toHaveText(
+    /Sorry, we can only verify people who are at least 18 years old/,
+  );
 });
 
 test('Form should not let anyone with invalid firstname submit the form', async () => {

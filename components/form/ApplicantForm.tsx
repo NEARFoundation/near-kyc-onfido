@@ -121,7 +121,7 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
             <label htmlFor="dob">Date of Birth</label>
             {errors.dob && (
               <p role="alert" className="d-block invalid-feedback text-start mb-0">
-                Only users above 18 years old are allowed
+                Sorry, we can only verify people who are at least 18 years old
               </p>
             )}
           </div>
