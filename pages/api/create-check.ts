@@ -40,6 +40,8 @@ const onfido = getOnfido();
  *            properties:
  *              applicantId:
  *                type: string
+ *              csrf_token:
+ *                type: string
  *     responses:
  *       200:
  *        description: Success
