@@ -11,8 +11,49 @@ import { NOT_FOUND, SUCCESS } from '../../utils/statusCodes';
 
 const endpointName = 'check-results';
 
-const onfido = getOnfido();
+/*
 
+export interface CheckResults {
+  isClear: boolean | null; // !isClear means the check failed
+  status: CheckResultsStatus;
+  validationFailureDetails: ValidationFailure[];
+}
+
+export enum CheckResultsStatus {
+  loading = 'loading',
+  willTakeLonger = 'will-take-longer',
+  finished = 'finished',
+  notFound = 'not-found',
+}
+
+*/
+
+const onfido = getOnfido();
+/**
+ * @swagger
+ * /api/check-results:
+ *   get:
+ *     description: Get check check status
+ *     responses:
+ *       200:
+ *        description: Success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *               isClear:
+ *                 type: boolean
+ *                 example: true
+ *               status:
+ *                 type: string
+ *                 example: finished
+ *               validationFailureDetails:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *
+ */
 export default async function handler(req: NextApiRequest, res: NextApiResponse<CheckResults>) {
   console.log(`[${endpointName}] Request received`);
 

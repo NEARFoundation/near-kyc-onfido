@@ -30,7 +30,7 @@ const onfido = getOnfido();
  * @swagger
  * /api/create-check:
  *   post:
- *     description: Create and return an applicant and sdk token
+ *     description: Create check and return success or error code
  *     requestBody:
  *       required: true
  *       content:
