@@ -70,6 +70,14 @@ const securityHeaders = [
     key: 'Cross-Origin-Resource-Policy',
     value: 'same-site',
   },
+  {
+    key: 'Access-Control-Allow-Origin',
+    value: '*',
+  },
+  {
+    key: 'Access-Control-Allow-Credentials',
+    value: 'false',
+  },
 ];
 
 /** @type {import('next').NextConfig} */
