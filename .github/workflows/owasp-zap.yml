@@ -11,8 +11,6 @@ jobs:
     name: Scan the webapplication
     steps:
       - uses: actions/checkout@v3
-      - name: Install dependencies
-        run: yarn
       - name: ZAP Scan
         uses: zaproxy/action-full-scan@v0.4.0
         with:
