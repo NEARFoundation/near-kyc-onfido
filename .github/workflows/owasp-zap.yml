@@ -1,0 +1,21 @@
+name: OWASP ZAP
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+jobs:
+  zap_scan:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    name: Scan the webapplication
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: yarn
+      - name: Build & Serve the website
+        run: yarn build && yarn start
+      - name: ZAP Scan
+        uses: zaproxy/action-full-scan@v0.4.0
+        with:
+          target: 'http://localhost:3000'
