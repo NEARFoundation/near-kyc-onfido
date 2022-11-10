@@ -1,9 +1,11 @@
-name: OWASP ZAP
+name: OWASP ZAP - Vulnerability Scan
+
 on:
   push:
     branches: [main, develop]
   pull_request:
     branches: [main, develop]
+
 jobs:
   zap_scan:
     timeout-minutes: 60
