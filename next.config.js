@@ -1,3 +1,14 @@
+// woopra and sentry are used by onfido
+const contentSecurityPolicy = `
+  default-src 'self';
+  script-src 'self' 'unsafe-eval' www.woopra.com;
+  child-src 'self';
+  connect-src 'self' api.onfido.com www.woopra.com sentry.io ws://sync.onfido.com wss://sync.onfido.com;
+  img-src 'self' assets.onfido.com  data:;
+  style-src 'self' cdn.jsdelivr.net maxcdn.bootstrapcdn.com 'unsafe-inline';
+  font-src 'self' maxcdn.bootstrapcdn.com;  
+`;
+
 const securityHeaders = [
   {
     key: 'X-DNS-Prefetch-Control',
@@ -22,6 +33,10 @@ const securityHeaders = [
   {
     key: 'Referrer-Policy',
     value: 'origin-when-cross-origin',
+  },
+  {
+    key: 'Content-Security-Policy',
+    value: contentSecurityPolicy.replace(/\s{2,}/g, ' ').trim(),
   },
 ];
 
