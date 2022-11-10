@@ -38,6 +38,38 @@ const securityHeaders = [
     key: 'Content-Security-Policy',
     value: contentSecurityPolicy.replace(/\s{2,}/g, ' ').trim(),
   },
+  {
+    key: 'Access-Control-Expose-Headers',
+    value: '*',
+  },
+  {
+    key: 'Access-Control-Max-Age',
+    value: '30',
+  },
+  {
+    key: 'Access-Control-Allow-Headers',
+    value: '*',
+  },
+  {
+    key: 'Permissions-Policy',
+    value: 'camera=(), microphone=(), geolocation=()',
+  },
+  {
+    key: 'Cross-Origin-Embedder-Policy',
+    value: 'unsafe-none',
+  },
+  {
+    key: 'Access-Control-Allow-Methods',
+    value: 'POST, GET, OPTIONS',
+  },
+  {
+    key: 'Cross-Origin-Opener-Policy',
+    value: 'same-origin',
+  },
+  {
+    key: 'Cross-Origin-Resource-Policy',
+    value: 'same-site',
+  },
 ];
 
 /** @type {import('next').NextConfig} */
