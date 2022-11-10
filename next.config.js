@@ -9,6 +9,7 @@ const contentSecurityPolicy = `
   font-src 'self' maxcdn.bootstrapcdn.com;  
 `;
 
+// https://cheatsheetseries.owasp.org/cheatsheets/HTTP_Headers_Cheat_Sheet.html
 const securityHeaders = [
   {
     key: 'X-DNS-Prefetch-Control',
