@@ -1,6 +1,6 @@
 {
   "name": "near-kyc-onfido",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -20,7 +20,9 @@
     "onfido-sdk-ui": "^6.16.0",
     "react": "^18.1.0",
     "react-bootstrap": "^2.5.0",
-    "react-dom": "^18.1.0"
+    "react-dom": "^18.1.0",
+    "react-error-boundary": "^3.1.4",
+    "react-hook-form": "^7.39.1"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
