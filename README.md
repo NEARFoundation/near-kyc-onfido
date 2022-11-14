@@ -42,6 +42,16 @@ yarn start
 
 ### Tests
 
+#### Unit
+
+```bash
+
+yarn test:unit
+
+```
+
+#### End to end
+
 If `BUILD_AND_SERVE_WEBSITE_BEFORE_RUNNING_TEST=true` is set in `.env` the website will be built and served every time you run the test command. It is recommended with CI/CD tools.
 
 If you want instead to run the test locally many times for development purpose you may want to set `BUILD_AND_SERVE_WEBSITE_BEFORE_RUNNING_TEST=false` and run `yarn dev` or `yarn build && yarn start` in a separate terminal before running any test. It will run the tests a lot faster by skipping the build step.
@@ -51,16 +61,16 @@ If you want instead to run the test locally many times for development purpose y
 npx playwright install --with-deps
 
 # headless test
-yarn test
+yarn test:e2e
 
 # headed test
-yarn test:headed
+yarn test:e2e:headed
 
 # test with debug mode
-yarn test:debug
+yarn test:e2e:debug
 
 # serve test reports
-yarn test:report
+yarn test:e2e:report
 ```
 
 Once the tests are done you can find screenshots of the results page in [/tests/e2e/screenshots](/tests/e2e/screenshots) and the test report in [/tests/e2e/reports](/tests/e2e/reports).
