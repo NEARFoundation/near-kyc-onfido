@@ -73,7 +73,7 @@ const securityHeaders = [
   },
   {
     key: 'Access-Control-Allow-Origin',
-    value: '*',
+    value: process.env.NEXT_PUBLIC_BASE_URL,
   },
   {
     key: 'Access-Control-Allow-Credentials',
