@@ -7,10 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "playwright test",
-    "test:debug": "playwright test --debug",
-    "test:headed": "playwright test --headed",
-    "test:report": "playwright show-report"
+    "test": "yarn lint && yarn test:unit && yarn test:e2e",
+    "test:unit": "jest",
+    "test:e2e": "playwright test",
+    "test:e2e:debug": "playwright test --debug",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:report": "playwright show-report"
   },
   "dependencies": {
     "@onfido/api": "^2.1.1",
