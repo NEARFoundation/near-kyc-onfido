@@ -17,7 +17,7 @@ const MAXIMUM_TIME_TO_WAIT_FOR_CONDITION_IN_MILLISECONDS = 10_000;
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {
-  testDir: './tests',
+  testDir: './tests/e2e',
   /* Maximum time one test can run for. */
   timeout: MAXIMUM_TIME_PER_TEST_IN_MILLISECONDS,
   expect: {
