@@ -1,0 +1,17 @@
+name: OWASP ZAP - Vulnerability Scan
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  zap_scan:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    name: Scan the webapplication
+    steps:
+      - uses: actions/checkout@v3
+      - name: ZAP Scan
+        uses: zaproxy/action-full-scan@v0.4.0
+        with:
+          target: ${{secrets.SANDBOX_DEVELOP_URL}}

@@ -1,0 +1,20 @@
+name: Nuclei - Vulnerability Scan
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  nuclei-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Nuclei - Vulnerability Scan
+        uses: projectdiscovery/nuclei-action@main
+        with:
+          target: ${{secrets.SANDBOX_DEVELOP_URL}}
+      - name: GitHub Workflow artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: nuclei.log
+          path: nuclei.log
