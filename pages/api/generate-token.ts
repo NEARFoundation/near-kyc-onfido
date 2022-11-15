@@ -11,6 +11,41 @@ const endpointName = 'generate-token';
 
 const onfido = getOnfido();
 
+/**
+ * @swagger
+ * /api/generate-token:
+ *   post:
+ *     description: Create and return an applicant and sdk token
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *            type: object
+ *            properties:
+ *              firstName:
+ *                type: string
+ *              lastName:
+ *                type: string
+ *              email:
+ *                type: string
+ *              dob:
+ *                type: string
+ *              csrf_token:
+ *                type: string
+ *     responses:
+ *       200:
+ *        description: Success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                applicantId:
+ *                  type: string
+ *                sdkToken:
+ *                  type: string
+ */
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApplicantTokenPair | unknown>) {
   try {
     const ipAddress = req.headers['x-real-ip'] ?? req.connection.remoteAddress;

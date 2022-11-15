@@ -4,7 +4,6 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { COOKIE_CHECK_ID_NAME, COOKIES_EXPIRATION_TIME } from '../../constants';
 import getOnfido from '../../helpers/onfido';
-import type ApplicantTokenPair from '../../types/ApplicantTokenPair';
 import { SERVER_ERROR, SUCCESS } from '../../utils/statusCodes';
 
 const reportNames = [
@@ -27,7 +26,35 @@ const endpointName = 'create-check';
 
 const onfido = getOnfido();
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<ApplicantTokenPair | unknown>) {
+/**
+ * @swagger
+ * /api/create-check:
+ *   post:
+ *     description: Create check and return success or error code
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *            type: object
+ *            properties:
+ *              applicantId:
+ *                type: string
+ *              csrf_token:
+ *                type: string
+ *     responses:
+ *       200:
+ *        description: Success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                code:
+ *                  type: number
+ *                  example: 200
+ */
+export default async function handler(req: NextApiRequest, res: NextApiResponse<{ code: number } | unknown>) {
   const { applicantId } = req.body;
   console.log('Starting', endpointName);
   try {
@@ -41,7 +68,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     res.setHeader('Set-Cookie', `${COOKIE_CHECK_ID_NAME}=${check.id}; Max-Age=${COOKIES_EXPIRATION_TIME}; Path=/`);
 
     console.log('Returning result', endpointName);
-    res.status(SUCCESS).json(check);
+    res.status(SUCCESS).json({ code: SUCCESS });
   } catch (error: unknown | OnfidoApiError) {
     if (error instanceof OnfidoApiError) {
       // An error response was received from the Onfido API, extra info is available.
