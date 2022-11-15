@@ -4,7 +4,7 @@ import { describe, expect, test } from '@jest/globals';
 
 import OnfidoFacialReportBreakdown from '../../types/OnfidoFacialReportBreakdown';
 import ValidationFailure from '../../types/ValidationFailure';
-import ValidationResult from '../../types/ValidationResult';
+import type ValidationResult from '../../types/ValidationResult';
 import getFacialValidationFailureDetails from '../../utils/getFacialValidationFailureDetails';
 
 const createFacialResultPayload = ({

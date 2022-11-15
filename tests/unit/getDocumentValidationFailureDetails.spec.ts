@@ -5,7 +5,7 @@ import { describe, expect, test } from '@jest/globals';
 
 import OnfidoDocumentReportBreakdown from '../../types/OnfidoDocumentReportBreakdown';
 import ValidationFailure from '../../types/ValidationFailure';
-import ValidationResult from '../../types/ValidationResult';
+import type ValidationResult from '../../types/ValidationResult';
 import getDocumentValidationFailureDetails from '../../utils/getDocumentValidationFailureDetails';
 
 // eslint-disable-next-line max-lines-per-function
