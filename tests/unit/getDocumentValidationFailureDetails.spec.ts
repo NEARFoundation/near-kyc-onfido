@@ -2,7 +2,7 @@
 import { describe, expect, test } from '@jest/globals';
 
 import OnfidoDocumentReportBreakdown from '../../types/OnfidoDocumentReportBreakdown';
-// import ValidationFailure from '../../types/ValidationFailure';
+import ValidationFailure from '../../types/ValidationFailure';
 import ValidationResult from '../../types/ValidationResult';
 import getDocumentValidationFailureDetails from '../../utils/getDocumentValidationFailureDetails';
 
@@ -104,6 +104,7 @@ const createDocumentValidationResultPayload = ({
 const successDocumentValidationResultPayload = createDocumentValidationResultPayload({});
 
 /*
+  InvalidImageIntegrity = 'InvalidImageIntegrity', // Generic Image Integrity failure
   InvalidImageIntegritySupportedDocument = 'InvalidImageIntegritySupportedDocument', // "Image Integrity - Supported Document"
   InvalidImageIntegrityImageQuality = 'InvalidImageIntegrityImageQuality', // "Image Integrity - Image Quality"
   InvalidVisualAuthenticity = 'InvalidVisualAuthenticity', // Generic Visual authenticity because there are many sub failures
@@ -115,6 +116,10 @@ const successDocumentValidationResultPayload = createDocumentValidationResultPay
   InvalidDataConsistency = 'InvalidDataConsistency', // Generic Data Consistency because there are many sub failures
   InvalidDataConsistencyDocumentType = 'InvalidDataConsistencyDocumentType', // "Data Consistency - Document Type"
 */
+
+const failureImageIntegritySupportedDocument = createDocumentValidationResultPayload({
+  imageIntegrityResult: 'consider',
+});
 
 describe('getDocumentValidationFailureDetails', () => {
   test('getDocumentValidationFailureDetails(successDocumentValidationResultPayload) should return an empty array', () => {

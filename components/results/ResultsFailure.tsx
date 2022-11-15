@@ -5,7 +5,8 @@ import ResultsRetryButton from './ResultsRetryButton';
 
 export default function ResultsFailure({ validationFailureDetails }: { validationFailureDetails: ValidationFailure[] }): JSX.Element {
   // More info about validation: https://documentation.onfido.com/v3.1/#breakdowns
-  const validationMessages = new Map([
+  const validationMessages: Map<ValidationFailure, string> = new Map([
+    [ValidationFailure.InvalidImageIntegrity, 'There are issues with the images provided'],
     [ValidationFailure.InvalidImageIntegritySupportedDocument, 'The document provided is not supported'],
     [ValidationFailure.InvalidImageIntegrityImageQuality, 'The picture(s) you provided have quality issues, which may include: blurriness, darkness, glare, obstruction, etc.'], // https://documentation.onfido.com/#image-quality-reasons
     [ValidationFailure.InvalidVisualAuthenticity, 'There are issues with the pictures you provided'],
