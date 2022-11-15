@@ -80,7 +80,7 @@ const fullyFailingFacialResultPayload = createFacialResultPayload({
   faceMatchResult: 'consider',
 });
 
-const fullyFailingFacialResultPayloadUsingUnidentified = createFacialResultPayload({
+const fullyFailingFacialResultPayloadUnidentified = createFacialResultPayload({
   visualAuthenticityResult: 'unidentified',
   imageIntegrityResult: 'unidentified',
   sourceIntegrityResult: 'unidentified',
@@ -143,13 +143,13 @@ describe('getFacialValidationFailureDetails function', () => {
     expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayload)).toHaveLength(4);
   });
 
-  test('getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUsingUnidentified) should return an array with ValidationFailure.InvalidVisualAuthenticitySpoofing, ValidationFailure.InvalidImageIntegrity, ValidationFailure.InvalidImageIntegrityFaceDetected and ValidationFailure.InvalidFaceComparison', () => {
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUsingUnidentified)).toContain(ValidationFailure.InvalidVisualAuthenticitySpoofing);
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUsingUnidentified)).toContain(ValidationFailure.InvalidImageIntegritySource);
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUsingUnidentified)).toContain(ValidationFailure.InvalidImageIntegrityFaceDetected);
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUsingUnidentified)).toContain(ValidationFailure.InvalidFaceComparison);
+  test('getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUnidentified) should return an array with ValidationFailure.InvalidVisualAuthenticitySpoofing, ValidationFailure.InvalidImageIntegrity, ValidationFailure.InvalidImageIntegrityFaceDetected and ValidationFailure.InvalidFaceComparison', () => {
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUnidentified)).toContain(ValidationFailure.InvalidVisualAuthenticitySpoofing);
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUnidentified)).toContain(ValidationFailure.InvalidImageIntegritySource);
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUnidentified)).toContain(ValidationFailure.InvalidImageIntegrityFaceDetected);
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUnidentified)).toContain(ValidationFailure.InvalidFaceComparison);
     // eslint-disable-next-line no-magic-numbers
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUsingUnidentified)).toHaveLength(4);
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUnidentified)).toHaveLength(4);
   });
 
   test('getFacialValidationFailureDetails(fullyFailingFacialResultPayloadRejected) should return an array with ValidationFailure.InvalidVisualAuthenticitySpoofing, ValidationFailure.InvalidImageIntegrity, ValidationFailure.InvalidImageIntegrityFaceDetected and ValidationFailure.InvalidFaceComparison', () => {
