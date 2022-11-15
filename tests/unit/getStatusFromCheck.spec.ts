@@ -2,8 +2,8 @@
 import { describe, expect, test } from '@jest/globals';
 import type { Check } from '@onfido/api';
 
-import getStatusFromCheck from '../../utils/getStatusFromCheck';
 import { CheckResultsStatus } from '../../types/CheckResults';
+import getStatusFromCheck from '../../utils/getStatusFromCheck';
 
 const createCheckPayload = ({
   status,
@@ -74,18 +74,18 @@ describe('getStatusFromCheck', () => {
   test('getStatusFromCheck(pausedPayload) should return CheckResultsStatus.willTakeLonger status and isClear should be false', () => {
     const { status, isClear } = getStatusFromCheck(pausedPayload);
     expect(status).toEqual(CheckResultsStatus.willTakeLonger);
-    expect(isClear).toEqual(false);
+    expect(isClear).toEqual(null);
   });
 
   test('getStatusFromCheck(reopenedPayload) should return CheckResultsStatus.willTakeLonger status and isClear should be false', () => {
     const { status, isClear } = getStatusFromCheck(reopenedPayload);
     expect(status).toEqual(CheckResultsStatus.willTakeLonger);
-    expect(isClear).toEqual(false);
+    expect(isClear).toEqual(null);
   });
 
   test('getStatusFromCheck(awaitingApplicantPayload) should return CheckResultsStatus.willTakeLonger status and isClear should be false', () => {
     const { status, isClear } = getStatusFromCheck(awaitingApplicantPayload);
-    expect(status).toEqual(CheckResultsStatus.willTakeLonger);
+    expect(status).toEqual(CheckResultsStatus.finished);
     expect(isClear).toEqual(false);
   });
 });
