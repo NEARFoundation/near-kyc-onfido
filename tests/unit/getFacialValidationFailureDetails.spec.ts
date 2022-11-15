@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { describe, expect, test } from '@jest/globals';
 
+import OnfidoFacialReportBreakdown from '../../types/OnfidoFacialReportBreakdown';
 import ValidationFailure from '../../types/ValidationFailure';
 import ValidationResult from '../../types/ValidationResult';
 import getFacialValidationFailureDetails from '../../utils/getFacialValidationFailureDetails';
@@ -17,7 +18,7 @@ const createFacialResultPayload = ({
   sourceIntegrityResult?: ValidationResult;
   faceDetectedResult?: ValidationResult;
   faceMatchResult?: ValidationResult;
-}) => ({
+}): OnfidoFacialReportBreakdown => ({
   visualAuthenticity: {
     result: visualAuthenticityResult,
     breakdown: {
