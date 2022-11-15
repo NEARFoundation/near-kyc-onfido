@@ -7,7 +7,7 @@ import type { CheckResults } from '../../types/CheckResults';
 import { CheckResultsStatus } from '../../types/CheckResults';
 import getDocumentValidationFailureDetails from '../../utils/getDocumentValidationFailureDetails';
 import getFacialValidationFailureDetails from '../../utils/getFacialValidationFailureDetails';
-import getResultStatus from '../../utils/getResultStatus';
+import getStatusFromCheck from '../../utils/getStatusFromCheck';
 import { NOT_FOUND, SUCCESS } from '../../utils/statusCodes';
 
 const endpointName = 'check-results';
@@ -46,7 +46,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const { breakdown: breakdownFacialReport } = facialReport;
   const facialReportValidationFailureDetails = getFacialValidationFailureDetails(breakdownFacialReport);
 
-  const resultStatus = getResultStatus(check);
+  const resultStatus = getStatusFromCheck(check);
 
   res.status(SUCCESS).json({
     ...resultStatus,

@@ -13,11 +13,11 @@ const simplifiedStatus = new Map([
   ['reopened', CheckResultsStatus.willTakeLonger],
 ]);
 
-const getResultStatus = (check: Check): Pick<CheckResults, 'isClear' | 'status'> => {
+const getStatusFromCheck = (check: Check): Pick<CheckResults, 'isClear' | 'status'> => {
   return {
     isClear: check.result === null ? null : check.result === 'clear',
     status: simplifiedStatus.get(check.status) ?? CheckResultsStatus.finished,
   };
 };
 
-export default getResultStatus;
+export default getStatusFromCheck;
