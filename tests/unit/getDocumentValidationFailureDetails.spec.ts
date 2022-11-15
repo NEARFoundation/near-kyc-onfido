@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 /* eslint-disable max-lines */
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { describe, expect, test } from '@jest/globals';
@@ -222,17 +223,17 @@ describe('getDocumentValidationFailureDetails', () => {
   });
 
   test('getDocumentValidationFailureDetails(failureImageIntegritySupportedDocumentPayloadWithBreakdown) should return an array with ValidationFailure.InvalidImageIntegrity and ValidationFailure.InvalidImageIntegritySupportedDocument', () => {
-    expect(getDocumentValidationFailureDetails(failureImageIntegritySupportedDocumentPayloadWithBreakdown)).toContain(ValidationFailure.InvalidImageIntegrity);
-    expect(getDocumentValidationFailureDetails(failureImageIntegritySupportedDocumentPayloadWithBreakdown)).toContain(ValidationFailure.InvalidImageIntegritySupportedDocument);
-    // eslint-disable-next-line no-magic-numbers
-    expect(getDocumentValidationFailureDetails(failureImageIntegritySupportedDocumentPayloadWithBreakdown)).toHaveLength(2);
+    const result = getDocumentValidationFailureDetails(failureImageIntegritySupportedDocumentPayloadWithBreakdown);
+    expect(result).toContain(ValidationFailure.InvalidImageIntegrity);
+    expect(result).toContain(ValidationFailure.InvalidImageIntegritySupportedDocument);
+    expect(result).toHaveLength(2);
   });
 
   test('getDocumentValidationFailureDetails(failureImageIntegrityImageQualityPayloadWithBreakdown) should return an array with ValidationFailure.InvalidImageIntegrity and ValidationFailure.InvalidImageIntegrityImageQuality', () => {
-    expect(getDocumentValidationFailureDetails(failureImageIntegrityImageQualityPayloadWithBreakdown)).toContain(ValidationFailure.InvalidImageIntegrity);
-    expect(getDocumentValidationFailureDetails(failureImageIntegrityImageQualityPayloadWithBreakdown)).toContain(ValidationFailure.InvalidImageIntegrityImageQuality);
-    // eslint-disable-next-line no-magic-numbers
-    expect(getDocumentValidationFailureDetails(failureImageIntegrityImageQualityPayloadWithBreakdown)).toHaveLength(2);
+    const result = getDocumentValidationFailureDetails(failureImageIntegrityImageQualityPayloadWithBreakdown);
+    expect(result).toContain(ValidationFailure.InvalidImageIntegrity);
+    expect(result).toContain(ValidationFailure.InvalidImageIntegrityImageQuality);
+    expect(result).toHaveLength(2);
   });
 
   test('getDocumentValidationFailureDetails(failureVisualAuthenticityPayload) should return an array with ValidationFailure.InvalidVisualAuthenticity', () => {
@@ -240,26 +241,24 @@ describe('getDocumentValidationFailureDetails', () => {
   });
 
   test('getDocumentValidationFailureDetails(failureVisualAuthenticityFontsPayloadWithBreakdown) should return an array with ValidationFailure.InvalidVisualAuthenticity and ValidationFailure.InvalidVisualAuthenticityFonts', () => {
-    expect(getDocumentValidationFailureDetails(failureVisualAuthenticityFontsPayloadWithBreakdown)).toContain(ValidationFailure.InvalidVisualAuthenticity);
-    expect(getDocumentValidationFailureDetails(failureVisualAuthenticityFontsPayloadWithBreakdown)).toContain(ValidationFailure.InvalidVisualAuthenticityFonts);
-    // eslint-disable-next-line no-magic-numbers
-    expect(getDocumentValidationFailureDetails(failureVisualAuthenticityFontsPayloadWithBreakdown)).toHaveLength(2);
+    const result = getDocumentValidationFailureDetails(failureVisualAuthenticityFontsPayloadWithBreakdown);
+    expect(result).toContain(ValidationFailure.InvalidVisualAuthenticity);
+    expect(result).toContain(ValidationFailure.InvalidVisualAuthenticityFonts);
+    expect(result).toHaveLength(2);
   });
 
   test('getDocumentValidationFailureDetails(failureVisualAuthenticitySecurityFeaturesPayloadWithBreakdown) should return an array with ValidationFailure.InvalidVisualAuthenticity and ValidationFailure.InvalidVisualAuthenticitySecurityFeatures', () => {
-    expect(getDocumentValidationFailureDetails(failureVisualAuthenticitySecurityFeaturesPayloadWithBreakdown)).toContain(ValidationFailure.InvalidVisualAuthenticity);
-    expect(getDocumentValidationFailureDetails(failureVisualAuthenticitySecurityFeaturesPayloadWithBreakdown)).toContain(
-      ValidationFailure.InvalidVisualAuthenticitySecurityFeatures,
-    );
-    // eslint-disable-next-line no-magic-numbers
-    expect(getDocumentValidationFailureDetails(failureVisualAuthenticitySecurityFeaturesPayloadWithBreakdown)).toHaveLength(2);
+    const result = getDocumentValidationFailureDetails(failureVisualAuthenticitySecurityFeaturesPayloadWithBreakdown);
+    expect(result).toContain(ValidationFailure.InvalidVisualAuthenticity);
+    expect(result).toContain(ValidationFailure.InvalidVisualAuthenticitySecurityFeatures);
+    expect(result).toHaveLength(2);
   });
 
   test('getDocumentValidationFailureDetails(failureVisualAuthenticityFaceDetectionPayloadWithBreakdown) should return an array with ValidationFailure.InvalidVisualAuthenticity and ValidationFailure.InvalidVisualAuthenticityFaceDetection', () => {
-    expect(getDocumentValidationFailureDetails(failureVisualAuthenticityFaceDetectionPayloadWithBreakdown)).toContain(ValidationFailure.InvalidVisualAuthenticity);
-    expect(getDocumentValidationFailureDetails(failureVisualAuthenticityFaceDetectionPayloadWithBreakdown)).toContain(ValidationFailure.InvalidVisualAuthenticityFaceDetection);
-    // eslint-disable-next-line no-magic-numbers
-    expect(getDocumentValidationFailureDetails(failureVisualAuthenticityFaceDetectionPayloadWithBreakdown)).toHaveLength(2);
+    const result = getDocumentValidationFailureDetails(failureVisualAuthenticityFaceDetectionPayloadWithBreakdown);
+    expect(result).toContain(ValidationFailure.InvalidVisualAuthenticity);
+    expect(result).toContain(ValidationFailure.InvalidVisualAuthenticityFaceDetection);
+    expect(result).toHaveLength(2);
   });
 
   test('getDocumentValidationFailureDetails(failureDataValidationPayload) should return an array with ValidationFailure.InvalidDataValidation', () => {
@@ -267,10 +266,10 @@ describe('getDocumentValidationFailureDetails', () => {
   });
 
   test('getDocumentValidationFailureDetails(failureDataValidationDocumentNumbersPayloadWithBreakdown) should return an array with ValidationFailure.InvalidDataValidation and ValidationFailure.InvalidDataValidationDocumentNumbers', () => {
-    expect(getDocumentValidationFailureDetails(failureDataValidationDocumentNumbersPayloadWithBreakdown)).toContain(ValidationFailure.InvalidDataValidation);
-    expect(getDocumentValidationFailureDetails(failureDataValidationDocumentNumbersPayloadWithBreakdown)).toContain(ValidationFailure.InvalidDataValidationDocumentNumbers);
-    // eslint-disable-next-line no-magic-numbers
-    expect(getDocumentValidationFailureDetails(failureDataValidationDocumentNumbersPayloadWithBreakdown)).toHaveLength(2);
+    const result = getDocumentValidationFailureDetails(failureDataValidationDocumentNumbersPayloadWithBreakdown);
+    expect(result).toContain(ValidationFailure.InvalidDataValidation);
+    expect(result).toContain(ValidationFailure.InvalidDataValidationDocumentNumbers);
+    expect(result).toHaveLength(2);
   });
 
   test('getDocumentValidationFailureDetails(failureDataConsistencyPayload) should return an array with ValidationFailure.InvalidDataConsistency', () => {
@@ -278,10 +277,10 @@ describe('getDocumentValidationFailureDetails', () => {
   });
 
   test('getDocumentValidationFailureDetails(failureDataConsistencyDocumentTypePayloadWithBreakdown) should return an array with ValidationFailure.InvalidDataConsistency and ValidationFailure.InvalidDataConsistencyDocumentType', () => {
-    expect(getDocumentValidationFailureDetails(failureDataConsistencyDocumentTypePayloadWithBreakdown)).toContain(ValidationFailure.InvalidDataConsistency);
-    expect(getDocumentValidationFailureDetails(failureDataConsistencyDocumentTypePayloadWithBreakdown)).toContain(ValidationFailure.InvalidDataConsistencyDocumentType);
-    // eslint-disable-next-line no-magic-numbers
-    expect(getDocumentValidationFailureDetails(failureDataConsistencyDocumentTypePayloadWithBreakdown)).toHaveLength(2);
+    const result = getDocumentValidationFailureDetails(failureDataConsistencyDocumentTypePayloadWithBreakdown);
+    expect(result).toContain(ValidationFailure.InvalidDataConsistency);
+    expect(result).toContain(ValidationFailure.InvalidDataConsistencyDocumentType);
+    expect(result).toHaveLength(2);
   });
 
   test('getDocumentValidationFailureDetails(fullyFailingDocumentValidationResultPayload) should return an array with all ValidationFailure values', () => {
@@ -297,7 +296,6 @@ describe('getDocumentValidationFailureDetails', () => {
     expect(result).toContain(ValidationFailure.InvalidDataValidationDocumentNumbers);
     expect(result).toContain(ValidationFailure.InvalidDataConsistency);
     expect(result).toContain(ValidationFailure.InvalidDataConsistencyDocumentType);
-    // eslint-disable-next-line no-magic-numbers
     expect(result).toHaveLength(11);
   });
 
@@ -314,7 +312,6 @@ describe('getDocumentValidationFailureDetails', () => {
     expect(result).toContain(ValidationFailure.InvalidDataValidationDocumentNumbers);
     expect(result).toContain(ValidationFailure.InvalidDataConsistency);
     expect(result).toContain(ValidationFailure.InvalidDataConsistencyDocumentType);
-    // eslint-disable-next-line no-magic-numbers
     expect(result).toHaveLength(11);
   });
 
@@ -331,7 +328,6 @@ describe('getDocumentValidationFailureDetails', () => {
     expect(result).toContain(ValidationFailure.InvalidDataValidationDocumentNumbers);
     expect(result).toContain(ValidationFailure.InvalidDataConsistency);
     expect(result).toContain(ValidationFailure.InvalidDataConsistencyDocumentType);
-    // eslint-disable-next-line no-magic-numbers
     expect(result).toHaveLength(11);
   });
 
@@ -348,7 +344,6 @@ describe('getDocumentValidationFailureDetails', () => {
     expect(result).toContain(ValidationFailure.InvalidDataValidationDocumentNumbers);
     expect(result).toContain(ValidationFailure.InvalidDataConsistency);
     expect(result).toContain(ValidationFailure.InvalidDataConsistencyDocumentType);
-    // eslint-disable-next-line no-magic-numbers
     expect(result).toHaveLength(11);
   });
 });
