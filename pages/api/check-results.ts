@@ -7,6 +7,7 @@ import type { CheckResults } from '../../types/CheckResults';
 import { CheckResultsStatus } from '../../types/CheckResults';
 import getDocumentValidationFailureDetails from '../../utils/getDocumentValidationFailureDetails';
 import getFacialValidationFailureDetails from '../../utils/getFacialValidationFailureDetails';
+import getResultStatus from '../../utils/getResultStatus';
 import { NOT_FOUND, SUCCESS } from '../../utils/statusCodes';
 
 const endpointName = 'check-results';
@@ -45,21 +46,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const { breakdown: breakdownFacialReport } = facialReport;
   const facialReportValidationFailureDetails = getFacialValidationFailureDetails(breakdownFacialReport);
 
-  // List of status: https://documentation.onfido.com/#check-status
-  // List of results: https://documentation.onfido.com/#check-results
-  const simplifiedStatus = new Map([
-    ['in_progress', CheckResultsStatus.loading],
-    ['awaiting_applicant', CheckResultsStatus.finished],
-    ['complete', CheckResultsStatus.finished],
-    ['withdrawn', CheckResultsStatus.finished],
-    ['paused', CheckResultsStatus.willTakeLonger],
-    ['reopened', CheckResultsStatus.willTakeLonger],
-  ]);
+  const resultStatus = getResultStatus(check);
 
-  // This need to be updated / improved depending on the answer from the support
   res.status(SUCCESS).json({
-    isClear: check.result === null ? null : check.result === 'clear',
-    status: simplifiedStatus.get(check.status) ?? CheckResultsStatus.finished,
+    ...resultStatus,
     validationFailureDetails: [...documentReportValidationFailureDetails, ...facialReportValidationFailureDetails],
   });
 }
