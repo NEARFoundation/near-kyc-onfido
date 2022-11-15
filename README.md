@@ -45,9 +45,14 @@ yarn start
 #### Unit
 
 ```bash
-
+# run all unit tests
 yarn test:unit
 
+# run with coverage
+yarn test:unit:coverage
+
+# run in verbose mode
+yarn test:unit:verbose
 ```
 
 #### End to end
