@@ -81,7 +81,7 @@ test('Upon submitting an unsupported document, applicant should see an error mes
   await desktopPage.screenshot({ path: 'tests/e2e/screenshots/failed_image_integrity_supported_docs.png', fullPage: true });
 });
 
-test('Upon submitting picturew with quality issues, applicant should see an error message about the pictures having quality issues', async () => {
+test('Upon submitting picture with quality issues, applicant should see an error message about the pictures having quality issues', async () => {
   const desktopPage = await desktop.newPage();
 
   await fillStartForm(desktopPage, { ...applicant, firstName: 'Image Integrity - Image Quality' });
@@ -94,7 +94,7 @@ test('Upon submitting picturew with quality issues, applicant should see an erro
 
   await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText(/There are issues with the images provided/);
   await expect(await desktopPage.getByRole('list', { name: 'error list' })).toHaveText(
-    /The picture(s) you provided have quality issues, which may include: blurriness, darkness, glare, obstruction, etc./,
+    /The picture\(s\) you provided have quality issues, which may include: blurriness, darkness, glare, obstruction, etc./,
   );
   await expect(desktopPage.getByText(/We could not verify your identity/)).toHaveText('We could not verify your identity. We invite you to read the reasons below and try again.');
   await desktopPage.screenshot({ path: 'tests/e2e/screenshots/failed_image_integrity_image_quality.png', fullPage: true });
