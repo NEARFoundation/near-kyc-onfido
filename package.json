@@ -9,6 +9,7 @@
     "lint": "next lint",
     "test": "yarn lint && yarn test:unit && yarn test:e2e",
     "test:unit": "jest",
+    "test:unit:verbose": "jest --verbose",
     "test:e2e": "playwright test",
     "test:e2e:debug": "playwright test --debug",
     "test:e2e:headed": "playwright test --headed",
