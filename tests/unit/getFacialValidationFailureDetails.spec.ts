@@ -2,27 +2,40 @@
 import { describe, expect, test } from '@jest/globals';
 
 import ValidationFailure from '../../types/ValidationFailure';
+import ValidationResult from '../../types/ValidationResult';
 import getFacialValidationFailureDetails from '../../utils/getFacialValidationFailureDetails';
 
-const successFacialResultPayload = {
+const createFacialResultPayload = ({
+  visualAuthenticityResult = 'clear',
+  imageIntegrityResult = 'clear',
+  sourceIntegrityResult = 'clear',
+  faceDetectedResult = 'clear',
+  faceMatchResult = 'clear',
+}: {
+  visualAuthenticityResult?: ValidationResult;
+  imageIntegrityResult?: ValidationResult;
+  sourceIntegrityResult?: ValidationResult;
+  faceDetectedResult?: ValidationResult;
+  faceMatchResult?: ValidationResult;
+}) => ({
   visualAuthenticity: {
-    result: 'clear',
+    result: visualAuthenticityResult,
     breakdown: {
-      spoofingDetection: { result: 'clear', properties: { score: 0.9512 } },
+      spoofingDetection: { result: visualAuthenticityResult, properties: { score: 0.9512 } },
     },
   },
   imageIntegrity: {
-    result: 'clear',
+    result: imageIntegrityResult,
     breakdown: {
-      sourceIntegrity: { result: 'clear', properties: {} },
-      faceDetected: { result: 'clear', properties: {} },
+      sourceIntegrity: { result: sourceIntegrityResult, properties: {} },
+      faceDetected: { result: faceDetectedResult, properties: {} },
     },
   },
   faceComparison: {
-    result: 'clear',
+    result: faceMatchResult,
     breakdown: {
       faceMatch: {
-        result: 'clear',
+        result: faceMatchResult,
         properties: {
           documentUuid: '5d6da4f3-898f-4f12-a695-d61686966d7f',
           score: 0.6512,
@@ -30,137 +43,69 @@ const successFacialResultPayload = {
       },
     },
   },
-};
+});
 
-const failureVisualAuthenticityFacialResultPayload = {
-  ...successFacialResultPayload,
-  visualAuthenticity: {
-    result: 'consider',
-  },
-};
+const successFacialResultPayload = createFacialResultPayload({});
 
-const failureVisualAuthenticityFacialResultPayloadWithBreakdown = {
-  ...successFacialResultPayload,
-  visualAuthenticity: {
-    result: 'consider',
-    breakdown: {
-      spoofingDetection: { result: 'consider', properties: { score: 0.9512 } },
-    },
-  },
-};
+const failureVisualAuthenticityFacialResultPayloadWithBreakdown = createFacialResultPayload({
+  visualAuthenticityResult: 'consider',
+});
 
-const failureImageIntegrityFacialResultPayloadWithBreakdownSourceIntegrityFailing = {
-  ...successFacialResultPayload,
-  imageIntegrity: {
-    result: 'consider',
-    breakdown: {
-      sourceIntegrity: { result: 'consider', properties: {} },
-      faceDetected: { result: 'clear', properties: {} },
-    },
-  },
-};
+const failureImageIntegrityFacialResultPayloadWithBreakdownSourceIntegrityFailing = createFacialResultPayload({
+  imageIntegrityResult: 'consider',
+  sourceIntegrityResult: 'consider',
+});
 
-const failureImageIntegrityFacialResultPayloadWithBreakdownFaceDetectedFailing = {
-  ...successFacialResultPayload,
-  imageIntegrity: {
-    result: 'consider',
-    breakdown: {
-      sourceIntegrity: { result: 'clear', properties: {} },
-      faceDetected: { result: 'consider', properties: {} },
-    },
-  },
-};
+const failureImageIntegrityFacialResultPayloadWithBreakdownFaceDetectedFailing = createFacialResultPayload({
+  imageIntegrityResult: 'consider',
+  faceDetectedResult: 'consider',
+});
 
-const failureImageIntegrityFacialResultPayloadWithBreakdownAllFailing = {
-  ...successFacialResultPayload,
-  imageIntegrity: {
-    result: 'consider',
-    breakdown: {
-      sourceIntegrity: { result: 'consider', properties: {} },
-      faceDetected: { result: 'consider', properties: {} },
-    },
-  },
-};
+const failureImageIntegrityFacialResultPayloadWithBreakdownAllFailing = createFacialResultPayload({
+  imageIntegrityResult: 'consider',
+  sourceIntegrityResult: 'consider',
+  faceDetectedResult: 'consider',
+});
 
-const failureFaceComparisonFacialResultPayloadWithBreakdown = {
-  ...successFacialResultPayload,
-  faceComparison: {
-    result: 'consider',
-    breakdown: {
-      faceMatch: {
-        result: 'consider',
-        properties: {
-          documentUuid: '5d6da4f3-898f-4f12-a695-d61686966d7f',
-          score: 0.6512,
-        },
-      },
-    },
-  },
-};
+const failureFaceComparisonFacialResultPayloadWithBreakdown = createFacialResultPayload({
+  faceMatchResult: 'consider',
+});
 
-const fullyFailingFacialResultPayload = {
-  visualAuthenticity: {
-    result: 'consider',
-    breakdown: {
-      spoofingDetection: { result: 'consider', properties: { score: 0.9512 } },
-    },
-  },
-  imageIntegrity: {
-    result: 'consider',
-    breakdown: {
-      sourceIntegrity: { result: 'consider', properties: {} },
-      faceDetected: { result: 'consider', properties: {} },
-    },
-  },
-  faceComparison: {
-    result: 'consider',
-    breakdown: {
-      faceMatch: {
-        result: 'consider',
-        properties: {
-          documentUuid: '5d6da4f3-898f-4f12-a695-d61686966d7f',
-          score: 0.6512,
-        },
-      },
-    },
-  },
-};
+const fullyFailingFacialResultPayload = createFacialResultPayload({
+  visualAuthenticityResult: 'consider',
+  imageIntegrityResult: 'consider',
+  sourceIntegrityResult: 'consider',
+  faceDetectedResult: 'consider',
+  faceMatchResult: 'consider',
+});
 
-const fullyFailingFacialResultPayloadUsingUnidentified = {
-  visualAuthenticity: {
-    result: 'unidentified',
-    breakdown: {
-      spoofingDetection: { result: 'unidentified', properties: { score: 0.9512 } },
-    },
-  },
-  imageIntegrity: {
-    result: 'unidentified',
-    breakdown: {
-      sourceIntegrity: { result: 'unidentified', properties: {} },
-      faceDetected: { result: 'unidentified', properties: {} },
-    },
-  },
-  faceComparison: {
-    result: 'unidentified',
-    breakdown: {
-      faceMatch: {
-        result: 'unidentified',
-        properties: {
-          documentUuid: '5d6da4f3-898f-4f12-a695-d61686966d7f',
-          score: 0.6512,
-        },
-      },
-    },
-  },
-};
+const fullyFailingFacialResultPayloadUsingUnidentified = createFacialResultPayload({
+  visualAuthenticityResult: 'unidentified',
+  imageIntegrityResult: 'unidentified',
+  sourceIntegrityResult: 'unidentified',
+  faceDetectedResult: 'unidentified',
+  faceMatchResult: 'unidentified',
+});
+
+const fullyFailingFacialResultPayloadRejected = createFacialResultPayload({
+  visualAuthenticityResult: 'rejected',
+  imageIntegrityResult: 'rejected',
+  sourceIntegrityResult: 'rejected',
+  faceDetectedResult: 'rejected',
+  faceMatchResult: 'rejected',
+});
+
+const fullyFailingFacialResultPayloadCaution = createFacialResultPayload({
+  visualAuthenticityResult: 'caution',
+  imageIntegrityResult: 'caution',
+  sourceIntegrityResult: 'caution',
+  faceDetectedResult: 'caution',
+  faceMatchResult: 'caution',
+});
 
 describe('getFacialValidationFailureDetails function', () => {
   test('getFacialValidationFailureDetails(successResultPayload) should return an empty array', () => {
     expect(getFacialValidationFailureDetails(successFacialResultPayload)).toEqual([]);
-  });
-
-  test('getFacialValidationFailureDetails(failureVisualAuthenticityFacialResultPayload) should return an array with ValidationFailure.InvalidVisualAuthenticitySpoofing', () => {
-    expect(getFacialValidationFailureDetails(failureVisualAuthenticityFacialResultPayload)).toEqual([ValidationFailure.InvalidVisualAuthenticitySpoofing]);
   });
 
   test('getFacialValidationFailureDetails(failureVisualAuthenticityFacialResultPayloadWithBreakdown) should return an array with ValidationFailure.InvalidVisualAuthenticitySpoofing', () => {
@@ -204,5 +149,23 @@ describe('getFacialValidationFailureDetails function', () => {
     expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUsingUnidentified)).toContain(ValidationFailure.InvalidFaceComparison);
     // eslint-disable-next-line no-magic-numbers
     expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUsingUnidentified)).toHaveLength(4);
+  });
+
+  test('getFacialValidationFailureDetails(fullyFailingFacialResultPayloadRejected) should return an array with ValidationFailure.InvalidVisualAuthenticitySpoofing, ValidationFailure.InvalidImageIntegrity, ValidationFailure.InvalidImageIntegrityFaceDetected and ValidationFailure.InvalidFaceComparison', () => {
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadRejected)).toContain(ValidationFailure.InvalidVisualAuthenticitySpoofing);
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadRejected)).toContain(ValidationFailure.InvalidImageIntegritySource);
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadRejected)).toContain(ValidationFailure.InvalidImageIntegrityFaceDetected);
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadRejected)).toContain(ValidationFailure.InvalidFaceComparison);
+    // eslint-disable-next-line no-magic-numbers
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadRejected)).toHaveLength(4);
+  });
+
+  test('getFacialValidationFailureDetails(fullyFailingFacialResultPayloadCaution) should return an array with ValidationFailure.InvalidVisualAuthenticitySpoofing, ValidationFailure.InvalidImageIntegrity, ValidationFailure.InvalidImageIntegrityFaceDetected and ValidationFailure.InvalidFaceComparison', () => {
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadCaution)).toContain(ValidationFailure.InvalidVisualAuthenticitySpoofing);
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadCaution)).toContain(ValidationFailure.InvalidImageIntegritySource);
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadCaution)).toContain(ValidationFailure.InvalidImageIntegrityFaceDetected);
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadCaution)).toContain(ValidationFailure.InvalidFaceComparison);
+    // eslint-disable-next-line no-magic-numbers
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadCaution)).toHaveLength(4);
   });
 });
