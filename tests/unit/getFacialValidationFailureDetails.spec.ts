@@ -1,3 +1,4 @@
+/* eslint-disable no-magic-numbers */
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { describe, expect, test } from '@jest/globals';
 
@@ -124,10 +125,10 @@ describe('getFacialValidationFailureDetails function', () => {
   });
 
   test('getFacialValidationFailureDetails(failureImageIntegrityFacialResultPayloadWithBreakdownAllFailing) should return an array with ValidationFailure.InvalidImageIntegrity and ValidationFailure.InvalidImageIntegrityFaceDetected', () => {
-    expect(getFacialValidationFailureDetails(failureImageIntegrityFacialResultPayloadWithBreakdownAllFailing)).toContain(ValidationFailure.InvalidImageIntegritySource);
-    expect(getFacialValidationFailureDetails(failureImageIntegrityFacialResultPayloadWithBreakdownAllFailing)).toContain(ValidationFailure.InvalidImageIntegrityFaceDetected);
-    // eslint-disable-next-line no-magic-numbers
-    expect(getFacialValidationFailureDetails(failureImageIntegrityFacialResultPayloadWithBreakdownAllFailing)).toHaveLength(2);
+    const result = getFacialValidationFailureDetails(failureImageIntegrityFacialResultPayloadWithBreakdownAllFailing);
+    expect(result).toContain(ValidationFailure.InvalidImageIntegritySource);
+    expect(result).toContain(ValidationFailure.InvalidImageIntegrityFaceDetected);
+    expect(result).toHaveLength(2);
   });
 
   test('getFacialValidationFailureDetails(failureFaceComparisonFacialResultPayloadWithBreakdown) should return an array with ValidationFailure.InvalidFaceComparison', () => {
@@ -135,38 +136,38 @@ describe('getFacialValidationFailureDetails function', () => {
   });
 
   test('getFacialValidationFailureDetails(fullyFailingFacialResultPayload) should return an array with ValidationFailure.InvalidVisualAuthenticitySpoofing, ValidationFailure.InvalidImageIntegrity, ValidationFailure.InvalidImageIntegrityFaceDetected and ValidationFailure.InvalidFaceComparison', () => {
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayload)).toContain(ValidationFailure.InvalidVisualAuthenticitySpoofing);
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayload)).toContain(ValidationFailure.InvalidImageIntegritySource);
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayload)).toContain(ValidationFailure.InvalidImageIntegrityFaceDetected);
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayload)).toContain(ValidationFailure.InvalidFaceComparison);
-    // eslint-disable-next-line no-magic-numbers
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayload)).toHaveLength(4);
+    const result = getFacialValidationFailureDetails(fullyFailingFacialResultPayload);
+    expect(result).toContain(ValidationFailure.InvalidVisualAuthenticitySpoofing);
+    expect(result).toContain(ValidationFailure.InvalidImageIntegritySource);
+    expect(result).toContain(ValidationFailure.InvalidImageIntegrityFaceDetected);
+    expect(result).toContain(ValidationFailure.InvalidFaceComparison);
+    expect(result).toHaveLength(4);
   });
 
   test('getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUnidentified) should return an array with ValidationFailure.InvalidVisualAuthenticitySpoofing, ValidationFailure.InvalidImageIntegrity, ValidationFailure.InvalidImageIntegrityFaceDetected and ValidationFailure.InvalidFaceComparison', () => {
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUnidentified)).toContain(ValidationFailure.InvalidVisualAuthenticitySpoofing);
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUnidentified)).toContain(ValidationFailure.InvalidImageIntegritySource);
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUnidentified)).toContain(ValidationFailure.InvalidImageIntegrityFaceDetected);
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUnidentified)).toContain(ValidationFailure.InvalidFaceComparison);
-    // eslint-disable-next-line no-magic-numbers
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUnidentified)).toHaveLength(4);
+    const result = getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUnidentified);
+    expect(result).toContain(ValidationFailure.InvalidVisualAuthenticitySpoofing);
+    expect(result).toContain(ValidationFailure.InvalidImageIntegritySource);
+    expect(result).toContain(ValidationFailure.InvalidImageIntegrityFaceDetected);
+    expect(result).toContain(ValidationFailure.InvalidFaceComparison);
+    expect(result).toHaveLength(4);
   });
 
   test('getFacialValidationFailureDetails(fullyFailingFacialResultPayloadRejected) should return an array with ValidationFailure.InvalidVisualAuthenticitySpoofing, ValidationFailure.InvalidImageIntegrity, ValidationFailure.InvalidImageIntegrityFaceDetected and ValidationFailure.InvalidFaceComparison', () => {
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadRejected)).toContain(ValidationFailure.InvalidVisualAuthenticitySpoofing);
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadRejected)).toContain(ValidationFailure.InvalidImageIntegritySource);
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadRejected)).toContain(ValidationFailure.InvalidImageIntegrityFaceDetected);
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadRejected)).toContain(ValidationFailure.InvalidFaceComparison);
-    // eslint-disable-next-line no-magic-numbers
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadRejected)).toHaveLength(4);
+    const result = getFacialValidationFailureDetails(fullyFailingFacialResultPayloadRejected);
+    expect(result).toContain(ValidationFailure.InvalidVisualAuthenticitySpoofing);
+    expect(result).toContain(ValidationFailure.InvalidImageIntegritySource);
+    expect(result).toContain(ValidationFailure.InvalidImageIntegrityFaceDetected);
+    expect(result).toContain(ValidationFailure.InvalidFaceComparison);
+    expect(result).toHaveLength(4);
   });
 
   test('getFacialValidationFailureDetails(fullyFailingFacialResultPayloadCaution) should return an array with ValidationFailure.InvalidVisualAuthenticitySpoofing, ValidationFailure.InvalidImageIntegrity, ValidationFailure.InvalidImageIntegrityFaceDetected and ValidationFailure.InvalidFaceComparison', () => {
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadCaution)).toContain(ValidationFailure.InvalidVisualAuthenticitySpoofing);
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadCaution)).toContain(ValidationFailure.InvalidImageIntegritySource);
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadCaution)).toContain(ValidationFailure.InvalidImageIntegrityFaceDetected);
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadCaution)).toContain(ValidationFailure.InvalidFaceComparison);
-    // eslint-disable-next-line no-magic-numbers
-    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadCaution)).toHaveLength(4);
+    const result = getFacialValidationFailureDetails(fullyFailingFacialResultPayloadCaution);
+    expect(result).toContain(ValidationFailure.InvalidVisualAuthenticitySpoofing);
+    expect(result).toContain(ValidationFailure.InvalidImageIntegritySource);
+    expect(result).toContain(ValidationFailure.InvalidImageIntegrityFaceDetected);
+    expect(result).toContain(ValidationFailure.InvalidFaceComparison);
+    expect(result).toHaveLength(4);
   });
 });
