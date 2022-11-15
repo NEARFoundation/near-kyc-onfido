@@ -98,6 +98,62 @@ const failureFaceComparisonFacialResultPayloadWithBreakdown = {
   },
 };
 
+const fullyFailingFacialResultPayload = {
+  visualAuthenticity: {
+    result: 'consider',
+    breakdown: {
+      spoofingDetection: { result: 'consider', properties: { score: 0.9512 } },
+    },
+  },
+  imageIntegrity: {
+    result: 'consider',
+    breakdown: {
+      sourceIntegrity: { result: 'consider', properties: {} },
+      faceDetected: { result: 'consider', properties: {} },
+    },
+  },
+  faceComparison: {
+    result: 'consider',
+    breakdown: {
+      faceMatch: {
+        result: 'consider',
+        properties: {
+          documentUuid: '5d6da4f3-898f-4f12-a695-d61686966d7f',
+          score: 0.6512,
+        },
+      },
+    },
+  },
+};
+
+const fullyFailingFacialResultPayloadUsingUnidentified = {
+  visualAuthenticity: {
+    result: 'unidentified',
+    breakdown: {
+      spoofingDetection: { result: 'unidentified', properties: { score: 0.9512 } },
+    },
+  },
+  imageIntegrity: {
+    result: 'unidentified',
+    breakdown: {
+      sourceIntegrity: { result: 'unidentified', properties: {} },
+      faceDetected: { result: 'unidentified', properties: {} },
+    },
+  },
+  faceComparison: {
+    result: 'unidentified',
+    breakdown: {
+      faceMatch: {
+        result: 'unidentified',
+        properties: {
+          documentUuid: '5d6da4f3-898f-4f12-a695-d61686966d7f',
+          score: 0.6512,
+        },
+      },
+    },
+  },
+};
+
 describe('getFacialValidationFailureDetails function', () => {
   test('getFacialValidationFailureDetails(successResultPayload) should return an empty array', () => {
     expect(getFacialValidationFailureDetails(successFacialResultPayload)).toEqual([]);
@@ -124,9 +180,29 @@ describe('getFacialValidationFailureDetails function', () => {
   test('getFacialValidationFailureDetails(failureImageIntegrityFacialResultPayloadWithBreakdownAllFailing) should return an array with ValidationFailure.InvalidImageIntegrity and ValidationFailure.InvalidImageIntegrityFaceDetected', () => {
     expect(getFacialValidationFailureDetails(failureImageIntegrityFacialResultPayloadWithBreakdownAllFailing)).toContain(ValidationFailure.InvalidImageIntegritySource);
     expect(getFacialValidationFailureDetails(failureImageIntegrityFacialResultPayloadWithBreakdownAllFailing)).toContain(ValidationFailure.InvalidImageIntegrityFaceDetected);
+    // eslint-disable-next-line no-magic-numbers
+    expect(getFacialValidationFailureDetails(failureImageIntegrityFacialResultPayloadWithBreakdownAllFailing)).toHaveLength(2);
   });
 
   test('getFacialValidationFailureDetails(failureFaceComparisonFacialResultPayloadWithBreakdown) should return an array with ValidationFailure.InvalidFaceComparison', () => {
     expect(getFacialValidationFailureDetails(failureFaceComparisonFacialResultPayloadWithBreakdown)).toEqual([ValidationFailure.InvalidFaceComparison]);
+  });
+
+  test('getFacialValidationFailureDetails(fullyFailingFacialResultPayload) should return an array with ValidationFailure.InvalidVisualAuthenticitySpoofing, ValidationFailure.InvalidImageIntegrity, ValidationFailure.InvalidImageIntegrityFaceDetected and ValidationFailure.InvalidFaceComparison', () => {
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayload)).toContain(ValidationFailure.InvalidVisualAuthenticitySpoofing);
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayload)).toContain(ValidationFailure.InvalidImageIntegritySource);
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayload)).toContain(ValidationFailure.InvalidImageIntegrityFaceDetected);
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayload)).toContain(ValidationFailure.InvalidFaceComparison);
+    // eslint-disable-next-line no-magic-numbers
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayload)).toHaveLength(4);
+  });
+
+  test('getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUsingUnidentified) should return an array with ValidationFailure.InvalidVisualAuthenticitySpoofing, ValidationFailure.InvalidImageIntegrity, ValidationFailure.InvalidImageIntegrityFaceDetected and ValidationFailure.InvalidFaceComparison', () => {
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUsingUnidentified)).toContain(ValidationFailure.InvalidVisualAuthenticitySpoofing);
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUsingUnidentified)).toContain(ValidationFailure.InvalidImageIntegritySource);
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUsingUnidentified)).toContain(ValidationFailure.InvalidImageIntegrityFaceDetected);
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUsingUnidentified)).toContain(ValidationFailure.InvalidFaceComparison);
+    // eslint-disable-next-line no-magic-numbers
+    expect(getFacialValidationFailureDetails(fullyFailingFacialResultPayloadUsingUnidentified)).toHaveLength(4);
   });
 });
