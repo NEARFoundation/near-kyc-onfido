@@ -1,4 +1,4 @@
-name: Jest Unit Tests
+name: Tests - Jest Unit
 
 on:
   push:

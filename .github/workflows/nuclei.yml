@@ -1,4 +1,4 @@
-name: Nuclei - Vulnerability Scan
+name: Vulnerability Scan - Nuclei
 
 on:
   schedule:

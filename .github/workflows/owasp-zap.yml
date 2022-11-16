@@ -1,4 +1,4 @@
-name: OWASP ZAP - Vulnerability Scan
+name: Vulnerability Scan - OWASP ZAP
 
 on:
   schedule:
