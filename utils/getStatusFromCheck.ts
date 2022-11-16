@@ -17,9 +17,11 @@ const isStatusLoading = (status: CheckResultsStatus): boolean =>
   simplifiedStatus.get(status) === CheckResultsStatus.loading || simplifiedStatus.get(status) === CheckResultsStatus.willTakeLonger;
 
 const getStatusFromCheck = (check: Check): Pick<CheckResults, 'isClear' | 'status'> => {
+  const status = check.status as CheckResultsStatus;
+
   return {
-    isClear: check.result === null && isStatusLoading(check.status) ? null : check.result === 'clear',
-    status: simplifiedStatus.get(check.status) ?? CheckResultsStatus.finished,
+    isClear: check.result === null && isStatusLoading(status) ? null : check.result === 'clear',
+    status: simplifiedStatus.get(status) ?? CheckResultsStatus.finished,
   };
 };
 
