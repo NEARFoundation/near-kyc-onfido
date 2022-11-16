@@ -40,4 +40,4 @@ yarn-error.log*
 # test reports
 tests/e2e/screenshots/*.png
 tests/e2e/reports/*.html
-test-report.html
+tests/unit/reports/test-report.html

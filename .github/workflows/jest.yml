@@ -14,10 +14,10 @@ jobs:
       - name: Install modules
         run: yarn
       - name: Run tests
-        run: yarn test:unit:report
+        run: yarn test:unit:coverage
       - uses: actions/upload-artifact@v3
         if: always()
         with:
           name: jest-report
-          path: test-report.html
+          path: tests/unit/reports/
           retention-days: 30

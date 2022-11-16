@@ -15,6 +15,19 @@ const customJestConfig = {
   moduleDirectories: ['node_modules', '<rootDir>/'],
   testEnvironment: 'jest-environment-jsdom',
   testMatch: ['**/unit/*.spec.ts'],
+  reporters: [
+    'default',
+    [
+      './node_modules/jest-html-reporter',
+      {
+        pageTitle: 'Jest Test Suite Report',
+        outputPath: './tests/unit/reports/test-report.html',
+        includeFailureMsg: true,
+        includeConsoleLog: true,
+        sort: 'titleAsc',
+      },
+    ],
+  ],
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

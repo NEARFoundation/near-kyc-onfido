@@ -53,10 +53,9 @@ yarn test:unit:coverage
 
 # run in verbose mode
 yarn test:unit:verbose
-
-# generate report
-yarn test:unit:report
 ```
+
+Once the tests are done, you can find the coverage report in [tests/unit/reports](tests/unit/reports).
 
 #### End to end
 
