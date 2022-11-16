@@ -10,7 +10,7 @@
     "test": "yarn lint && yarn test:unit && yarn test:e2e",
     "test:unit": "jest",
     "test:unit:verbose": "jest --verbose",
-    "test:unit:coverage": "jest --coverage",
+    "test:unit:coverage": "jest --coverage --collectCoverage --coverageDirectory=tests/unit/reports",
     "test:e2e": "playwright test",
     "test:e2e:debug": "playwright test --debug",
     "test:e2e:headed": "playwright test --headed",
