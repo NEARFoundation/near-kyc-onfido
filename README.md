@@ -53,6 +53,9 @@ yarn test:unit:coverage
 
 # run in verbose mode
 yarn test:unit:verbose
+
+# generate report
+yarn test:unit:report
 ```
 
 #### End to end
