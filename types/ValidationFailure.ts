@@ -2,6 +2,7 @@
 // Types are determined in `utils/getDocumentValidationFailureDetails.ts` and `utils/getFacialValidationFailureDetails.ts` from the payload received
 // Related texts are defined in `components/results/ResultsFailure.tsx`
 enum ValidationFailure {
+  InvalidImageIntegrity = 'InvalidImageIntegrity', // Generic Image Integrity failure
   InvalidImageIntegritySupportedDocument = 'InvalidImageIntegritySupportedDocument', // "Image Integrity - Supported Document"
   InvalidImageIntegrityImageQuality = 'InvalidImageIntegrityImageQuality', // "Image Integrity - Image Quality"
   InvalidVisualAuthenticity = 'InvalidVisualAuthenticity', // Generic Visual authenticity because there are many sub failures

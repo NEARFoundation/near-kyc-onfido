@@ -4,6 +4,7 @@ interface OnfidoFacialReportBreakdown {
     breakdown?: {
       spoofingDetection?: {
         result: string;
+        properties?: unknown;
       };
     };
   };
@@ -12,9 +13,11 @@ interface OnfidoFacialReportBreakdown {
     breakdown?: {
       sourceIntegrity?: {
         result: string;
+        properties?: unknown;
       };
       faceDetected?: {
         result: string;
+        properties?: unknown;
       };
     };
   };
@@ -23,6 +26,7 @@ interface OnfidoFacialReportBreakdown {
     breakdown?: {
       faceMatch?: {
         result: string;
+        properties?: unknown;
       };
     };
   };

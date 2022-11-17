@@ -1,6 +1,6 @@
 import { Expect, FileChooser, Page } from '@playwright/test';
 
-import type ApplicantProperties from '../../types/ApplicantProperties';
+import type ApplicantProperties from '../../../types/ApplicantProperties';
 
 import { FLOW_URL, MOCK_IMAGE } from './constants';
 
