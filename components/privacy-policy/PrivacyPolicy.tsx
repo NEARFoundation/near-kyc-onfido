@@ -102,8 +102,8 @@ function PrivacyPolicy() {
       <h2>Online Privacy Policy Only</h2>
 
       <p>
-        Our Privacy Policy created at GDPRPrivacyPolicy.net applies only to our online activities and is valid for visitors to our website with regards to the information that
-        they shared and/or collect in NEAR Foundation KYC. This policy is not applicable to any information collected offline or via channels other than this website.
+        Our Privacy Policy created at GDPRPrivacyPolicy.net applies only to our online activities and is valid for visitors to our website with regards to the information that they
+        shared and/or collect in NEAR Foundation KYC. This policy is not applicable to any information collected offline or via channels other than this website.
       </p>
 
       <h2>Consent</h2>
