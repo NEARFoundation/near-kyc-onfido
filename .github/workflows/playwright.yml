@@ -25,7 +25,7 @@ jobs:
           SDK_TOKEN_FACTORY_SECRET: ${{secrets.SDK_TOKEN_FACTORY_SECRET}}
           NEXT_PUBLIC_BASE_URL: ${{secrets.NEXT_PUBLIC_BASE_URL}}
           NEXT_PUBLIC_TOKEN_FACTORY_URL: ${{secrets.NEXT_PUBLIC_TOKEN_FACTORY_URL}}
-          NEXT_PUBLIC_KYC_ENDPOINT_KEY: ${{secrets.NEXT_PUBLIC_KYC_ENDPOINT_KEY}}
+          KYC_ENDPOINT_KEY: ${{secrets.KYC_ENDPOINT_KEY}}
           BUILD_AND_SERVE_WEBSITE_BEFORE_RUNNING_TEST: ${{secrets.BUILD_AND_SERVE_WEBSITE_BEFORE_RUNNING_TEST}}
       - uses: actions/upload-artifact@v3
         if: always()

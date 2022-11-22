@@ -4,24 +4,19 @@ import type { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import * as Onfido from 'onfido-sdk-ui';
-import { ParsedUrlQuery } from 'querystring';
 
 import FirstStep from '../../components/form/FirstStep';
 import MainLayout from '../../components/layout/MainLayout';
 import { LOCALSTORAGE_USER_DATA_NAME } from '../../constants';
 import { getToken, initCheck } from '../../services/apiService';
 import type ApplicantProperties from '../../types/ApplicantProperties';
+import type IParams from '../../types/IParams';
 import { FORBIDDEN } from '../../utils/statusCodes';
-
-interface IParams extends ParsedUrlQuery {
-  key: string;
-}
 
 type Props = {
   csrfToken: string;
+  kycEndpointKey: string;
 };
-
-const baseStartUrl = process.env.NEXT_PUBLIC_KYC_ENDPOINT_KEY ?? '';
 
 const options: Onfido.SdkOptions = {
   // What / where should define these?
@@ -46,7 +41,7 @@ const options: Onfido.SdkOptions = {
   ],
 };
 
-const StartPage: NextPage<Props> = ({ csrfToken }) => {
+const StartPage: NextPage<Props> = ({ csrfToken, kycEndpointKey }) => {
   const [onfidoInstance, setOnfidoInstance] = useState<Onfido.SdkHandle | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -80,7 +75,7 @@ const StartPage: NextPage<Props> = ({ csrfToken }) => {
           return;
         }
 
-        window.location.href = `${baseStartUrl}/results`;
+        window.location.href = `${kycEndpointKey}/results`;
       },
     };
 
@@ -135,14 +130,14 @@ export const getServerSideProps: GetServerSideProps = async ({ res, params }) =>
   const { key } = params as IParams;
   const csrfToken = res.getHeader('x-csrf-token');
 
-  if (key !== process.env.NEXT_PUBLIC_KYC_ENDPOINT_KEY) {
+  if (key !== process.env.KYC_ENDPOINT_KEY) {
     return {
       notFound: true,
     };
   }
 
   return {
-    props: { csrfToken },
+    props: { csrfToken, kycEndpointKey: process.env.KYC_ENDPOINT_KEY },
   };
 };
 
