@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
-export default function ResultsRetryButton({ autoRetry = true }: { autoRetry?: boolean }): JSX.Element {
-  const link = autoRetry ? `/${process.env.NEXT_PUBLIC_KYC_ENDPOINT_KEY}?retry=1` : `/${process.env.NEXT_PUBLIC_KYC_ENDPOINT_KEY}`;
+export default function ResultsRetryButton({ autoRetry = true, kycEndpointKey }: { autoRetry?: boolean; kycEndpointKey: string }): JSX.Element {
+  const link = autoRetry ? `/${kycEndpointKey}?retry=1` : `/${kycEndpointKey}`;
 
   return (
     <Link href={link} passHref>

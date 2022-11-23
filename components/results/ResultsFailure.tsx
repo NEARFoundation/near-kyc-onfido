@@ -4,7 +4,7 @@ import CenteredCardContent from '../common/CenteredCardContent';
 
 import ResultsRetryButton from './ResultsRetryButton';
 
-export default function ResultsFailure({ validationFailureDetails }: { validationFailureDetails: ValidationFailure[] }): JSX.Element {
+export default function ResultsFailure({ validationFailureDetails, kycEndpointKey }: { validationFailureDetails: ValidationFailure[]; kycEndpointKey: string }): JSX.Element {
   const EMPTY_ARRAY = 0;
 
   const description =
@@ -19,7 +19,7 @@ export default function ResultsFailure({ validationFailureDetails }: { validatio
           <li>{validationMessages.get(validationFailureDetail)}</li>
         ))}
       </ul>
-      <ResultsRetryButton />
+      <ResultsRetryButton kycEndpointKey={kycEndpointKey} />
     </CenteredCardContent>
   );
 }
