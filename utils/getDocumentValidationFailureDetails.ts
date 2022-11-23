@@ -12,6 +12,8 @@ const getDocumentValidationFailureDetails = (breakdown: OnfidoDocumentReportBrea
 
   if (breakdown.imageIntegrity) {
     if (isFailure(breakdown.imageIntegrity.result)) {
+      failures.push(ValidationFailure.InvalidImageIntegrity);
+
       if (isFailure(breakdown.imageIntegrity.breakdown?.supportedDocument?.result)) {
         failures.push(ValidationFailure.InvalidImageIntegritySupportedDocument);
       }

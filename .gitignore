@@ -38,5 +38,6 @@ yarn-error.log*
 /playwright/.cache/
 
 # test reports
-tests/screenshots/*.png
-tests/reports/*.html
+tests/e2e/screenshots/*.png
+tests/e2e/reports/*.html
+tests/unit/reports/*

@@ -17,7 +17,7 @@ const MAXIMUM_TIME_TO_WAIT_FOR_CONDITION_IN_MILLISECONDS = 10_000;
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {
-  testDir: './tests',
+  testDir: './tests/e2e',
   /* Maximum time one test can run for. */
   timeout: MAXIMUM_TIME_PER_TEST_IN_MILLISECONDS,
   expect: {
@@ -36,7 +36,7 @@ const config: PlaywrightTestConfig = {
   /* Opt out of parallel tests on CI. */
   workers: 1, // I defaulted workers to 1 beacause of the rate limit of Onfido
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [['html', { outputFolder: 'tests/reports' }]],
+  reporter: [['html', { outputFolder: 'tests/e2e/reports' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */

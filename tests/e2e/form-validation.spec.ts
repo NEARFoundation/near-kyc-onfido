@@ -3,8 +3,8 @@
 import { faker } from '@faker-js/faker';
 import { BrowserContext, expect, test } from '@playwright/test';
 
-import { FORBIDDEN_CHARACTERS } from '../constants';
-import type ApplicantProperties from '../types/ApplicantProperties';
+import { FORBIDDEN_CHARACTERS } from '../../constants';
+import type ApplicantProperties from '../../types/ApplicantProperties';
 
 import { FLOW_URL } from './utils/constants';
 import { fillStartForm } from './utils/helpers';
@@ -53,7 +53,7 @@ test('Form should display error messages when fields are left empty or with inva
   await desktopPage.getByText(/I have read and agree to the privacy policy/).click();
   await desktopPage.getByText(/I have read and agree to the privacy policy/).click();
   await expect(desktopPage.getByText(/You must agree to the privacy policy before submitting/)).toHaveText(/You must agree to the privacy policy before submitting/);
-  await desktopPage.screenshot({ path: 'tests/screenshots/form_validation.png', fullPage: true });
+  await desktopPage.screenshot({ path: 'tests/e2e/screenshots/form_validation.png', fullPage: true });
 
   await desktopPage.getByText(/I have read and agree to the privacy policy/).click();
   await desktopPage.getByRole('button', { name: /Start/ }).click();
@@ -64,7 +64,7 @@ test('Form should display error messages when fields are left empty or with inva
   await expect(desktopPage.getByText(/Sorry, we can only verify people who are at least 18 years old/)).toHaveText(
     /Sorry, we can only verify people who are at least 18 years old/,
   );
-  await desktopPage.screenshot({ path: 'tests/screenshots/form_validation_submit_pressed.png', fullPage: true });
+  await desktopPage.screenshot({ path: 'tests/e2e/screenshots/form_validation_submit_pressed.png', fullPage: true });
 });
 
 test('Form should not let anyone under 18 submit the form', async () => {

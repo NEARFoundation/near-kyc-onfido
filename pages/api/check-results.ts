@@ -7,59 +7,78 @@ import type { CheckResults } from '../../types/CheckResults';
 import { CheckResultsStatus } from '../../types/CheckResults';
 import getDocumentValidationFailureDetails from '../../utils/getDocumentValidationFailureDetails';
 import getFacialValidationFailureDetails from '../../utils/getFacialValidationFailureDetails';
-import { NOT_FOUND, SUCCESS } from '../../utils/statusCodes';
+import getStatusFromCheck from '../../utils/getStatusFromCheck';
+import { NOT_FOUND, SERVER_ERROR, SUCCESS } from '../../utils/statusCodes';
 
 const endpointName = 'check-results';
 
 const onfido = getOnfido();
+/**
+ * @swagger
+ * /api/check-results:
+ *   get:
+ *     description: Get check check status
+ *     responses:
+ *       200:
+ *        description: Success
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *               isClear:
+ *                 type: boolean
+ *                 example: true
+ *               status:
+ *                 type: string
+ *                 example: finished
+ *               validationFailureDetails:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *
+ */
+export default async function handler(req: NextApiRequest, res: NextApiResponse<CheckResults | unknown>) {
+  try {
+    console.log(`[${endpointName}] Request received`);
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<CheckResults>) {
-  console.log(`[${endpointName}] Request received`);
+    const checkId = req.cookies[COOKIE_CHECK_ID_NAME];
 
-  const checkId = req.cookies[COOKIE_CHECK_ID_NAME];
+    if (!checkId) {
+      res.status(NOT_FOUND).json({ isClear: null, status: CheckResultsStatus.notFound, validationFailureDetails: [] });
+      return;
+    }
 
-  if (!checkId) {
-    res.status(NOT_FOUND).json({ isClear: null, status: CheckResultsStatus.notFound, validationFailureDetails: [] });
-    return;
+    const check = await onfido.check.find(checkId);
+
+    if (!check) {
+      res.status(NOT_FOUND).json({ isClear: null, status: CheckResultsStatus.notFound, validationFailureDetails: [] });
+      return;
+    }
+
+    const reports = await onfido.report.list(checkId);
+    const documentReport = reports.find((report) => report.name === 'document');
+    const facialReport = reports.find((report) => report.name === 'facial_similarity_photo');
+
+    if (!documentReport || !facialReport) {
+      res.status(NOT_FOUND).json({ isClear: null, status: CheckResultsStatus.notFound, validationFailureDetails: [] });
+      return;
+    }
+
+    const { breakdown: breakdownDocumentReport } = documentReport;
+    const documentReportValidationFailureDetails = getDocumentValidationFailureDetails(breakdownDocumentReport);
+
+    const { breakdown: breakdownFacialReport } = facialReport;
+    const facialReportValidationFailureDetails = getFacialValidationFailureDetails(breakdownFacialReport);
+
+    const resultStatus = getStatusFromCheck(check);
+
+    res.status(SUCCESS).json({
+      ...resultStatus,
+      validationFailureDetails: [...documentReportValidationFailureDetails, ...facialReportValidationFailureDetails],
+    });
+  } catch (error: unknown) {
+    console.error({ error });
+    res.status(SERVER_ERROR).json(error);
   }
-
-  const check = await onfido.check.find(checkId);
-
-  if (!check) {
-    res.status(NOT_FOUND).json({ isClear: null, status: CheckResultsStatus.notFound, validationFailureDetails: [] });
-    return;
-  }
-
-  const reports = await onfido.report.list(checkId);
-  const documentReport = reports.find((report) => report.name === 'document');
-  const facialReport = reports.find((report) => report.name === 'facial_similarity_photo');
-
-  if (!documentReport || !facialReport) {
-    res.status(NOT_FOUND).json({ isClear: null, status: CheckResultsStatus.notFound, validationFailureDetails: [] });
-    return;
-  }
-
-  const { breakdown: breakdownDocumentReport } = documentReport;
-  const documentReportValidationFailureDetails = getDocumentValidationFailureDetails(breakdownDocumentReport);
-
-  const { breakdown: breakdownFacialReport } = facialReport;
-  const facialReportValidationFailureDetails = getFacialValidationFailureDetails(breakdownFacialReport);
-
-  // List of status: https://documentation.onfido.com/#check-status
-  // List of results: https://documentation.onfido.com/#check-results
-  const simplifiedStatus = new Map([
-    ['in_progress', CheckResultsStatus.loading],
-    ['awaiting_applicant', CheckResultsStatus.finished],
-    ['complete', CheckResultsStatus.finished],
-    ['withdrawn', CheckResultsStatus.finished],
-    ['paused', CheckResultsStatus.willTakeLonger],
-    ['reopened', CheckResultsStatus.willTakeLonger],
-  ]);
-
-  // This need to be updated / improved depending on the answer from the support
-  res.status(SUCCESS).json({
-    isClear: check.result === null ? null : check.result === 'clear',
-    status: simplifiedStatus.get(check.status) ?? CheckResultsStatus.finished,
-    validationFailureDetails: [...documentReportValidationFailureDetails, ...facialReportValidationFailureDetails],
-  });
 }
