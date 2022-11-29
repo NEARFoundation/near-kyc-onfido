@@ -4,7 +4,7 @@ const contentSecurityPolicy = `
   script-src 'self' 'unsafe-eval' www.woopra.com;
   child-src 'self';
   connect-src 'self' api.onfido.com www.woopra.com sentry.io ws://sync.onfido.com wss://sync.onfido.com;
-  img-src 'self' assets.onfido.com  data:;
+  img-src 'self' assets.onfido.com blob: data:;
   style-src 'self' cdn.jsdelivr.net maxcdn.bootstrapcdn.com 'unsafe-inline';
   font-src 'self' maxcdn.bootstrapcdn.com;  
 `;
