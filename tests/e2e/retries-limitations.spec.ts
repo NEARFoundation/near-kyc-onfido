@@ -67,7 +67,10 @@ test('Applicant should not be able to retry more than the maximum set up', async
   await openKycLinkAndTestDocumentAndPhotoScan(urlThirdTry, mobilePageThirdTry, expect);
 
   await submittingDocuments(desktopPage);
-  await desktopPage.pause(); // to replace by the check of the max retries reached message
   await expect(desktopPage.getByRole('heading', { name: /Verification/i })).toHaveText('Verification failed');
+  await expect(desktopPage.getByText(/We could not verify your identity. Please contact support at hello@near.foundation/)).toHaveText(
+    'We could not verify your identity. Please contact support at hello@near.foundation',
+  );
+
   await desktopPage.screenshot({ path: 'tests/e2e/screenshots/failed_third_time.png', fullPage: true });
 });
