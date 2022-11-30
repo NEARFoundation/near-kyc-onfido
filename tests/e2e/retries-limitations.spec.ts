@@ -1,10 +1,11 @@
 import { faker } from '@faker-js/faker';
 import { Browser, BrowserContext, chromium, expect, test } from '@playwright/test';
 
-import { CONTACT_EMAIL } from '../../constants';
+import { CONTACT_EMAIL, COOKIE_NUMBER_OF_TRIES_NAME } from '../../constants';
 import type ApplicantProperties from '../../types/ApplicantProperties';
+import { FORBIDDEN } from '../../utils/statusCodes';
 
-import { MOCK_VIDEO_PATH } from './utils/constants';
+import { API_URL, FLOW_URL, MOCK_VIDEO_PATH } from './utils/constants';
 import { continueOnfidoFlowThenGetAndTestLink, fillStartForm, openKycLinkAndTestDocumentAndPhotoScan, submittingDocuments } from './utils/helpers';
 
 const ZERO = 0;
@@ -78,4 +79,36 @@ test('Applicant should not be able to retry more than the maximum set up', async
   await expect(await desktopPage.locator('.error-list').count()).toEqual(ZERO);
 
   await desktopPage.screenshot({ path: 'tests/e2e/screenshots/failed_third_time.png', fullPage: true });
+});
+
+// TODO FIX THIS TEST
+test('/api/generate-token should return 403 if the applicant has reached the retry limit', async ({ request }) => {
+  const cookies = [
+    {
+      name: COOKIE_NUMBER_OF_TRIES_NAME,
+      value: '3',
+      domain: 'localhost',
+      path: '/',
+    },
+  ];
+  desktop.addCookies(cookies);
+
+  const desktopPage = await desktop.newPage();
+  await desktopPage.goto(FLOW_URL);
+  // eslint-disable-next-line no-underscore-dangle
+  const csrfToken = await desktopPage.evaluate(() => window.__NEXT_DATA__.props.pageProps.csrfToken);
+
+  const response = await request.post(`${API_URL}/generate-token`, {
+    data: {
+      ...applicant,
+      csrf_token: csrfToken,
+    },
+  });
+
+  console.log(response);
+
+  const data = await response.json();
+
+  expect(data.code).toBe(FORBIDDEN);
+  expect(data.status).toBe('Maximum number of tries reached');
 });
