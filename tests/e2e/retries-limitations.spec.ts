@@ -81,8 +81,7 @@ test('Applicant should not be able to retry more than the maximum set up', async
   await desktopPage.screenshot({ path: 'tests/e2e/screenshots/failed_third_time.png', fullPage: true });
 });
 
-// TODO FIX THIS TEST
-test('/api/generate-token should return 403 if the applicant has reached the retry limit', async ({ request }) => {
+test('/api/generate-token should return 403 if the applicant has reached the retry limit', async () => {
   const cookies = [
     {
       name: COOKIE_NUMBER_OF_TRIES_NAME,
@@ -98,17 +97,15 @@ test('/api/generate-token should return 403 if the applicant has reached the ret
   // eslint-disable-next-line no-underscore-dangle
   const csrfToken = await desktopPage.evaluate(() => window.__NEXT_DATA__.props.pageProps.csrfToken);
 
-  const response = await request.post(`${API_URL}/generate-token`, {
+  const response = await desktopPage.request.post(`${API_URL}/generate-token`, {
     data: {
       ...applicant,
       csrf_token: csrfToken,
     },
   });
 
-  console.log(response);
+  const { code, status } = await response.json();
 
-  const data = await response.json();
-
-  expect(data.code).toBe(FORBIDDEN);
-  expect(data.status).toBe('Maximum number of tries reached');
+  expect(code).toBe(FORBIDDEN);
+  expect(status).toBe('Maximum number of tries reached');
 });

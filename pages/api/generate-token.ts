@@ -74,7 +74,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const numberOfTries = parseInt(numberOfTriesString, 10);
 
     if (numberOfTries >= MAX_NUMBER_OF_TRIES) {
-      res.status(FORBIDDEN).json({ status: 'Maximum number of tries reached' });
+      res.status(FORBIDDEN).json({ status: 'Maximum number of tries reached', code: FORBIDDEN });
       return;
     }
 
