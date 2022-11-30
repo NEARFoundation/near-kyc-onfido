@@ -11,6 +11,8 @@ import { API_URL, FLOW_URL } from './utils/constants';
 let desktop: BrowserContext;
 let applicant: ApplicantProperties;
 
+const ZERO = 0;
+
 test.beforeEach(async ({ browser }) => {
   desktop = await browser.newContext({
     permissions: ['clipboard-write', 'clipboard-read'],
@@ -30,9 +32,8 @@ test('/api/generate-token should return 403 if the applicant has reached the ret
   // eslint-disable-next-line no-underscore-dangle
   const csrfToken = await desktopPage.evaluate(() => window.__NEXT_DATA__.props.pageProps.csrfToken);
 
-  // refactor this to a loop
-
-  for (let i = 0; i < MAX_NUMBER_OF_TRIES; i++) {
+  // eslint-disable-next-line no-plusplus
+  for (let i = ZERO; i < MAX_NUMBER_OF_TRIES; i++) {
     const response = await desktopPage.request.post(`${API_URL}/generate-token`, {
       data: {
         ...applicant,
