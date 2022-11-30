@@ -1,23 +1,7 @@
 import Link from 'next/link';
 
-export default function ResultsRetryButton({
-  autoRetry = true,
-  kycEndpointKey,
-  hasReachedMaxRetries,
-}: {
-  autoRetry?: boolean;
-  kycEndpointKey: string;
-  hasReachedMaxRetries: boolean;
-}): JSX.Element {
+export default function ResultsRetryButton({ autoRetry = true, kycEndpointKey }: { autoRetry?: boolean; kycEndpointKey: string }): JSX.Element {
   const link = autoRetry ? `/${kycEndpointKey}?retry=1` : `/${kycEndpointKey}`;
-
-  if (hasReachedMaxRetries) {
-    return (
-      <p>
-        We invite you to <a href="mailto:hello@near.foundation">contact the NEAR Foundation</a> for a manual verification
-      </p>
-    );
-  }
 
   return (
     <Link href={link} passHref>
