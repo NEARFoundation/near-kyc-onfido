@@ -1,3 +1,4 @@
+import { CONTACT_EMAIL } from '../../constants';
 import type ValidationFailure from '../../types/ValidationFailure';
 import validationMessages from '../../utils/validationMessages';
 import CenteredCardContent from '../common/CenteredCardContent';
@@ -20,7 +21,7 @@ export default function ResultsFailure({
       ? 'We could not verify your identity. If you believe that you submitted any information incorrectly, you may try again.'
       : 'We could not verify your identity. We invite you to read the reasons below and try again.';
 
-  description = hasReachedMaxRetries ? 'We could not verify your identity. Please contact support at hello@near.foundation' : description;
+  description = hasReachedMaxRetries ? `We could not verify your identity. Please contact support at ${CONTACT_EMAIL}` : description;
 
   return (
     <CenteredCardContent title="Verification failed" description={description} iconClasses="fa fa-times-circle text-danger mb-4">

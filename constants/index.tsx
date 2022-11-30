@@ -7,3 +7,4 @@ export const LONG_POLLING_INTERVAL = 30_000; // 30 seconds - Long polling applie
 export const MIN_AGE_FOR_APPLICANT = 18;
 export const FORBIDDEN_CHARACTERS = '^!#$%*=<>;{}"'; // https://documentation.onfido.com/#forbidden-characters
 export const MAX_NUMBER_OF_TRIES = 3;
+export const CONTACT_EMAIL = 'hello@near.foundation';

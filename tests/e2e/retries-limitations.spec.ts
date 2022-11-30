@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { Browser, BrowserContext, chromium, expect, test } from '@playwright/test';
 
+import { CONTACT_EMAIL } from '../../constants';
 import type ApplicantProperties from '../../types/ApplicantProperties';
 
 import { MOCK_VIDEO_PATH } from './utils/constants';
@@ -70,8 +71,8 @@ test('Applicant should not be able to retry more than the maximum set up', async
 
   await submittingDocuments(desktopPage);
   await expect(desktopPage.getByRole('heading', { name: /Verification/i })).toHaveText('Verification failed');
-  await expect(desktopPage.getByText(/We could not verify your identity. Please contact support at hello@near.foundation/)).toHaveText(
-    'We could not verify your identity. Please contact support at hello@near.foundation',
+  await expect(desktopPage.getByText(/We could not verify your identity. Please contact support at /)).toHaveText(
+    `We could not verify your identity. Please contact support at ${CONTACT_EMAIL}`,
   );
   await expect(await desktopPage.locator('.btn-retry').count()).toEqual(ZERO);
   await expect(await desktopPage.locator('.error-list').count()).toEqual(ZERO);
