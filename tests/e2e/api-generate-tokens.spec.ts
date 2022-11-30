@@ -1,6 +1,8 @@
+/* eslint-disable no-await-in-loop */
 import { faker } from '@faker-js/faker';
 import { BrowserContext, expect, test } from '@playwright/test';
 
+import { MAX_NUMBER_OF_TRIES } from '../../constants';
 import type ApplicantProperties from '../../types/ApplicantProperties';
 import { FORBIDDEN, SUCCESS } from '../../utils/statusCodes';
 
@@ -28,48 +30,30 @@ test('/api/generate-token should return 403 if the applicant has reached the ret
   // eslint-disable-next-line no-underscore-dangle
   const csrfToken = await desktopPage.evaluate(() => window.__NEXT_DATA__.props.pageProps.csrfToken);
 
-  const responseTry1 = await desktopPage.request.post(`${API_URL}/generate-token`, {
+  // refactor this to a loop
+
+  for (let i = 0; i < MAX_NUMBER_OF_TRIES; i++) {
+    const response = await desktopPage.request.post(`${API_URL}/generate-token`, {
+      data: {
+        ...applicant,
+        csrf_token: csrfToken,
+      },
+    });
+
+    await expect(response.status()).toEqual(SUCCESS);
+    await expect(await response.json()).toHaveProperty('applicantId');
+    await expect(await response.json()).toHaveProperty('sdkToken');
+  }
+
+  const errorResponse = await desktopPage.request.post(`${API_URL}/generate-token`, {
     data: {
       ...applicant,
       csrf_token: csrfToken,
     },
   });
 
-  await expect(responseTry1.status()).toEqual(SUCCESS);
-  await expect(await responseTry1.json()).toHaveProperty('applicantId');
-  await expect(await responseTry1.json()).toHaveProperty('sdkToken');
-
-  const responseTry2 = await desktopPage.request.post(`${API_URL}/generate-token`, {
-    data: {
-      ...applicant,
-      csrf_token: csrfToken,
-    },
-  });
-
-  await expect(responseTry2.status()).toEqual(SUCCESS);
-  await expect(await responseTry2.json()).toHaveProperty('applicantId');
-  await expect(await responseTry2.json()).toHaveProperty('sdkToken');
-
-  const responseTry3 = await desktopPage.request.post(`${API_URL}/generate-token`, {
-    data: {
-      ...applicant,
-      csrf_token: csrfToken,
-    },
-  });
-
-  await expect(responseTry3.status()).toEqual(SUCCESS);
-  await expect(await responseTry3.json()).toHaveProperty('applicantId');
-  await expect(await responseTry3.json()).toHaveProperty('sdkToken');
-
-  const responseTry4 = await desktopPage.request.post(`${API_URL}/generate-token`, {
-    data: {
-      ...applicant,
-      csrf_token: csrfToken,
-    },
-  });
-
-  await expect(responseTry4.status()).toEqual(FORBIDDEN);
-  const { code, status } = await responseTry4.json();
+  await expect(errorResponse.status()).toEqual(FORBIDDEN);
+  const { code, status } = await errorResponse.json();
 
   expect(code).toBe(FORBIDDEN);
   expect(status).toBe('Maximum number of tries reached');
