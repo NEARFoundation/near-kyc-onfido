@@ -26,7 +26,7 @@ export default function ResultsFailure({
     <CenteredCardContent title="Verification failed" description={description} iconClasses="fa fa-times-circle text-danger mb-4">
       {!hasReachedMaxRetries && (
         <>
-          <ul aria-label="error list" className="mb-4 text-dark fw-bold" style={{ textAlign: 'left' }}>
+          <ul aria-label="error list" className="mb-4 text-dark fw-bold error-list" style={{ textAlign: 'left' }}>
             {validationFailureDetails.map((validationFailureDetail) => (
               <li>{validationMessages.get(validationFailureDetail)}</li>
             ))}

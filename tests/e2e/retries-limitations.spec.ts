@@ -6,6 +6,8 @@ import type ApplicantProperties from '../../types/ApplicantProperties';
 import { MOCK_VIDEO_PATH } from './utils/constants';
 import { continueOnfidoFlowThenGetAndTestLink, fillStartForm, openKycLinkAndTestDocumentAndPhotoScan, submittingDocuments } from './utils/helpers';
 
+const ZERO = 0;
+
 let browserWithMockedWebcam: Browser;
 let desktop: BrowserContext;
 let mobile: BrowserContext;
@@ -71,6 +73,8 @@ test('Applicant should not be able to retry more than the maximum set up', async
   await expect(desktopPage.getByText(/We could not verify your identity. Please contact support at hello@near.foundation/)).toHaveText(
     'We could not verify your identity. Please contact support at hello@near.foundation',
   );
+  await expect(await desktopPage.locator('.btn-retry').count()).toEqual(ZERO);
+  await expect(await desktopPage.locator('.error-list').count()).toEqual(ZERO);
 
   await desktopPage.screenshot({ path: 'tests/e2e/screenshots/failed_third_time.png', fullPage: true });
 });
