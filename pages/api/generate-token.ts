@@ -2,6 +2,7 @@
 import { OnfidoApiError } from '@onfido/api';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+import { COOKIE_NUMBER_OF_TRIES_NAME, COOKIES_EXPIRATION_TIME } from '../../constants';
 import getOnfido from '../../helpers/onfido';
 import type ApplicantProperties from '../../types/ApplicantProperties';
 import type ApplicantTokenPair from '../../types/ApplicantTokenPair';
@@ -74,6 +75,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       // crossDeviceUrl: "https://example.com"
     });
     const result = { applicantId: applicant.id, sdkToken };
+
+    const ZERO = '0';
+    const ONE = 1;
+    const numberOfTries = req.cookies[COOKIE_NUMBER_OF_TRIES_NAME] ?? ZERO;
+    const newNumberOfTries = parseInt(numberOfTries, 10) + ONE;
+    res.setHeader('Set-Cookie', [`${COOKIE_NUMBER_OF_TRIES_NAME}=${newNumberOfTries}; Path=/; Max-Age=${COOKIES_EXPIRATION_TIME}`]);
 
     console.log('Returning result', endpointName);
     res.status(SUCCESS).json(result);
