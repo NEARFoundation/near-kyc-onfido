@@ -7,7 +7,7 @@ import * as Onfido from 'onfido-sdk-ui';
 
 import FirstStep from '../../components/form/FirstStep';
 import MainLayout from '../../components/layout/MainLayout';
-import { LOCALSTORAGE_USER_DATA_NAME } from '../../constants';
+import { COOKIE_NUMBER_OF_TRIES_NAME, LOCALSTORAGE_USER_DATA_NAME, MAX_NUMBER_OF_TRIES } from '../../constants';
 import { getToken, initCheck } from '../../services/apiService';
 import type ApplicantProperties from '../../types/ApplicantProperties';
 import type IParams from '../../types/IParams';
@@ -16,6 +16,7 @@ import { FORBIDDEN } from '../../utils/statusCodes';
 type Props = {
   csrfToken: string;
   kycEndpointKey: string;
+  hasReachedMaxRetries: boolean;
 };
 
 const options: Onfido.SdkOptions = {
@@ -41,7 +42,7 @@ const options: Onfido.SdkOptions = {
   ],
 };
 
-const StartPage: NextPage<Props> = ({ csrfToken, kycEndpointKey }) => {
+const StartPage: NextPage<Props> = ({ csrfToken, kycEndpointKey, hasReachedMaxRetries }) => {
   const [onfidoInstance, setOnfidoInstance] = useState<Onfido.SdkHandle | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -121,12 +122,12 @@ const StartPage: NextPage<Props> = ({ csrfToken, kycEndpointKey }) => {
   return (
     <MainLayout>
       <div id="onfido-mount" />
-      {!onfidoInstance && <FirstStep onfidoInstance={onfidoInstance} onSubmit={onSubmit} loading={loading} error={error} />}
+      {!onfidoInstance && <FirstStep onfidoInstance={onfidoInstance} onSubmit={onSubmit} loading={loading} error={error} hasReachedMaxRetries={hasReachedMaxRetries} />}
     </MainLayout>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ res, params }) => {
+export const getServerSideProps: GetServerSideProps = async ({ res, req, params }) => {
   const { key } = params as IParams;
   const csrfToken = res.getHeader('x-csrf-token');
 
@@ -136,8 +137,14 @@ export const getServerSideProps: GetServerSideProps = async ({ res, params }) =>
     };
   }
 
+  const ZERO = '0';
+  const numberOfTriesString = req.cookies[COOKIE_NUMBER_OF_TRIES_NAME] ?? ZERO;
+  const numberOfTries = parseInt(numberOfTriesString, 10);
+
+  const hasReachedMaxRetries = numberOfTries >= MAX_NUMBER_OF_TRIES;
+
   return {
-    props: { csrfToken, kycEndpointKey: process.env.KYC_ENDPOINT_KEY },
+    props: { csrfToken, kycEndpointKey: process.env.KYC_ENDPOINT_KEY, hasReachedMaxRetries },
   };
 };
 

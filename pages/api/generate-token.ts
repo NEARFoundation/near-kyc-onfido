@@ -2,10 +2,11 @@
 import { OnfidoApiError } from '@onfido/api';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+import { COOKIE_NUMBER_OF_TRIES_NAME, COOKIES_EXPIRATION_TIME, MAX_NUMBER_OF_TRIES } from '../../constants';
 import getOnfido from '../../helpers/onfido';
 import type ApplicantProperties from '../../types/ApplicantProperties';
 import type ApplicantTokenPair from '../../types/ApplicantTokenPair';
-import { SERVER_ERROR, SUCCESS } from '../../utils/statusCodes';
+import { FORBIDDEN, SERVER_ERROR, SUCCESS } from '../../utils/statusCodes';
 
 const endpointName = 'generate-token';
 
@@ -67,6 +68,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const applicant = await onfido.applicant.create(applicantProperties);
 
     console.log('Applicant created', endpointName);
+    const ZERO = '0';
+    const ONE = 1;
+    const numberOfTriesString = req.cookies[COOKIE_NUMBER_OF_TRIES_NAME] ?? ZERO;
+    const numberOfTries = parseInt(numberOfTriesString, 10);
+
+    if (numberOfTries >= MAX_NUMBER_OF_TRIES) {
+      res.status(FORBIDDEN).json({ status: 'Maximum number of tries reached', code: FORBIDDEN });
+      return;
+    }
 
     const sdkToken = await onfido.sdkToken.generate({
       applicantId: applicant.id,
@@ -74,6 +84,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       // crossDeviceUrl: "https://example.com"
     });
     const result = { applicantId: applicant.id, sdkToken };
+    const newNumberOfTries = numberOfTries + ONE;
+
+    res.setHeader('Set-Cookie', [`${COOKIE_NUMBER_OF_TRIES_NAME}=${newNumberOfTries}; Path=/; Max-Age=${COOKIES_EXPIRATION_TIME}`]);
 
     console.log('Returning result', endpointName);
     res.status(SUCCESS).json(result);

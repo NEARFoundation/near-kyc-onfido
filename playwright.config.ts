@@ -10,7 +10,7 @@ import * as dotenv from 'dotenv';
  */
 dotenv.config();
 
-const MAXIMUM_TIME_PER_TEST_IN_MILLISECONDS = 60_000;
+const MAXIMUM_TIME_PER_TEST_IN_MILLISECONDS = 120_000;
 const MAXIMUM_TIME_TO_WAIT_FOR_CONDITION_IN_MILLISECONDS = 10_000;
 
 /**

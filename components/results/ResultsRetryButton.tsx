@@ -6,7 +6,7 @@ export default function ResultsRetryButton({ autoRetry = true, kycEndpointKey }:
   return (
     <Link href={link} passHref>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a className="btn btn-primary">
+      <a className="btn btn-primary btn-retry">
         Try again <i className="fa fa-repeat" aria-hidden="true" />
       </a>
     </Link>
