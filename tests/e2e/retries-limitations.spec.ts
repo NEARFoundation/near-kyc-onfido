@@ -4,7 +4,7 @@ import { Browser, BrowserContext, chromium, expect, test } from '@playwright/tes
 import { CONTACT_EMAIL } from '../../constants';
 import type ApplicantProperties from '../../types/ApplicantProperties';
 
-import { MOCK_VIDEO_PATH } from './utils/constants';
+import { FLOW_URL, MOCK_VIDEO_PATH } from './utils/constants';
 import { continueOnfidoFlowThenGetAndTestLink, fillStartForm, openKycLinkAndTestDocumentAndPhotoScan, submittingDocuments } from './utils/helpers';
 
 const ZERO = 0;
@@ -39,6 +39,7 @@ test.beforeEach(async ({ browser }) => {
 test('Applicant should not be able to retry more than the maximum set up', async () => {
   const desktopPage = await desktop.newPage();
 
+  // First try
   await fillStartForm(desktopPage, { ...applicant, lastName: 'consider' });
   const url = await continueOnfidoFlowThenGetAndTestLink(desktopPage, expect);
 
@@ -78,4 +79,12 @@ test('Applicant should not be able to retry more than the maximum set up', async
   await expect(await desktopPage.locator('.error-list').count()).toEqual(ZERO);
 
   await desktopPage.screenshot({ path: 'tests/e2e/screenshots/failed_third_time.png', fullPage: true });
+
+  // Going to homepage and checking that there is an error message
+  await desktopPage.goto(FLOW_URL);
+  await expect(desktopPage.getByText(/We could not verify your identity. Please contact support at /)).toHaveText(
+    `We could not verify your identity. Please contact support at ${CONTACT_EMAIL}`,
+  );
+
+  await desktopPage.screenshot({ path: 'tests/e2e/screenshots/homepage_after_failing.png', fullPage: true });
 });
