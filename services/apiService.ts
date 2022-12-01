@@ -1,7 +1,6 @@
 import type ApplicantProperties from '../types/ApplicantProperties';
 import type ApplicantTokenPair from '../types/ApplicantTokenPair';
 import type { CheckResults } from '../types/CheckResults';
-import getTimezoneFromBrowser from '../utils/getTimezoneFromBrowser';
 
 const tokenFactoryUrl = process.env.NEXT_PUBLIC_TOKEN_FACTORY_URL ?? '';
 
@@ -22,11 +21,9 @@ export const initCheck = async (data: { applicantId: string; csrf_token: string 
 };
 
 export const getToken = async (applicantProperties: ApplicantProperties): Promise<ApplicantTokenPair> => {
-  const timezone = getTimezoneFromBrowser();
-
   const tokenOptions = {
     method: 'POST',
-    body: JSON.stringify({ ...applicantProperties, timezone }),
+    body: JSON.stringify({ ...applicantProperties }),
     headers: {
       'Content-Type': 'application/json',
     },

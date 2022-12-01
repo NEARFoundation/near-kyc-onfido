@@ -6,7 +6,6 @@ import { COOKIE_NUMBER_OF_TRIES_NAME, COOKIES_EXPIRATION_TIME, MAX_NUMBER_OF_TRI
 import getOnfido from '../../helpers/onfido';
 import type ApplicantProperties from '../../types/ApplicantProperties';
 import type ApplicantTokenPair from '../../types/ApplicantTokenPair';
-import getCountryCodeFromTimezone from '../../utils/getCountryCodeFromTimezone';
 import { FORBIDDEN, SERVER_ERROR, SUCCESS } from '../../utils/statusCodes';
 
 const endpointName = 'generate-token';
@@ -35,6 +34,8 @@ const onfido = getOnfido();
  *                type: string
  *              csrf_token:
  *                type: string
+ *              countryOfResidence:
+ *                type: string
  *     responses:
  *       200:
  *        description: Success
@@ -51,14 +52,12 @@ const onfido = getOnfido();
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApplicantTokenPair | unknown>) {
   try {
     const ipAddress = req.headers['x-real-ip'] ?? req.connection.remoteAddress;
-    const countryOfResidence = getCountryCodeFromTimezone(req.body.timezone);
-    console.log('countryOfResidence', countryOfResidence);
 
     const applicantProperties: ApplicantProperties = {
       ...req.body,
       location: {
         ipAddress,
-        countryOfResidence,
+        countryOfResidence: req.body.countryOfResidence,
       },
       consents: [
         {

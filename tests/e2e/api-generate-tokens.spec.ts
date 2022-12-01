@@ -4,12 +4,14 @@ import { BrowserContext, expect, test } from '@playwright/test';
 
 import { MAX_NUMBER_OF_TRIES } from '../../constants';
 import type ApplicantProperties from '../../types/ApplicantProperties';
+import listOfCountries from '../../utils/listOfCountries';
 import { FORBIDDEN, SUCCESS } from '../../utils/statusCodes';
 
 import { API_URL, FLOW_URL } from './utils/constants';
 
 let desktop: BrowserContext;
 let applicant: ApplicantProperties;
+let countryOfResidence: string;
 
 const ZERO = 0;
 
@@ -18,11 +20,14 @@ test.beforeEach(async ({ browser }) => {
     permissions: ['clipboard-write', 'clipboard-read'],
   });
 
+  countryOfResidence = listOfCountries[Math.floor(Math.random() * listOfCountries.length)].value;
+
   applicant = {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
     email: faker.internet.email(),
     dob: faker.date.birthdate({ min: 18, max: 65, mode: 'age' }).toISOString().split('T')[0],
+    countryOfResidence,
   };
 });
 
