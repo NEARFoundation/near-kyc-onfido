@@ -5,6 +5,7 @@ interface ApplicantProperties {
   dob: string;
   csrf_token?: string;
   consent?: boolean;
+  countryOfResidence?: string;
 }
 
 export default ApplicantProperties;

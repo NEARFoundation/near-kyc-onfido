@@ -1,4 +1,5 @@
-import { SubmitHandler, useForm, Validate } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm, Validate } from 'react-hook-form';
+import Select from 'react-select';
 
 import { FORBIDDEN_CHARACTERS, MIN_AGE_FOR_APPLICANT } from '../../constants';
 import type ApplicantProperties from '../../types/ApplicantProperties';
@@ -14,7 +15,14 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm<ApplicantProperties>({ mode: 'onTouched' });
+
+  const options = [
+    { value: 'FRA', label: 'France' },
+    { value: 'USA', label: 'United States of America' },
+    { value: 'ITA', label: 'Italy' },
+  ];
 
   // eslint-disable-next-line no-magic-numbers
   const YEAR_IN_MILLISECONDS = 1000 * 60 * 60 * 24 * 365.2425;
@@ -124,6 +132,23 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
                 Sorry, we can only verify people who are at least 18 years old
               </p>
             )}
+          </div>
+        </div>
+
+        <div className="pb-2">
+          <div className="form-floating text-start">
+            <Controller
+              control={control}
+              name="countryOfResidence"
+              render={({ field }) => (
+                <Select
+                  classNamePrefix="addl-class"
+                  options={options}
+                  value={options.find((c) => c.value === field.value)}
+                  onChange={(val) => field.onChange(val ? val.value : null)}
+                />
+              )}
+            />
           </div>
         </div>
 
