@@ -3,6 +3,7 @@ import Select from 'react-select';
 
 import { FORBIDDEN_CHARACTERS, MIN_AGE_FOR_APPLICANT } from '../../constants';
 import type ApplicantProperties from '../../types/ApplicantProperties';
+import listOfCountries from '../../utils/listOfCountries';
 import Alert from '../common/Alert';
 import PrivacyPolicyButtonModal from '../privacy-policy/PrivacyPolicyButtonModal';
 // https://getbootstrap.com/docs/5.0/forms/floating-labels/
@@ -17,12 +18,6 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
     formState: { errors },
     control,
   } = useForm<ApplicantProperties>({ mode: 'onTouched' });
-
-  const options = [
-    { value: 'FRA', label: 'France' },
-    { value: 'USA', label: 'United States of America' },
-    { value: 'ITA', label: 'Italy' },
-  ];
 
   // eslint-disable-next-line no-magic-numbers
   const YEAR_IN_MILLISECONDS = 1000 * 60 * 60 * 24 * 365.2425;
@@ -140,16 +135,23 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
             <Controller
               control={control}
               name="countryOfResidence"
+              rules={{ required: true }}
               render={({ field }) => (
                 <Select
                   classNamePrefix="addl-class"
-                  options={options}
-                  value={options.find((c) => c.value === field.value)}
+                  options={listOfCountries}
+                  value={listOfCountries.find((c) => c.value === field.value)}
                   onChange={(val) => field.onChange(val ? val.value : null)}
                   placeholder="Country of Residence"
+                  required
                 />
               )}
             />
+            {errors.countryOfResidence && (
+              <p role="alert" className="d-block invalid-feedback text-start mb-0">
+                The country of residence is required
+              </p>
+            )}
           </div>
         </div>
 
