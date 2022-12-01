@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { Controller, SubmitHandler, useForm, Validate } from 'react-hook-form';
 import Select from 'react-select';
 
@@ -142,6 +143,9 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
                   options={listOfCountries}
                   value={listOfCountries.find((c) => c.value === field.value)}
                   onChange={(val) => field.onChange(val ? val.value : null)}
+                  // https://stackoverflow.com/questions/61290173/react-select-how-do-i-resolve-warning-prop-id-did-not-match
+                  // eslint-disable-next-line react-hooks/rules-of-hooks
+                  instanceId={useId()}
                   placeholder="Country of Residence"
                   required
                 />
