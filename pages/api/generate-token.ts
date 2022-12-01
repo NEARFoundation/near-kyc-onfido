@@ -6,8 +6,8 @@ import { COOKIE_NUMBER_OF_TRIES_NAME, COOKIES_EXPIRATION_TIME, MAX_NUMBER_OF_TRI
 import getOnfido from '../../helpers/onfido';
 import type ApplicantProperties from '../../types/ApplicantProperties';
 import type ApplicantTokenPair from '../../types/ApplicantTokenPair';
-import { FORBIDDEN, SERVER_ERROR, SUCCESS } from '../../utils/statusCodes';
 import getCountryCodeFromTimezone from '../../utils/getCountryCodeFromTimezone';
+import { FORBIDDEN, SERVER_ERROR, SUCCESS } from '../../utils/statusCodes';
 
 const endpointName = 'generate-token';
 
