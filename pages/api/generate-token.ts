@@ -34,6 +34,8 @@ const onfido = getOnfido();
  *                type: string
  *              csrf_token:
  *                type: string
+ *              countryOfResidence:
+ *                type: string
  *     responses:
  *       200:
  *        description: Success
