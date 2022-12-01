@@ -7,6 +7,7 @@ import getOnfido from '../../helpers/onfido';
 import type ApplicantProperties from '../../types/ApplicantProperties';
 import type ApplicantTokenPair from '../../types/ApplicantTokenPair';
 import { FORBIDDEN, SERVER_ERROR, SUCCESS } from '../../utils/statusCodes';
+import getCountryCodeFromTimezone from '../../utils/getCountryCodeFromTimezone';
 
 const endpointName = 'generate-token';
 
@@ -50,11 +51,14 @@ const onfido = getOnfido();
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ApplicantTokenPair | unknown>) {
   try {
     const ipAddress = req.headers['x-real-ip'] ?? req.connection.remoteAddress;
+    const countryOfResidence = getCountryCodeFromTimezone(req.body.timezone);
+    console.log('countryOfResidence', countryOfResidence);
 
     const applicantProperties: ApplicantProperties = {
       ...req.body,
       location: {
         ipAddress,
+        countryOfResidence,
       },
       consents: [
         {
