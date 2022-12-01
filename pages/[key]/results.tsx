@@ -9,12 +9,12 @@ import ResultsError from '../../components/results/ResultsError';
 import ResultsFailure from '../../components/results/ResultsFailure';
 import ResultsLoading from '../../components/results/ResultsLoading';
 import ResultsSuccess from '../../components/results/ResultsSuccess';
-import { LONG_POLLING_INTERVAL, SHORT_POLLING_INTERVAL } from '../../constants';
+import { COOKIE_NUMBER_OF_TRIES_NAME, LONG_POLLING_INTERVAL, MAX_NUMBER_OF_TRIES, SHORT_POLLING_INTERVAL } from '../../constants';
 import { fetchCheckResults } from '../../services/apiService';
 import { CheckResultsStatus } from '../../types/CheckResults';
 import type IParams from '../../types/IParams';
 
-const ResultsPage: NextPage<{ kycEndpointKey: string }> = ({ kycEndpointKey }) => {
+const ResultsPage: NextPage<{ kycEndpointKey: string; hasReachedMaxRetries: boolean }> = ({ kycEndpointKey, hasReachedMaxRetries }) => {
   const NO_POLLING = 0;
 
   const [refetchInterval, setRefetchInterval] = useState(SHORT_POLLING_INTERVAL);
@@ -48,15 +48,15 @@ const ResultsPage: NextPage<{ kycEndpointKey: string }> = ({ kycEndpointKey }) =
         <>
           {showLoading && <ResultsLoading willTakeLonger={data?.status === CheckResultsStatus.willTakeLonger} />}
           {showSuccess && <ResultsSuccess />}
-          {showFailure && <ResultsFailure validationFailureDetails={data?.validationFailureDetails} kycEndpointKey={kycEndpointKey} />}
-          {showError && <ResultsError kycEndpointKey={kycEndpointKey} />}
+          {showFailure && <ResultsFailure validationFailureDetails={data?.validationFailureDetails} kycEndpointKey={kycEndpointKey} hasReachedMaxRetries={hasReachedMaxRetries} />}
+          {showError && <ResultsError kycEndpointKey={kycEndpointKey} hasReachedMaxRetries={hasReachedMaxRetries} />}
         </>
       </CenteredCard>
     </MainLayout>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params, req }) => {
   const { key } = params as IParams;
 
   if (key !== process.env.KYC_ENDPOINT_KEY) {
@@ -65,8 +65,14 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     };
   }
 
+  const ZERO = '0';
+  const numberOfTriesString = req.cookies[COOKIE_NUMBER_OF_TRIES_NAME] ?? ZERO;
+  const numberOfTries = parseInt(numberOfTriesString, 10);
+
+  const hasReachedMaxRetries = numberOfTries >= MAX_NUMBER_OF_TRIES;
+
   return {
-    props: { kycEndpointKey: process.env.KYC_ENDPOINT_KEY },
+    props: { kycEndpointKey: process.env.KYC_ENDPOINT_KEY, hasReachedMaxRetries },
   };
 };
 
