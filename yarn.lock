@@ -2529,18 +2529,6 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
-country-by-timezone@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/country-by-timezone/-/country-by-timezone-1.0.0.tgz#78ef5d2b02fa2d8ee9d25db92a50f58085dccd2c"
-  integrity sha512-FauzrEiUuknjZ/oKX4ugp1czB1OizDMGfEMtpoGeIxr5b4iJAObLokCgNJAxXbrXmaoGwiptm6+r5by47s+FCA==
-  dependencies:
-    esm-utils "^2.0.0"
-
-country-code-lookup@^0.0.20:
-  version "0.0.20"
-  resolved "https://registry.yarnpkg.com/country-code-lookup/-/country-code-lookup-0.0.20.tgz#d04c71cd94de4bd44dab6822f637638ed3e55359"
-  integrity sha512-mcNlekdiVyiKO0lrjj3FrZ36vxlwjUwXTHpdRtVu9917SAYsHrlORmpHdPXeEXwTmw/yiKiTX4t6LC5uP5KVFg==
-
 cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "7.0.3"
   resolved "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.3.tgz"
@@ -3130,11 +3118,6 @@ eslint@^8.24.0:
     strip-ansi "^6.0.1"
     strip-json-comments "^3.1.0"
     text-table "^0.2.0"
-
-esm-utils@^2.0.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/esm-utils/-/esm-utils-2.2.0.tgz#c950c0f3ea191f3830f0187f246b0cf2620c1e66"
-  integrity sha512-kYj4yNRo4W3by0f1mj4AfRh1nsRTTpQG921Ik3AfyUq6upGlkI1fnMLypHn6XtFzZPdCYH1k9mtQA5MyZF9m+w==
 
 espree@^9.4.0:
   version "9.4.0"
