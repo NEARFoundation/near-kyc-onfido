@@ -146,6 +146,7 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
                   options={options}
                   value={options.find((c) => c.value === field.value)}
                   onChange={(val) => field.onChange(val ? val.value : null)}
+                  placeholder="Country of Residence"
                 />
               )}
             />
