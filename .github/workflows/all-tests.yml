@@ -1,0 +1,41 @@
+name: All Tests - Lint, Unit, E2E
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install modules
+        run: yarn
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run tests
+        run: yarn test
+        env:
+          SDK_TOKEN_FACTORY_SECRET: ${{secrets.SDK_TOKEN_FACTORY_SECRET}}
+          NEXT_PUBLIC_BASE_URL: ${{secrets.NEXT_PUBLIC_BASE_URL}}
+          NEXT_PUBLIC_TOKEN_FACTORY_URL: ${{secrets.NEXT_PUBLIC_TOKEN_FACTORY_URL}}
+          KYC_ENDPOINT_KEY: ${{secrets.KYC_ENDPOINT_KEY}}
+          BUILD_AND_SERVE_WEBSITE_BEFORE_RUNNING_TEST: ${{secrets.BUILD_AND_SERVE_WEBSITE_BEFORE_RUNNING_TEST}}
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: tests/e2e/reports/
+          retention-days: 30
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: screenshots
+          path: tests/e2e/screenshots/
+          retention-days: 30
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: jest-report
+          path: tests/unit/reports/
+          retention-days: 30

@@ -64,6 +64,8 @@ test('Form should display error messages when fields are left empty or with inva
   await expect(desktopPage.getByText(/Sorry, we can only verify people who are at least 18 years old/)).toHaveText(
     /Sorry, we can only verify people who are at least 18 years old/,
   );
+  await expect(desktopPage.getByText(/The country of residence is required/)).toHaveText(/The country of residence is required/);
+
   await desktopPage.screenshot({ path: 'tests/e2e/screenshots/form_validation_submit_pressed.png', fullPage: true });
 });
 

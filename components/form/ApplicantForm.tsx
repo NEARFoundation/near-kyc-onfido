@@ -1,7 +1,10 @@
-import { SubmitHandler, useForm, Validate } from 'react-hook-form';
+import { useId } from 'react';
+import { Controller, SubmitHandler, useForm, Validate } from 'react-hook-form';
+import Select from 'react-select';
 
 import { FORBIDDEN_CHARACTERS, MIN_AGE_FOR_APPLICANT } from '../../constants';
 import type ApplicantProperties from '../../types/ApplicantProperties';
+import listOfCountries from '../../utils/listOfCountries';
 import Alert from '../common/Alert';
 import PrivacyPolicyButtonModal from '../privacy-policy/PrivacyPolicyButtonModal';
 // https://getbootstrap.com/docs/5.0/forms/floating-labels/
@@ -14,6 +17,7 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm<ApplicantProperties>({ mode: 'onTouched' });
 
   // eslint-disable-next-line no-magic-numbers
@@ -122,6 +126,34 @@ export default function ApplicantForm({ onSubmit, loading, error }: { onSubmit: 
             {errors.dob && (
               <p role="alert" className="d-block invalid-feedback text-start mb-0">
                 Sorry, we can only verify people who are at least 18 years old
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="pb-2">
+          <div className="form-floating text-start">
+            <Controller
+              control={control}
+              name="countryOfResidence"
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Select
+                  classNamePrefix="addl-class"
+                  options={listOfCountries}
+                  value={listOfCountries.find((c) => c.value === field.value)}
+                  onChange={(val) => field.onChange(val ? val.value : null)}
+                  // https://stackoverflow.com/questions/61290173/react-select-how-do-i-resolve-warning-prop-id-did-not-match
+                  // eslint-disable-next-line react-hooks/rules-of-hooks
+                  instanceId={useId()}
+                  placeholder="Country of Residence"
+                  required
+                />
+              )}
+            />
+            {errors.countryOfResidence && (
+              <p role="alert" className="d-block invalid-feedback text-start mb-0">
+                The country of residence is required
               </p>
             )}
           </div>

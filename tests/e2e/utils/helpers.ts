@@ -15,6 +15,9 @@ export const fillStartForm = async (page: Page, applicant: ApplicantProperties):
   await page.getByRole('textbox', { name: /Date of birth/i }).click();
   await page.getByRole('textbox', { name: /Date of birth/i }).fill(applicant.dob);
   await page.getByText(/I have read and agree to the privacy policy/).click();
+  await page.locator('.addl-class__input-container').click();
+  await page.locator('.addl-class__input').fill('fra');
+  await page.locator('.addl-class__menu').click();
   await page.getByRole('button', { name: /Start/i }).click();
 };
 
